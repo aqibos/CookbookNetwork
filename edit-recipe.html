@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		 <meta charset="UTF-8">
+		<meta name="description" content="A virtual cookbook that allows user's to view, create and share recipes.">
+		<meta name="keywords" content="recipe, cookbook, food, ingredients">
+		<meta name="author" content="Cookbook Network Inc.">
+		<link rel="stylesheet" type="text/css" href="page_style.css">
+		<link href='http://fonts.googleapis.com/css?family=Tangerine:700' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=IM+Fell+Double+Pica' rel='stylesheet' type='text/css'>
+	</head>
+	
+	<body>
+		
+		<div class="background-image"></div>
+		
+		<div class="navigation-bar">
+			<table  class="navigation-bar-table">
+				<tr>
+					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
+					<td class="navigation-bar-table-right">
+						<ul class="upper-level-ul">
+							<li>Account
+								<ul>
+									<li><a href="">Account Info</a></li>
+									<li><a href="">Log Out</a></li>
+								</ul>
+							</li>
+							
+							<li>Recipe
+								<ul>
+									<li><a href="">Create Recipe</a></li>
+									<li><a href="">Edit Recipe</a></li>
+									<li><a href="">MyRecipes</a></li>
+								</ul>
+							</li>
+							
+							<li>Cookbook
+								<ul>
+									<li><a href="">Create Cookbook</a></li>
+									<li><a href="">Edit Cookbook</a></li>
+									<li><a href="">MyCookbooks</a></li>
+								</ul>
+							</li>
+							
+							<li>Search
+								<ul>
+									<li><a href="">Search Recipe</a></li>
+									<li><a href="">Search Cookbook</a></li>
+								</ul>
+							</li>
+							
+						</ul>
+						
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div class="content">
+			
+			<!-- ENTER CONTENT HERE" -->
+			<h1>Edit Recipe - {Recipe Name}</h1>
+			<p>Pre-filled values...</p>
+			<form action="post">
+			
+			<table class="content-table">
+				<!-- RECIPE NAME -->
+				<tr class="content-table-row">
+					<td class="content-table-left"><h3>Recipe Name:</h3></td>
+					<td class="content-table-right"><input type="text" name="recipe-name"   placeholder="Enter Recipe Name Here..."></td>
+				</tr>
+				<!-- PHOTO -->
+				<tr class="content-table-row">
+					<td class="content-table-left"><h3>Picture:</h3></td>
+					<td class="content-table-right">-</td>
+				</tr>
+				<!-- INGREDIENTS -->
+				<tr class="content-table-row">
+					<td class="content-table-left"><h3>Ingredients:</h3></td>
+					<td class="content-table-right">
+						<table class="content-table-ingredients-table">
+							<tr>
+								<td class="content-table-ingredients-table-left">Ingredient 1:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" name="ingredient1"  placeholder="Enter Ingredient Here"></td>
+							</tr>
+							<tr>
+								<td class="content-table-ingredients-table-left">Ingredient 2:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" name="ingredient2"  placeholder="Enter Ingredient Here"></td>
+							</tr>
+							<tr>
+								<td class="content-table-ingredients-table-left">Ingredient 3:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" name="ingredient3"  placeholder="Enter Ingredient Here"></td>
+							</tr>
+							<tr>
+								<td class="content-table-ingredients-table-left">Ingredient 4:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" name="ingredient4"  placeholder="Enter Ingredient Here"></td>
+							</tr>
+						</table>
+						<div class="wrapper-button"><a href=""><div class="button">+ Add More Ingredients</div></a></div>
+					</td>
+				</tr>
+				<!-- DIRECTIONS -->
+				<tr class="content-table-row">
+					<td class="content-table-left"><h3>Directions:</h3></td>
+					<td class="content-table-right">
+						<table class="content-table-ingredients-table">
+							<tr>
+								<td class="content-table-ingredients-table-left">Step 1:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" name="step1" placeholder="Enter Direction Here"></td>
+							</tr>
+							<tr>
+								<td class="content-table-ingredients-table-left">Step 2:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" name="step2" placeholder="Enter Direction Here"></td>
+							</tr>
+							<tr>
+								<td class="content-table-ingredients-table-left">Step 3:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" name="step3" placeholder="Enter Direction Here"></td>
+							</tr>
+							<tr>
+								<td class="content-table-ingredients-table-left">Step 4:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" name="step4" placeholder="Enter Direction Here"></td>
+							</tr>
+						</table>
+						<div class="wrapper-button"><a href=""><div class="button">+ Add More Steps</div></a></div>
+					</td>
+				</tr>
+				<!-- TAGS -->
+				<tr class="content-table-row">
+					<td class="content-table-left"><h3>Tags:</h3></td>
+					<td class="content-table-right">
+						<table class="content-table-tags-table">
+							<tr>
+									<td><input type="checkbox" name="tag" value="Italian">Italian<br /></td>
+									<td><input type="checkbox" name="tag" value="Desi">Desi<br /></td>
+									<td><input type="checkbox" name="tag" value="Hispanic">Hispanic<br /></td>
+									<td><input type="checkbox" name="tag" value="Soul">Soul<br /></td>
+									<td><input type="checkbox" name="tag" value="Snack">Snack<br /></td>
+								
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+			<br />
+			
+			<div class="submit-button"><input type="submit" value="Submit"></div>
+			</form>
+			
+			
+			
+			
+		</div>
+		
+		<div class="footer"><p>&#169; Cookbook Network, 2015. All Rights Reserved.</p></div>
+		
+	</body>
+</html>

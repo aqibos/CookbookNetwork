@@ -1,0 +1,305 @@
+body {
+  font-family: 'IM Fell Double Pica', serif;
+  margin: 0px;
+  padding: 0px;
+  font-size: 13px;
+  background-color: #990000;
+  min-width: 960px;
+}
+
+a {
+	text-decoration: none;
+	color: white;
+}
+
+li {
+	/*list-style-type: none;*/
+}
+
+.maroon {
+	color: #490000;
+}
+
+.maroon:hover {
+	color: #990000;
+}
+
+
+.background-image {
+	position: absolute;
+	top: 0px;
+	bottom: 200px;
+	width: 100%;
+	min-width: 960px;
+	background-image: url("delicious-pizza-food-1440x900.jpg");
+    background-repeat: no-repeat;
+	background-size: cover;
+	z-index: -1;
+}
+
+/* Navigation Bar Styling */
+
+.navigation-bar-table {
+	color: white;
+	width: 100%;
+	background-color: #990000;
+	opacity: 0.85;
+}
+
+.navigation-bar-table-left {
+	width: 30%;
+	text-align: left;
+	padding-left: 50px;
+}
+
+.navigation-bar-table-left-header {
+	font-family: "Tangerine", cursive;
+	font-size: 50px;
+	color: white;
+}
+
+.navigation-bar-table-right {
+	width: 70%;
+	text-align: right;
+	padding-right: 50px;
+	font-size: 130%;
+	min-width: 960px;
+}
+
+.navigation-bar ul a {
+	text-decoration: none;
+	color: #990000;
+}
+
+.navigation-bar ul {
+  text-align: center;
+  display: inline;
+  margin: 0;
+  padding: 15px 4px 17px 0;
+  list-style: none;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+
+.navigation-bar ul li {
+  font: bold 12px/18px;
+  width: 150px;
+  display: inline-block;
+  margin-right: -4px;
+  position: relative;
+  padding: 15px 20px;
+  background: #fff;
+  /*cursor: pointer;*/
+  color:  #990000;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.navigation-bar ul li:hover {
+  background: #555;
+  color: #fff;
+}
+
+.navigation-bar ul li:hover a{
+  color: #fff;
+}
+
+.navigation-bar ul li ul {
+  padding: 0;
+  position: absolute;
+  top: 52px;
+  left: 0;
+  width: 150px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transiton: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -ms-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  -transition: opacity 0.2s;
+}
+
+.navigation-bar ul li ul li { 
+  background: #490000; 
+  display: block; 
+  color: #fff;
+  text-shadow: 0 -1px 0 #000;
+}
+
+.navigation-bar ul li ul li:hover { background: #666; }
+.navigation-bar ul li:hover ul {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.content {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20%;
+	padding: 50px;
+	background-color: white;
+	font-size: 120%;
+	box-shadow: 10px 10px 10px black;	
+}
+
+.content h1, .content h2, .content h3 {
+	color: #990000;
+}
+
+.content-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.content-table-row {
+	border-bottom: dashed 1px;
+}
+
+.content-table-left {
+	text-align: left;
+	width: 30%;
+}
+
+.content-table-right {
+	text-align: right;
+	width: 70%;
+}
+
+.content-table-right a {
+	text-align: right;
+}
+
+.content-table-ingredients-table {
+	width: 100%;
+}
+
+.content-table-ingredients-table-left {
+	width: 20%;
+	text-align: left;
+}
+
+.content-table-ingredients-table-right {
+	width: 80%;
+}
+
+.content-table-tags-table {
+	width: 100%;
+	text-align: center;
+}
+
+.content-table-tags-table input{
+	/*padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;*/
+	display: inline-block;
+}
+
+input {
+	width: 100%;
+	font-size: 110%;
+}
+
+input[type=submit] {
+    border:none;
+    background-color: #990000;
+    width: 200px;
+	height: 50px;
+	color: white;
+	font-family: 'IM Fell Double Pica', serif;
+	margin-left: auto;
+    margin-right: auto;
+	text-align: center;
+	font-size: 130%;
+	text-decoration: none;
+}
+
+.wrapper-button {
+	text-align: right;
+	padding-left: 75%;
+}
+
+.button {
+	 width: 200px;
+	height: 35px;
+	text-align: center;
+	padding-top: 15px;
+	font-size: 100%;
+	background-color: #990000;
+	text-decoration: none;
+}
+
+input[type=submit]:hover, .button:hover {
+    border:none;
+    background-color: #490000;
+	color: white;
+	cursor: pointer;
+}
+
+.submit-button {
+	text-align: center;
+}
+
+.content-div {
+	text-align: center;
+	height: 100%;
+}
+
+.content-div-row1 {
+	display: inline-block;
+	width: 30%;
+	margin-right: 10px;
+	margin-left: 10px;
+	height: 110px;
+	font-size: 130%;
+	background-color: #990000;
+	color: white;
+	text-align: center;
+	padding-top: 90px;
+}
+
+.content-div-row1:hover {
+	background-color: #490000;
+}
+
+.recipe-preview-row {
+	width = 800px;
+	height: 150px;
+	padding: 10px 0px;
+	text-align: center;
+}
+
+.recipe-preview-row-icon {
+	width = 30%;
+	height: 150px;
+	display: inline-block;
+	margin: 0px 30px;
+	background-color: #990000;
+	border: 2px solid #490000;
+}
+
+.recipe-preview-row-icon:hover {
+	background-color: #490000;
+}
+
+.footer {
+	text-align: center;
+	height: 100px;
+	color: white;
+	padding-top: 45px;
+}
+
+/* {
+	border: 2px solid black;
+	font-family: 'IM Fell Double Pica', serif;
+} */
