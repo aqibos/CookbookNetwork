@@ -63,8 +63,8 @@
 
 		
 				<script>
-					function validateForm() 
-					{
+				function validateForm() 
+				{
     					var user = document.forms["signup"]["username"].value;
     					var pass = document.forms["signup"]["password"].value;
     					var pwc = document.forms["signup"]["pwconfirm"].value;
@@ -93,16 +93,16 @@
     					}
 
     					//Check for correct email
-   						arrobaIndex = email.indexOf("@");
-  						periodIndex = email.lastIndexOf(".");
-  						//email can't have "@" be first char or "@." be consecutive chars
-					   	if (arrobaIndex == 0 || (periodIndex - arrobaIndex <= 1 )) 
-					   	{
-					    	alert("Invalid email. Please enter a correct email.");
+   					arrobaIndex = email.indexOf("@");
+  					periodIndex = email.lastIndexOf(".");
+  					//email can't have "@" be first char or "@." be consecutive chars
+					if (arrobaIndex == 0 || (periodIndex - arrobaIndex <= 1 )) 
+					{
+						alert("Invalid email. Please enter a correct email.");
 					        return false;
-					   	}
-    					return true;	//pass all requirements, form has correct input
 					}
+    					return true;	//pass all requirements, form has correct input
+				}
 				</script>
 		</div>
 		
