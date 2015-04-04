@@ -352,4 +352,52 @@ input[type=submit]:hover, .button:hover, input[type=file]:hover {
 /* {
 	border: 2px solid black;
 	font-family: 'IM Fell Double Pica', serif;
+}*/
+
+.flagfont{
+  font-family: 'Times', serif;
+  font-size: 13px;
+}
+
+.noflag{
+  opacity: 0.4;
+}
+.tags{
+
+  border: 2px solid #D8D8D8;
+  padding: 3px; 
+  background: #F0F0F0 ;
+  border-radius: 7px;
+  font-size: 12px;
+  display: inline-block;
+  position: relative;
+  margin: 0 5px 0 0;
+  text-decoration: none;
+}
+
+p.error{
+  font-size:20px;
+  text-align: center;
+}
+
+img.border{
+  border: 8px solid #DCDCDC;
+}
+
+img.setsize{
+  width:5 em;
+}
+
+.tableform{
+  width:840px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tableform td{
+  width:140px;
+}
+
+.search{
+  size:100;
 }
