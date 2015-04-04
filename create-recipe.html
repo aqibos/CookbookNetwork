@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="page_style.css">
 		<link href='http://fonts.googleapis.com/css?family=Tangerine:700' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=IM+Fell+Double+Pica' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
 		
 		<title>Create New Recipe</title>
 		
@@ -70,36 +71,38 @@
 				<!-- RECIPE NAME -->
 				<tr class="content-table-row">
 					<td class="content-table-left"><h3>Recipe Name:</h3></td>
-					<td class="content-table-right"><input type="text" name="recipe-name"   placeholder="Enter Recipe Name Here..."></td>
+					<td class="content-table-right"><input type="text" class="textbox" name="recipe-name"   placeholder="Enter Recipe Name Here..."></td>
 				</tr>
 				<!-- PHOTO -->
 				<tr class="content-table-row">
 					<td class="content-table-left"><h3>Picture:</h3></td>
-					<td class="content-table-right">-</td>
+					<td class="content-table-right">
+                        <p>Please select a picutre (only PNG and JPEG files is accepted):</p>
+                        <input type="file" name="recipePic" size="400" accept="image/png, image/jpeg"> </td>
 				</tr>
 				<!-- INGREDIENTS -->
 				<tr class="content-table-row">
 					<td class="content-table-left"><h3>Ingredients:</h3></td>
 					<td class="content-table-right">
 						<table class="content-table-ingredients-table">
-							<tr>
-								<td class="content-table-ingredients-table-left">Ingredient 1:</td>
-								<td class="content-table-ingredients-table-right"><input type="text" name="ingredient1"  placeholder="Enter Ingredient Here"></td>
+							<tr class="ingredient" id="1">
+								<td class="content-table-ingredients-table-left">Ingredient:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" class="textbox ingredientInput" name="ingredient1"  placeholder="Enter Ingredient Here"></td>
 							</tr>
-							<tr>
-								<td class="content-table-ingredients-table-left">Ingredient 2:</td>
-								<td class="content-table-ingredients-table-right"><input type="text" name="ingredient2"  placeholder="Enter Ingredient Here"></td>
+							<tr class="ingredient" id="2">
+								<td class="content-table-ingredients-table-left">Ingredient:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" class="textbox ingredientInput" name="ingredient2"  placeholder="Enter Ingredient Here"></td>
 							</tr>
-							<tr>
-								<td class="content-table-ingredients-table-left">Ingredient 3:</td>
-								<td class="content-table-ingredients-table-right"><input type="text" name="ingredient3"  placeholder="Enter Ingredient Here"></td>
+							<tr class="ingredient" id="3">
+								<td class="content-table-ingredients-table-left">Ingredient:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" class="textbox ingredientInput" name="ingredient3"  placeholder="Enter Ingredient Here"></td>
 							</tr>
-							<tr>
-								<td class="content-table-ingredients-table-left">Ingredient 4:</td>
-								<td class="content-table-ingredients-table-right"><input type="text" name="ingredient4"  placeholder="Enter Ingredient Here"></td>
+							<tr class="ingredient" id="4">
+								<td class="content-table-ingredients-table-left">Ingredient:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" class="textbox ingredientInput" name="ingredient4"  placeholder="Enter Ingredient Here"></td>
 							</tr>
 						</table>
-						<div class="wrapper-button"><a href=""><div class="button">+ Add More Ingredients</div></a></div>
+						<div class="wrapper-button"><a href="javascript:void(0);" class="addLink" onclick="addIngredientField();"><div class="button">+ Add More Ingredients</div></a></div>
 					</td>
 				</tr>
 				<!-- DIRECTIONS -->
@@ -107,24 +110,24 @@
 					<td class="content-table-left"><h3>Directions:</h3></td>
 					<td class="content-table-right">
 						<table class="content-table-ingredients-table">
-							<tr>
-								<td class="content-table-ingredients-table-left">Step 1:</td>
-								<td class="content-table-ingredients-table-right"><input type="text" name="step1" placeholder="Enter Direction Here"></td>
+							<tr class="step" id="1">
+								<td class="content-table-ingredients-table-left">Step:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" class="textbox stepInput" name="step1" placeholder="Enter Direction Here"></td>
 							</tr>
-							<tr>
-								<td class="content-table-ingredients-table-left">Step 2:</td>
-								<td class="content-table-ingredients-table-right"><input type="text" name="step2" placeholder="Enter Direction Here"></td>
+							<tr class="step" id="2">
+								<td class="content-table-ingredients-table-left">Step:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" class="textbox stepInput" name="step2" placeholder="Enter Direction Here"></td>
 							</tr>
-							<tr>
-								<td class="content-table-ingredients-table-left">Step 3:</td>
-								<td class="content-table-ingredients-table-right"><input type="text" name="step3" placeholder="Enter Direction Here"></td>
+							<tr class="step" id="3">
+								<td class="content-table-ingredients-table-left">Step:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" class="textbox stepInput" name="step3" placeholder="Enter Direction Here"></td>
 							</tr>
-							<tr>
-								<td class="content-table-ingredients-table-left">Step 4:</td>
-								<td class="content-table-ingredients-table-right"><input type="text" name="step4" placeholder="Enter Direction Here"></td>
+							<tr class="step" id="4">
+								<td class="content-table-ingredients-table-left">Step:</td>
+								<td class="content-table-ingredients-table-right"><input type="text" class="textbox stepInput" name="step4" placeholder="Enter Direction Here"></td>
 							</tr>
 						</table>
-						<div class="wrapper-button"><a href=""><div class="button">+ Add More Steps</div></a></div>
+						<div class="wrapper-button"><a href="javascript:void(0);" class="addLink" onclick="addStepField();"><div class="button">+ Add More Steps</div></a></div>
 					</td>
 				</tr>
 				<!-- TAGS -->
@@ -133,25 +136,200 @@
 					<td class="content-table-right">
 						<table class="content-table-tags-table">
 							<tr>
-									<td><input type="checkbox" name="tag" value="Italian">Italian<br /></td>
-									<td><input type="checkbox" name="tag" value="Desi">Desi<br /></td>
-									<td><input type="checkbox" name="tag" value="Hispanic">Hispanic<br /></td>
-									<td><input type="checkbox" name="tag" value="Soul">Soul<br /></td>
-									<td><input type="checkbox" name="tag" value="Snack">Snack<br /></td>
-								
+									<td><b>Ethnicity</b><br /></td>
+									<td><b>Diet</b><br /></td>
+									<td><b>Meat/Main</b><br /></td>
+									<td><b>Other</b><br /></td>
+							</tr>
+							<tr>
+									<td><input type="checkbox" class="tag-value" name="tag" value="American">American<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Gluten-free">Gluten-free<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Beef">Beef<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Appetizer">Appetizer<br /></td>
+							</tr>
+							<tr>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Asian">Asian<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Paleo">Paleo<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Chicken">Chicken<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Bevarages">Beverages<br /></td>
+							</tr>
+							<tr>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Greek">Greek<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Vegan">Vegan<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Pork">Pork<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Breakfast & Brunch">Breakfast & Brunch<br /></td>
+							</tr>
+							<tr>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Italian">Italian<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Vegitarian">Vegetarian<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Poultry">Poultry<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Dessert">Dessert<br /></td>
+							</tr>
+							<tr>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Jamaican">Jamaican<br /></td>
+									<td><br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Seafood">Seafood<br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Lunch">Lunch<br /></td>
+							</tr>
+							<tr>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Latin">Latin<br /></td>
+									<td><br /></td>
+									<td><br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Salad">Salad<br /></td>
+							</tr>
+							<tr>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Desi">Desi<br /></td>
+									<td><br /></td>
+									<td><br /></td>
+									<td><input type="checkbox" class="tag-value" name="tag" value="Soup">Soup<br /></td>
 							</tr>
 						</table>
 					</td>
 				</tr>
+				<tr class="content-table-row">
+					<td class="content-table-left"><h3>Privacy:</h3></td>
+					<td class="content-table-right">
+						<select  id="privacy" onchange="checkFriendly();">
+  							<option value="public">Public</option>
+  							<option value="registered">Registered</option>
+ 			 				<option value="friendly">Friendly</option>
+ 	 						<option value="private">Private</option>
+						</select>
+                        
+                        <div id="privacy-input"></div>
+                        
+                        <div class="wrapper-button" id="addFriend"><a href="javascript:void(0);" class="addLink" onclick="addFriendInput();"><div class="button">+ Add More Friends</div></a></div>
+                        
+					</td>
+                    
+                    
+                    
+				</tr>
 			</table>
+			
+			<!-- 
+			Here are all of the tags:
+			
+			Ethnicity			Diet				Meat/Main Dish			Other	
+			American			Gluten-free			Beef					Appetizer	
+			Asian				Paleo				Chicken					Beverages	
+			Greek				Vegan				Pork					Breakfast & Brunch	
+			Italian				Vegeterian			Poultry					Desserts	
+			Jamaican								Seafood					Lunch	
+			Latin															Salad	
+			Desi															Soup					
+			#9b59b6				#2ecc71				#e74c3c					#1abc9c	
+			-->
+			
+			
 			<br />
 			
-	<div class="submit-button"><input type="submit" value="Submit"></div>
+				<div class="submit-button"><input type="submit" value="Submit"></div>
+				<div class="submit-button wrapper-button"><a href=""><div class="button">Cancel</div></a></div>
 			</form>
+			
+			
 			
 		</div>
 		
 		<div class="footer"><p>&#169; Cookbook Network, 2015. All Rights Reserved.</p></div>
 		
+        <script type="text/javascript">
+            
+            document.getElementById("addFriend").style.visibility='hidden';
+            
+			var ingredientIdNum = 5;
+            var stepIdNum = 5;
+            var friends = 0;
+            
+            function addIngredientField() {
+                var allIngredients = document.getElementsByClassName("ingredient");
+                var lastIngredient = allIngredients[allIngredients.length - 1];
+                var clone = lastIngredient.cloneNode(true);
+                clone.id= "" + ingredientIdNum;
+                lastIngredient.parentNode.appendChild(clone);
+                fixIngredientInputName();
+            }
+            
+            function fixIngredientInputName()
+            {
+                var allIngredientInputs = document.getElementsByClassName("ingredientInput");
+                var lastIngredientInput = allIngredientInputs[allIngredientInputs.length - 1];
+                lastIngredientInput.name = "ingredient" + ingredientIdNum++;
+            }
+            
+            function addStepField() {
+                var allSteps = document.getElementsByClassName("step");
+                var lastStep = allSteps[allSteps.length - 1];
+                var clone = lastStep.cloneNode(true);
+                clone.id= "" + stepIdNum;
+                lastStep.parentNode.appendChild(clone);
+                fixStepInputName();
+            }
+            
+            function fixStepInputName()
+            {
+                var allStepInputs = document.getElementsByClassName("stepInput");
+                var lastStepInput = allStepInputs[allStepInputs.length - 1];
+                lastStepInput.name = "step" + stepIdNum++;
+            }
+            
+            function checkFriendly()
+            {
+                var privacyDropdown = document.getElementById("privacy");
+                var selectedString = privacyDropdown.options[privacyDropdown.selectedIndex].value;
+                
+                if (selectedString == "friendly")
+                {
+                    var privacyInput = document.getElementById("privacy-input");
+                    privacyInput.insertAdjacentHTML( 'beforeBegin', '<p id="friendText">Enter the email address of your friends:</p>' );
+                    
+                    addFriendInput();
+                    document.getElementById("addFriend").style.visibility='visible';
+                }
+                else
+                {
+                    removeInputs();
+                    friends = 0;
+                    document.getElementById("addFriend").style.visibility='hidden';
+                    
+                    var friendText = document.getElementById("friendText");
+                    if (friendText != null)
+                    {
+                        var parent = friendText.parentNode;
+                        parent.removeChild(friendText);
+                    }
+                    
+                }
+            }
+            
+            function addFriendInput()
+            {
+                var newTextBox = document.createElement("input");
+                newTextBox.setAttribute("type", "text");
+                newTextBox.setAttribute("name", "friendName" + friends);
+                newTextBox.setAttribute("placeholder", "Enter Friend Email Here");
+                newTextBox.setAttribute("id", "friendName" + friends++);
+                newTextBox.style.width = '100%';
+                newTextBox.style.display = 'block';
+                //newTextBox.style.textAlign = 'right';
+                var containerDiv = document.getElementById("privacy-input");
+                containerDiv.appendChild(newTextBox);
+            }
+            
+            function removeInputs()
+            {
+                var i;
+                for (i = 0; i < friends; i++)
+                {
+                    var currFriendInput = document.getElementById("friendName" + i);
+                    var parent = currFriendInput.parentNode;
+                    parent.removeChild(currFriendInput);
+                }
+            }
+            
+		</script>
+        
+        
 	</body>
 </html>
