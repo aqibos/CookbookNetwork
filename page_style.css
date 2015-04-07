@@ -1,3 +1,7 @@
+* {
+	/*border: 2px solid;*/
+}
+
 body {
   font-family: 'IM Fell Double Pica', serif;
   margin: 0px;
@@ -10,18 +14,6 @@ body {
 a {
 	text-decoration: none;
 	color: white;
-}
-
-li {
-	/*list-style-type: none;*/
-}
-
-.maroon {
-	color: #490000;
-}
-
-.maroon:hover {
-	color: #990000;
 }
 
 .background-image {
@@ -55,6 +47,11 @@ li {
 	font-family: "Tangerine", cursive;
 	font-size: 50px;
 	color: white;
+}
+
+.navigation-bar-table-left-header a{
+    text-decoration:none; 
+    color: inherit ;
 }
 
 .navigation-bar-table-right {
@@ -149,85 +146,34 @@ li {
 	background-color: white;
 	font-size: 120%;
 	box-shadow: 10px 10px 10px black;	
+    text-align: center;
 }
 
-.content h1, .content h2, .content h3 {
+#recipe {
+    text-align:left;
+}
+.content h1, .content h2 {
 	color: #990000;
 }
 
-.content h1 {
-	text-align: center;
+.recipe_list a{
+	text-decoration: none ;
 }
 
-.content-table {
-	width: 100%;
-	border-collapse: collapse;
+.recipe_list li{
+	text-align: center ;
+	width: 200px; 
+	list-style: none;
+	border: 2px dotted #990000 ;
+	border-spacing: 10px;
+	margin-top: 20px ;
+	color: white;
+	font-size: 150%;
+	background: #990000 ;
+	
 }
 
-.content-table-row {
-	border-bottom: dashed 1px;
-}
-
-.content-table-left {
-	text-align: left;
-	width: 30%;
-}
-
-.content-table-right {
-	text-align: right;
-	width: 70%;
-}
-
-.content-table-right a {
-	text-align: right;
-}
-
-.content-table-ingredients-table {
-	width: 100%;
-}
-
-.content-table-ingredients-table-left {
-	width: 20%;
-	text-align: left;
-}
-
-.content-table-ingredients-table-right {
-	width: 80%;
-}
-
-.content-table-tags-table {
-	width: 100%;
-	text-align: left;
-	border-collapse: collapse;
-}
-
-.content-table-tags-table input{
-	/*padding-top: 0px;
-	padding-bottom: 0px;
-	margin-top: 0px;
-	margin-bottom: 0px;*/
-	display: inline-block;
-}
-
-.textbox
-{
-	width: 100%;
-}
-
-.tag-x {
-	display: inline-block;
-	margin: 0;
-	font-family: 'Indie Flower', cursive;
-	height: 30px;
-}
-
-.tag-value {
-	display: inline-block;
-	margin: 0;
-	text-align: left;
-}
-
-input[type=submit], input[type=file] {
+input[type=submit] {
     border:none;
     background-color: #990000;
     width: 200px;
@@ -241,99 +187,11 @@ input[type=submit], input[type=file] {
 	text-decoration: none;
 }
 
-input[type=file] {
-    width: 65%;
-    font-size: 90%;
-    text-align: left;
-}
-
-.wrapper-button {
-	text-align: right;
-	padding-left: 75%;
-}
-
-.button {
-	width: 200px;
-	height: 35px;
-	text-align: center;
-	padding-top: 15px;
-	margin-top: 15px;
-	background-color: #990000;
-	text-decoration: none;
-}
-
-input[type=submit]:hover, .button:hover, input[type=file]:hover {
+input[type=submit]:hover, .button:hover {
     border:none;
     background-color: #490000;
 	color: white;
 	cursor: pointer;
-}
-
-.submit-button {
-	text-align: center;
-}
-
-.content-div {
-	text-align: center;
-	height: 100%;
-}
-
-.content-div-row1 {
-	display: inline-block;
-	width: 30%;
-	margin-right: 10px;
-	margin-left: 10px;
-	height: 110px;
-	font-size: 130%;
-	background-color: #990000;
-	color: white;
-	text-align: center;
-	padding-top: 90px;
-}
-
-.content-div-row1:hover {
-	background-color: #490000;
-}
-
-.recipe-preview-row {
-	width = 800px;
-	height: 225px;
-	padding: 10px 0px;
-	text-align: center;
-	margin-top: 50px;
-	margin-bottom: 50px;
-}
-
-.recipe-preview-wrapper {
-	width = 300px;
-	height: 200px;
-	display: inline-block;
-	margin: 10px 20px;
-	background-color: #990000;
-	border: 2px solid #490000;
-}
-
-.recipe-img {
-	width: 300px;
-	height: 200px;
-}
-
-.recipe-preview-row-icon {
-	width = 300px;
-	height: 175px;
-	display: inline-block;
-	margin: 10px 20px;
-	/*background-color: #990000;
-	border: 2px solid #490000;*/
-}
-
-.recipe-preview-row-link {
-	/*background-color: #990000;
-	border: 2px solid #490000;*/
-}
-
-.recipe-preview-wrapper:hover {
-	background-color: #490000;
 }
 
 .footer {
@@ -342,18 +200,7 @@ input[type=submit]:hover, .button:hover, input[type=file]:hover {
 	color: white;
 	padding-top: 45px;
 }
-
-.center {
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-/* {
-	border: 2px solid black;
-	font-family: 'IM Fell Double Pica', serif;
-}*/
-
+<!------------------------ ANAIS CSS------------->
 .flagfont{
   font-family: 'Times', serif;
   font-size: 13px;
@@ -362,8 +209,8 @@ input[type=submit]:hover, .button:hover, input[type=file]:hover {
 .noflag{
   opacity: 0.4;
 }
-.tags{
 
+.tags{
   border: 2px solid #D8D8D8;
   padding: 3px; 
   background: #F0F0F0 ;
@@ -389,15 +236,50 @@ img.setsize{
 }
 
 .tableform{
-  width:840px;
+  width:600px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .tableform td{
-  width:140px;
+  border: 3px;
+  width:200px;
 }
 
-.search{
-  size:100;
+.center{
+    text-align:center;
+}
+
+.center a{
+    color: #990000;
+    font-weight: bold ;
+}
+
+.recipe-preview-row {
+    width:100%;
+	height: 150px;
+	padding: 10px 0px;
+	text-align: center;
+}
+
+.recipe-preview-row-icon {
+    width:126px;
+	height: 160px;
+	display: inline-block;
+	margin: 0px 30px;
+	background-color: #990000;
+	border: 2px solid #490000;
+}
+
+.recipe-preview-row p{
+    word-wrap:break-word;
+    width: 126px;
+}
+
+.thumbnail {
+    height: 95px ;
+    width: 125px ;
+}
+.recipe-preview-row-icon:hover {
+	background-color: #490000;
 }
