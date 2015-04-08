@@ -1,244 +1,70 @@
 <!DOCTYPE html>
 <html>
-	
-        <?php
-            
-            //tags
-            $tags = [
-                0 => "american",
-                1 => "gluten-free",
-                2 => "beef",
-                3 => "appetizer",
-                4 => "asian",
-                5 => "paleo",
-                6 => "chicken",
-                7 => "beverages",
-                8 => "greek",
-                9 => "vegan",
-                10 => "pork",
-                11 => "breakfast & brunch",
-                12 => "italian",
-                13 => "vegetarian",
-                14 => "poultry",
-                15 => "desserts",
-                16 => "jamaican",
-                17 => "seafood",
-                18 => "lunch",
-                19 => "latin",
-                20 => "salad",
-                21 => "desi",
-                22 => "soup",
-            ];
-
-            //if form submitted
-            if($_SERVER['REQUEST_METHOD'] == "POST")
-            {
-                //credentials
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "cookbooknetwork";
-
-                //connect to db
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                // Check connection
-                if ($conn->connect_error) 
-                {
-                    echo '<script type="text/javascript">'
-                        . 'alert("Sorry, could not connect to CookbookNetwork database.");'
-                        . '</script>';
-                    die("Connection failed: " . $conn->connect_error);
-                }
-
-                //privacy
-                $numFriends = 0;
-                $privacy = ($_POST['privacy-setting']);
-                $allValidFriends = TRUE;
-                $invalidFriend = "";
-                
-                //check all friends
-                if ($privacy == "friendly")
-                {
-                    $validFriend = FALSE;
-                    for ($x = 0; ;$x++)
-                    {
-                        if (!array_key_exists("friendName" . $x, $_POST))
-                        {
-                             break;
-                        }
-
-                        if (!empty($_POST["friendName" . $x]))
-                        {
-                            $currFriend = $_POST["friendName" . $x];
-
-                            //check if currFriend is a registered user
-                            $sql = "SELECT email FROM Account";
-                            $result = mysqli_query($conn, $sql);
-
-                            if (mysqli_num_rows($result) > 0) {
-                                //get all email
-                                while($row = mysqli_fetch_assoc($result)) 
-                                {
-                                    $currEmail = $row["email"];
-                                    if ($currFriend == $currEmail) 
-                                    {
-                                        //echo "<br><p> Valid friend ... $currEmail ... </p><br>";
-                                        $validFriend = TRUE;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (!$validFriend)
-                            {
-                                $invalidFriend = $currFriend;
-                                $allValidFriends = FALSE;
-                            }
-                        }
-                    }
-                }
-
-                if ($allValidFriends)
-                {
-
-                    //recipe name
-                    $recipeName = ($_POST['recipe-name']);
-
-                    //picture
-                    $picture = ($_FILES['photo']['name']);
-
-                    //steps
-                    $allSteps = "";
-                    for ($x = 1; ;$x++)
-                    {
-                        if (!array_key_exists("step" . $x, $_POST))
-                        {
-                             break;
-                        }
-
-                        if (!empty($_POST["step" . $x]))
-                        {
-                            $allSteps = $allSteps . ($_POST["step" . $x]) . ", ";
-                        }
-                    }
-
-                    if (strlen($allSteps) > 0)
-                    {
-                        //remove extra comma and space
-                        $allSteps = substr($allSteps, 0, strlen($allSteps) - 2);
-                    }
-
-                    //add recipe into db
-                    $sql = "INSERT INTO Recipe (recipe_title, directions, rating, times_rated, visibility) 
-                        VALUES ( '$recipeName', '$allSteps', 0.0, 0, '$privacy')";
-
-                    if ($conn->query($sql) === TRUE) {
-                        //echo "New record created successfully";
-                    } else {
-                        echo '<script type="text/javascript">'
-                        . 'alert("Sorry, could not create recipe.");'
-                        . '</script>';
-                        exit();
-                    }
-
-                    //get recipe id
-                    $lastId = mysqli_insert_id($conn);
-
-                    //add friends to db
-                    for ($x = 0; $x < $numFriends; $x++)
-                    {
-                        $currFriend = $_POST["friendName" . $x];
-
-                        $sql = "INSERT INTO Friends (recipe_id, email) 
-                                VALUES ( '$lastId', '$currFriend')";
-
-                            if (!($conn->query($sql) === TRUE)) {
-                                cleanDbTables($lastId, $conn);
-                            }
-                    }
-
-                    //add ingredients to db
-                    for ($x = 1; ; $x++) 
-                    {
-                        if (!array_key_exists("ingredient" . $x, $_POST))
-                        {
-                             break;
-                        }
-
-                        if (!empty($_POST["ingredient" . $x]))
-                        {
-                            $currIngredient = $_POST["ingredient" . $x];
-                            $sql = "INSERT INTO Ingredient (name, recipe_id) 
-                                VALUES ( '$currIngredient', '$lastId')";
-
-                            if (!($conn->query($sql) === TRUE)) {
-                                cleanDbTables($lastId, $conn);
-                            }   
-                        }
-
-                    } 
-
-                    
-
-                    //add tags to db
-                    for ($x = 0; $x < count($tags); $x++)
-                    {
-                        if (isset($_POST[$tags[$x]]))
-                        {   
-                            $tagName = $tags[$x];
-                            $sql = "INSERT INTO Tag (name, type, type_id) 
-                                VALUES ( '$tagName', 'RECIPE', '$lastId')";
-
-                            if (!($conn->query($sql) === TRUE)) {
-                                cleanDbTables($lastId, $conn);
-                            }   
-
-                        }
-                    }
-                    
-                    //close connection
-                    $conn->close();
-                
-                    //navigate to view recipe
-                    header('Location: view-recipe.php?recipe_id=' . $lastId);
-                }
-                else
-                {
-                    //close connection
-                    $conn->close();
-                    
-                    echo '<script type="text/javascript">'
-                        . 'alert("Sorry, ' . $currFriend . ' does not have a CookbookNetwork account.");'
-                        . '</script>';
-                }
-
-            }
-            
-            //in case of error, remove extranneous data from db
-            function cleanDbTables($lastId, $conn)
-            {
-                removeFromDb("Friends", "recipe_id", $lastId, $conn);
-                removeFromDb("Tag", "type_id", $lastId, $conn);
-                removeFromDb("Recipe", "recipe_id", $lastId, $conn);
-                removeFromDb("Ingredient", "recipe_id", $lastId, $conn);
-            }
-
-            //utility function to clean db
-            function removeFromDb($tableName, $attributeName, $lastId, $conn)
-            {
-               
-                $sql = "DELETE FROM " . $tableName . 
-                        " WHERE " . $attributeName . "=" . $lastId . ";";
-
-                if (!($conn->query($sql) === TRUE)) 
-                {
-                    //keep trying until success
-                    removeFromDb($tableName, $attributeName, $lastId, $conn);
-                }
-            }
+    
+    <?php
         
-        ?>
+        include 'create-recipe-form.php';
+
+        //credentials
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "cookbooknetwork";
+
+        //if form submitted
+        if($_SERVER['REQUEST_METHOD'] == "POST")
+        {
+            //connect to db
+            $conn = connectToDb($servername, $username, $password, $dbname);
+            
+            //if friend does not have account
+            if (!checkPrivacy($conn))
+            {
+                exit("Sorry, your friend(s) is not a registered user.");
+            }
+            
+            $recipeName = getRecipeName();
+            $allSteps = getAllSteps();
+            $privacy = getPrivacy();
+            $recipeId = insertRecipeIntoDB($recipeName, $allSteps, $privacy, $conn);
+
+            //if error in inserting recipe into db
+            if ($recipeId < 0)
+            {
+               exit("Sorry, could not access database when adding recipe. Please try again.");
+            }
+
+            $numFriends = countFriends();
+            $success = addFriendsToDB($conn, $numFriends, $recipeId);
+            
+            //if error in inserting friends into db
+            if (!$success)
+            {
+                exit("Sorry, could not access database when adding friends. Please try again.");
+            }
+            
+            $success = addIngredientsToDB($conn, $recipeId);
+            
+            //if error in inserting ingredients into db
+            if (!$success)
+            {
+                exit("Sorry, could not access database when adding ingredients. Please try again.");
+            }
+            
+            $success = addTagsToDB($conn, $recipeId);
+            
+            //if error in inserting tags into db
+            if (!$success)
+            {
+                exit("Sorry, could not access database when adding tags. Please try again.");
+            }
+            
+            closeDBConnection($conn);
+            redirectToViewRecipe($recipeId);
+        }
+
+    ?>
+    
     
 	<head>
 		 <meta charset="UTF-8">
