@@ -70,6 +70,49 @@
         return TRUE;
     }
 
+    //get temp name given by php
+    function getImageTmpName()
+    {
+        return $_FILES['photo']['tmp_name'];
+    }
+
+    //get file name given by owner
+    function getImageFullName()
+    {
+        return $_FILES['photo']['name'];
+    }
+    
+    //check if file was uploaded
+    function checkImageUploaded()
+    {
+        if ($_FILES['photo']['size'] == 0) {
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    //return the path on the server of img
+    function getImagePath($recipeId)
+    {
+        return $recipeId . '/' . $_FILES['photo']['name'];
+    }
+
+    //update the img path in db
+    function updateImagePathInDB($conn, $path, $recipeId)
+    {
+        $sql = "UPDATE Recipe 
+                SET img_path='$path' 
+                WHERE recipe_id='$recipeId';";
+        
+        if (!($conn->query($sql) === TRUE))
+        {
+            cleanDbTables($lastId, $conn);
+            return FALSE;
+        }
+        
+        return TRUE;
+    }
+
     //get recipe name
     function getRecipeName()
     {
@@ -79,7 +122,7 @@
     //get recipe photo
     function getPicture()
     {
-        $picture = ($_FILES['photo']['name']);
+        $picture = ($_FILES['photo']['tmp_name']);
     }
 
     //get all steps of recipe

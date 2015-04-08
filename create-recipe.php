@@ -27,13 +27,37 @@
             $allSteps = getAllSteps();
             $privacy = getPrivacy();
             $recipeId = insertRecipeIntoDB($recipeName, $allSteps, $privacy, $conn);
-
+            
             //if error in inserting recipe into db
             if ($recipeId < 0)
             {
                exit("Sorry, could not access database when adding recipe. Please try again.");
             }
+            
+            $photoPath = NULL;
+            
+            //check if image uploaded
+            if (checkImageUploaded())
+            {
+                $photo = getImageTmpName();
+                $photoPath = getImagePath($recipeId);
 
+                if (!mkdir($recipeId, 0777, true)) 
+                {
+                    exit('Could not upload image to server.');
+                }
+                
+                if(!move_uploaded_file($photo, $photoPath))
+                {
+                    exit('Could not upload image to server.');
+                }
+                
+                if (!updateImagePathInDB($conn, $photoPath, $recipeId))
+                {
+                    exit('Could not connect image to account.');
+                }
+            }
+            
             $numFriends = countFriends();
             $success = addFriendsToDB($conn, $numFriends, $recipeId);
             
@@ -143,7 +167,7 @@
 					<td class="content-table-left"><h3>Picture:</h3></td>
 					<td class="content-table-right">
                         <p>Please select a picutre (only PNG and JPEG files is accepted):</p>
-                        <input type="file" name="photo" size="400" accept="image/png image/jpeg" /> </td>
+                        <input type="file" name="photo" size="400" accept="image/png, image/jpeg" /> </td>
 				</tr>
 				<!-- INGREDIENTS -->
 				<tr class="content-table-row">
