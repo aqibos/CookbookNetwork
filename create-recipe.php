@@ -524,6 +524,7 @@
             
             function confirmSubmission()
             {
+                var recipeName = document.getElementById("recipe-name").value;
                 if (confirm("Are you sure you want to create recipe '" + recipeName + "'?"))
                 {
                     return true;
