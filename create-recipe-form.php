@@ -159,20 +159,12 @@
         for ($x = 0; $x < $numFriends; $x++)
         {
             $currFriend = $_POST["friendName" . $x];
-            
-            echo '<script type="text/javascript">'
-                    . 'alert(' . $currFriend . ');'
-                    . '</script>';
 
             $sql = "INSERT INTO Friends (recipe_id, email) 
                     VALUES ( '$lastId', '$currFriend')";
 
                 if (!($conn->query($sql) === TRUE)) {
                     cleanDbTables($lastId, $conn);
-                    
-                    echo '<script type="text/javascript">'
-                    . 'alert(' . $conn->error . ');'
-                    . '</script>';
                     
                     return false;
                 }
