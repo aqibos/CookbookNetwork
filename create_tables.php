@@ -1,7 +1,7 @@
 <?php
 $servername="localhost" ;
 $username = "root" ;
-$password = "" ;	
+$password = "plewo39ten" ;	
 $dbname = "cookbooknetwork" ;
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -87,7 +87,7 @@ else
 //FRIENDS
 $sql = "CREATE TABLE Friends(
 		recipe_id INT(7) UNSIGNED NOT NULL,
-		email VARCHAR(50) NOT NULL UNIQUE,
+		email VARCHAR(50) NOT NULL,
 		CONSTRAINT fk_AccFriends FOREIGN KEY (email)
 		REFERENCES Account(email)		
 		)" ;
@@ -112,8 +112,8 @@ else
 
 //INGREDIENTS
 $sql = "CREATE TABLE Ingredient (
-		ingredient_id INT(7) UNSIGNED NOT NULL,
-		name VARCHAR(20) UNIQUE NOT NULL,
+		ingredient_id INT(7) UNSIGNED NOT NULL AUTO_INCREMENT,
+		name VARCHAR(20) NOT NULL,
 		recipe_id INT(7) UNSIGNED NOT NULL,
 		PRIMARY KEY(ingredient_id),
 		CONSTRAINT fk_ReciIngr FOREIGN KEY (recipe_id)
