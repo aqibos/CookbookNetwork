@@ -1,5 +1,8 @@
-<html>
-	
+<?php
+session_start() ;
+?>
+<!DOCTYPE html>
+<html>	
 	<head>
 		 <meta charset="UTF-8">
 		<meta name="description" content="A virtual cookbook that allows user's to view, create and share recipes.">
@@ -15,20 +18,7 @@
 		<div class="background-image"></div>
 		
 		<div class="navigation-bar">
-			<table  class="navigation-bar-table">
-				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
-					<td class="navigation-bar-table-right">
-						<ul class="upper-level-ul">
-                  			<li><a href="">Search Recipe</a></li>
-                  			<li><a href="">Search Cookbook</a></li>
-                  			<li><a href="">Login</a></li>
-                  			<li><a href="">Sign Up</a></li>
-            			</ul>
-						
-					</td>
-				</tr>
-			</table>
+			<?php include 'check-menu.php'?>
 		</div>
 		
 		<div class="content">
