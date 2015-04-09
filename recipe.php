@@ -1,5 +1,5 @@
 <?php
-	$user_logged_in = true;
+	session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,20 +18,8 @@
 		
 		<div class="background-image"></div>
 		
-		<div class="navigation-bar">
-			<table  class="navigation-bar-table">
-				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
-					<td class="navigation-bar-table-right">
-						<ul class="upper-level-ul">
-							
-							<?php include 'menu.php'; ?>
-							
-						</ul>
-						
-					</td>
-				</tr>
-			</table>
+		<div class="navigation-bar">				
+			<?php include 'checkmenu.php'; ?>
 		</div>
 		
 		<div class="content">
