@@ -10,19 +10,19 @@ body {
   background-color: #990000;
   min-width: 960px;
 }
-
+/*
 a {
 	text-decoration: none;
 	color: white;
 }
-
+*/
 .background-image {
 	position: absolute;
 	top: 0px;
 	bottom: 200px;
 	width: 100%;
 	min-width: 960px;
-	background-image: url("delicious-pizza-food-1440x900.jpg");
+	background-image: url("images/delicious-pizza-food-1440x900.jpg");
     background-repeat: no-repeat;
 	background-size: cover;
 	z-index: -1;
