@@ -13,33 +13,37 @@
 							<ul class="upper-level-ul">
 								<li>Search
 									<ul>
-										<li><a href="">Search Recipe</a></li>
-										<li><a href="">Search Cookbook</a></li>
-										<li><a href="">Search Accounts</a></li>
+										<li><a href="search-recipe.php">Search Recipe</a></li>
+										<li><a href="search-cookbook.php">Search Cookbook</a></li>
+										<li><a href="search-accounts.php">Search Accounts</a></li>
 									</ul>
 								</li>
 								
 								<li>Recipe
 									<ul>
-										<li><a href="">Create Recipe</a></li>
-										<li><a href="">View myRecipes</a></li>
-										<li><a href="">View Flags</a></li>
+										<li><a href="create-recipe.php">Create Recipe</a></li>
+										<li><a href="my-recipes.php">View myRecipes</a></li>
+										<li><a href="view-flags.php">View Flags</a></li>
 									</ul>
 								</li>
 								
 								<li>Cookbook
 									<ul>
-										<li><a href="">Create Cookbook</a></li>
-										<li><a href="">View myCookbooks</a></li>
+										<li><a href="create-cookbook.php">Create Cookbook</a></li>
+										<li><a href="my-cookbooks.php">View myCookbooks</a></li>
 									</ul>
 								</li>
 								
 								<li>'. $_SESSION['username']. '
 									<ul>
-										<li><a href="">Account Info</a></li>
-										<li><a href="">View All Accounts</a></li>
-										<li><a href="">Delete User</a></li>
-										<li><a href="">Log Out</a></li>
+										<li><a href="account-info.php">Account Info</a></li>
+										<li><a href="view-accounts">View All Accounts</a></li>
+										<li><a href="delete-user.php">Delete User</a></li>
+										<li><a id="logout" href="index-1.html">Log Out</a></li>
+										<script>document.getElementById("logout").addEventListener("click",function(){
+                                        <?php session_unset(); session_destroy();?> 
+										}); 
+										</script>
 									</ul>
 								</li>
 							</ul>
@@ -57,29 +61,31 @@
 						<ul class="upper-level-ul">
 	              			<li>Search
 	                			<ul>
-	                				<li><a href="">Search Recipe</a></li>
-	                	  			<li><a href="">Search Cookbook</a></li>
+									<li><a href="search-recipe.php">Search Recipe</a></li>
+									<li><a href="search-cookbook.php">Search Cookbook</a></li>
 	                			</ul>
 	              			</li>
 	              
 	              			<li>Recipe
 	                			<ul>
-	                  				<li><a href="">Create Recipe</a></li>
-	                  				<li><a href="">View myRecipes</a></li>
-	                			</ul>
+									<li><a href="create-recipe.php">Create Recipe</a></li>
+									<li><a href="my-recipes.php">View myRecipes</a></li>
+								</ul>
 	              			</li>
 	              
 	              			<li>Cookbook
 	                			<ul>
-	                  				<li><a href="">Create Cookbook</a></li>
-	                  				<li><a href="">View myCookbooks</a></li>
+	                  				<li><a href="create-cookbook.php">Create Cookbook</a></li>
+	                  				<li><a href="my-cookbooks.php">View myCookbooks</a></li>
 	                			</ul>
 	              			</li>
 	              
 	              			<li>'. $_SESSION['username']. '
 	                			<ul>
-	                  				<li><a href="">Account Info</a></li>
-	                  				<li><a href="">Log Out</a></li>
+	                  				<li><a href="account-info.php">Account Info</a></li>
+	                  				<li><a id="logout" href="index-1.html">Log Out</a></li>
+										<script>document.getElementById("logout").addEventListener("click",function(){
+                                        <?php session_unset(); session_destroy();?> 
 	                			</ul>
 	              			</li>
 	           			</ul>
