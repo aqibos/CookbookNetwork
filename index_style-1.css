@@ -99,7 +99,7 @@ body {
     font-size: 50px ;
 }
 
-.submit_button {
+.submit_button , button{
     border: 0 none ;
     background: white ;
     height: 35px;
@@ -111,17 +111,7 @@ body {
     cursor:pointer ;
 }
 
-.button {
-	 width: 200px;
-	height: 35px;
-	text-align: center;
-	padding-top: 15px;
-	font-size: 100%;
-	background-color: #990000;
-	text-decoration: none;
-}
-
-input[type=submit]:hover {
+input[type=submit]:hover , button:hover{
     border:none;
     background-color: #490000;
 	color: white;
