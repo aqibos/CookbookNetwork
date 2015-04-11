@@ -30,7 +30,7 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 			<h1>Search For Account</h1>
 			<!--<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> -->
 			<form method="post" action="search-accounts-results.php"> 
-				<h3>Search by email/username</h3>
+				<h3>Search by email</h3>
 				<input type="text" name="email" required>
 				<br><br>
 				<input type="submit" name="submit" value="Submit"> 

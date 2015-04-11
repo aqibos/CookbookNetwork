@@ -26,9 +26,45 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 		
 		<div class="content">
 		<?php
+			function printUser($e)
+			{
+				$servername = "localhost";
+				$username = "root";
+				$password = "";
+				$dbname = "cookbooknetwork";
+				
+				$conn = new mysqli($servername, $username, $password, $dbname) ;
+
+				if($conn -> connect_error)
+					die("Connection failed: ".$conn ->connect_error);
+				
+				$sql = "SELECT * FROM account WHERE email = '$e' or username ='$e'" ;
+					
+				$result = $conn -> query($sql) ;
+					
+				if($result -> num_rows > 0)
+				{
+					echo '<h1>'.$result->num_rows.' results: <h1>' ;
+					
+					while($row = $result -> fetch_assoc())
+					{
+						echo '<br><h3><a href="account-info.php?user_id='.$row["user_id"].'">email: '.$row["email"].'<br> username: '.$row["username"].'</a></h3> ';
+					}
+				}	
+				else
+				{
+					echo '0 results';
+				}
+				
+				$conn -> close() ;
+			}
+			
 			$input = "" ;
 			if($_SERVER["REQUEST_METHOD"] == "POST")
 			{
+				$input = $_POST["email"] ;
+				
+				printUser($input) ;
 			}
 		?>
 		</div>
