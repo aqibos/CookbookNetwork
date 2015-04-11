@@ -37,7 +37,7 @@
 								<li>'. $_SESSION['username']. '
 									<ul>
 										<li><a href="account-info.php">Account Info</a></li>
-										<li><a href="view-accounts">View All Accounts</a></li>
+										<li><a href="view-accounts.php">View All Accounts</a></li>
 										<li><a href="delete-user.php">Delete User</a></li>
 										<li><a id="logout" href="index-1.html">Log Out</a></li>
 										<script>document.getElementById("logout").addEventListener("click",function(){
