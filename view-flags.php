@@ -1,5 +1,9 @@
 <?php 
-	
+session_start();	
+if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
+{
+	header('Location:fail.php');
+}	
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,65 +22,66 @@
 		<div class="background-image"></div>
 		
 		<div class="navigation-bar">
-			<table  class="navigation-bar-table">
-				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
-					<td class="navigation-bar-table-right">
-						<ul class="upper-level-ul">
-              <li>Search
-                <ul>
-                  <li><a href="">Search Recipe</a></li>
-                  <li><a href="">Search Cookbook</a></li>
-                </ul>
-              </li>
-              
-              <li>Recipe
-                <ul>
-                  <li><a href="">Create Recipe</a></li>
-                  <li><a href="">View myRecipes</a></li>
-                </ul>
-              </li>
-              
-              <li>Cookbook
-                <ul>
-                  <li><a href="">Create Cookbook</a></li>
-                  <li><a href="">View myCookbooks</a></li>
-                </ul>
-              </li>
-              
-              <li>Account
-                <ul>
-                  <li><a href="">Account Info</a></li>
-                  <li><a href="">Log Out</a></li>
-                </ul>
-              </li>
-            </ul>
-					</td>
-				</tr>
-			</table>
+			<?php include 'check-menu.php'?>
 		</div>
 		
 		<div class="content">
 			<h1>Flagged Recipes</h1>
-			<p><a href="">Yum Yum Pizza</a><br/>
-				<b>Flags</b>: 2 <br/>
-				<b>Rating</b>: 1.0/5.0</p>
-			<p><a href="">Yum Yum Pizza</a><br/>
-				<b>Flags</b>: 2 <br/>
-				<b>Rating</b>: 1.0/5.0</p>
-			<p><a href="">Yum Yum Pizza</a><br/>
-				<b>Flags</b>: 2 <br/>
-				<b>Rating</b>: 1.0/5.0</p>
-			<p><a href="">Yum Yum Pizza</a><br/>
-				<b>Flags</b>: 2 <br/>
-				<b>Rating</b>: 1.0/5.0</p>
-			<p><a href="">Yum Yum Pizza</a><br/>
-				<b>Flags</b>: 2 <br/>
-				<b>Rating</b>: 1.0/5.0</p>
-
-
-
-
+			<?php 
+				$server = "localhost";
+				$user = "root" ;
+				$pw = "" ;
+				$db = "cookbooknetwork" ;
+				
+				$conn = new mysqli($server, $user, $pw, $db) ; 
+				if($conn -> connect_error){
+					echo('Connection failed: '.$conn -> connect_error) ;
+				}
+				
+				$sql = "	SELECT recipe_id, recipe_title, rating FROM recipe WHERE recipe_id IN (SELECT DISTINCT(recipe_id) FROM flag)" ;	
+				$result = $conn -> query($sql) ;
+	
+				if($result -> num_rows > 0)
+				{	
+					while($row = $result -> fetch_assoc())
+					{
+						echo '<p><a href="#">'.$row["recipe_title"].'</a><br/><b>Flags</b>:'.getFlagCount($row["recipe_id"]).'<br/><b>Rating</b>:'.$row["rating"].'/5</p>';
+					}
+				}
+				else
+				{
+					echo '<h2>No Flags Found</h2>';
+				}
+				
+				$conn -> close() ;
+				
+				function getFlagCount($id)
+				{
+					$server = "localhost";
+					$user = "root" ;
+					$pw = "" ;
+					$db = "cookbooknetwork" ;
+					
+					$conn = new mysqli($server, $user, $pw, $db) ; 
+					if($conn -> connect_error){
+						echo('Connection failed: '.$conn -> connect_error) ;
+					}
+					
+					$sql = "	SELECT COUNT(*) AS flags FROM flag WHERE recipe_id = '$id'" ;
+					$result = $conn -> query($sql) ;
+					
+					if($result -> num_rows > 0)
+					{	
+						$row = $result -> fetch_assoc();
+						return $row["flags"];
+					}
+					else
+					{
+						return 0 ;
+					}
+					$conn -> close();
+				}
+			?>
 		</div>
 		
 		<div class="footer"><p>&#169; Cookbook Network, 2015. All Rights Reserved.</p></div>
