@@ -1,5 +1,5 @@
 <?php
-	session_start();
+session_start() ;
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,15 +18,27 @@
 		
 		<div class="background-image"></div>
 		
-		<div class="navigation-bar">				
-			<?php include 'checkmenu.php'; ?>
+		<div class="navigation-bar">
+			<table  class="navigation-bar-table">
+				<tr>
+					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header"><a href="index.php">Cookbook Network</a></h1></td>
+					<td class="navigation-bar-table-right">
+						<ul class="upper-level-ul">
+                            <?php include 'registered_nav.php'?>
+						</ul>
+						
+					</td>
+				</tr>
+			</table>
 		</div>
 		
-		<div class="content">
+		<div class="content" id="recipe">
 			<h1>Yum, Yum Pizza! <img class="border" src="pizza.jpg" class="setsize" align="right" /></h1>
-			<p><i>Created by: <a href="">Aqib Shah</a></i></p>
-			<p class="flagfont"><img src="star5.png" width="10%" height="10%" title="rating"><br/>
+			<p><b><i>Aqib Shah</i></b></p>
+            
+            <p class="flagfont"><img src="star5.png" width="10%" height="10%" title="rating"><br/>
 				0&nbsp;<img class="noflag" src="flag.png" width="12px" height="12px" title="flags"></p>
+            
 			<h2>Ingredients</h2>
 			<ul>
 				<li>1 package (1/4 ounce) active dry yeast</li>
@@ -51,13 +63,15 @@
 				<li>Punch down dough; divide in half. Press each into a greased 12-in. pizza pan. Combine the tomato sauce, oregano and basil; spread over each crust. Top with beef mixture, green pepper and cheese.</li> <br />
  				<li>Bake at 400° for 25-30 minutes or until crust is lightly browned. Yield: 2 pizzas (3 servings each).</li> <br />
 			</ol>
-			<p>Tags: <a class="tags">Italian</a>
+            
+            <p>Tags: <a class="tags">Italian</a>
 			<a class="tags">Lunch</a></p>
-
-			<p class="center"><a href="raterecipe.php">Rate Recipe</a>&nbsp;&nbsp;|
+            
+            <p class="center">
+                <a href="raterecipe.php">Edit Recipe</a>&nbsp;&nbsp;|
 				&nbsp;&nbsp;<a href="">Add to Cookbook</a>&nbsp;&nbsp;|
-				&nbsp;&nbsp;<a href="">Flag Recipe</a></p>
-
+				&nbsp;&nbsp;<a href="">Delete Recipe</a>
+            </p>
 		</div>
 		
 		<div class="footer"><p>&#169; Cookbook Network, 2015. All Rights Reserved.</p></div>

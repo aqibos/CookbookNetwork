@@ -1,6 +1,8 @@
+<?php 
+	
+?>
 <!DOCTYPE html>
 <html>
-	
 	<head>
 		 <meta charset="UTF-8">
 		<meta name="description" content="A virtual cookbook that allows user's to view, create and share recipes.">
