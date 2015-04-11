@@ -16,43 +16,7 @@
 		<div class="background-image"></div>
 		
 		<div class="navigation-bar">
-			<table  class="navigation-bar-table">
-				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
-					<td class="navigation-bar-table-right">
-						<ul class="upper-level-ul">
-              			<li>Search
-                			<ul>
-                				<li><a href="">Search Recipe</a></li>
-                	  			<li><a href="">Search Cookbook</a></li>
-                			</ul>
-              			</li>
-              
-              			<li>Recipe
-                			<ul>
-                  				<li><a href="">Create Recipe</a></li>
-                  				<li><a href="">View myRecipes</a></li>
-                			</ul>
-              			</li>
-              
-              			<li>Cookbook
-                			<ul>
-                  				<li><a href="">Create Cookbook</a></li>
-                  				<li><a href="">View myCookbooks</a></li>
-                			</ul>
-              			</li>
-              
-              			<li>John Doe
-                			<ul>
-                  				<li><a href="">Account Info</a></li>
-                  				<li><a href="">Log Out</a></li>
-                			</ul>
-              			</li>
-           			 </ul>
-						
-					</td>
-				</tr>
-			</table>
+			<?php include 'check-menu.php' ?>
 		</div>
 		
 		<div class="content">
