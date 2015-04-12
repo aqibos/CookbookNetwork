@@ -85,7 +85,7 @@
 	                  				<li><a href="account-info.php">Account Info</a></li>
 	                  				<li><a id="logout" href="index-1.html">Log Out</a></li>
 										<script>document.getElementById("logout").addEventListener("click",function(){
-                                        <?php session_unset(); session_destroy();?> 
+                                        <?php $_SESSION["loggedin"] = false; session_unset(); session_destroy();?> </script>
 	                			</ul>
 	              			</li>
 	           			</ul>
