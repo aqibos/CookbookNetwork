@@ -301,3 +301,7 @@ img.setsize{
 	opacity: 0.7;
 	font-family: 'IM Fell Double Pica', serif;
 }
+
+.errormsg{
+  color:#C00000;
+}
