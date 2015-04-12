@@ -1,5 +1,5 @@
 <?php
-session_start() ;
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,11 +19,11 @@ session_start() ;
 		<div class="background-image"></div>
 		
 		<div class="navigation-bar">
-			<?php include 'check-menu.php' ?>
+			<?php include 'check-menu.php'; ?>
 		</div>
 		
 		<div class="content">
-			<h1>Welcome, <?php echo $_SESSION["username"] ?></h1>
+			<h1>Welcome, <?php echo $_SESSION["username"]; ?></h1>
 			
 			<div class="content-div">
 				<a href=""><div class="content-div-row1">Account Info</div></a>
