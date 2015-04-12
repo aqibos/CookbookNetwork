@@ -1,5 +1,6 @@
 <?php
-session_start() ;
+session_start();
+$username = $_SESSION["username"];
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,7 +20,7 @@ session_start() ;
 		<div class="background-image"></div>
 		
 		<div class="navigation-bar">
-			<?php include 'check-menu.php' ?>
+			<?php include 'check-menu.php'; ?>
 		</div>
 		
 		<div class="content">
