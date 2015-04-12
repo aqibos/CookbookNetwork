@@ -242,7 +242,7 @@ img.setsize{
 
 .tableform td{
   border: 3px;
-  width:200px;
+text-align: left;
 }
 
 .center{
@@ -304,4 +304,8 @@ img.setsize{
 
 .errormsg{
   color:#C00000;
+}
+
+.content h1, .content h2, .content h3 {
+  color: #990000;
 }
