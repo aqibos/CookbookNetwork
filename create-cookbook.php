@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 	
@@ -60,22 +61,22 @@
 			<h1 class="center">Create Cookbook</h1>
 			<table class="tableform">
 				<tr>
-  					<td colspan="2"> <h3>Name of Cookbook: </h3><br/></td>
-  					<td colspan="3"><input size="35" type="text" name="cookbookname"><br/><br/></td>
+  					<td colspan="2" width="60%"> <h3>Name of Cookbook: </h3><br/></td>
+  					<td colspan="2" width="30%"><input size="35" type="text" name="cookbookname"><br/><br/></td>
   				</tr>
   				<tr>
-  					<td colspan="2"> <h3>Privacy: </h3><br/></td>
-  					<td><input type="radio" name="privacy" value="private">Private<br/><br/></td>
-  					<td><input type="radio" name="privacy" value="registered">Registered<br/><br/></td>
-  					<td><input type="radio" name="privacy" value="friendly">Friendly<br/><br/></td>
-  					<td><input type="radio" name="privacy" value="public">Public<br/><br/></td>
+  					<td colspan="2" width="20%"> <h3>Privacy: </h3><br/></td>
+  					<td width="15%"><input type="radio" name="privacy" value="private">Private<br/><br/></td>
+  					<td width="15%"><input type="radio" name="privacy" value="registered">Registered<br/><br/></td>
+  					<td width="15%"><input type="radio" name="privacy" value="friendly">Friendly<br/><br/></td>
+  					<td width="15%"><input type="radio" name="privacy" value="public">Public<br/><br/></td>
   				</tr>
   				<tr>
-  					<td colspan="2"><h3>Enter email of users to share: </h3></td>
-  					<td><br/><input type="text" size="35" name="email"><br/><br/></td>
+  					<td colspan="2" width="60%"><h3>Enter email of users to share: </h3></td>
+  					<td colspan="2" width="30%"><br/><input type="text" size="35" name="email"><br/><br/></td>
   				</tr>
   				<tr>
-  					<td colspan="2"> <h3>Tags for Cookbook:</h3></td>
+  					<td width="45%"> <h3>Tags for Cookbook:</h3></td>
   				</tr>
   				<tr>
   					<td><br/></td>
