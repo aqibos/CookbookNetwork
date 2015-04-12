@@ -1,62 +1,7 @@
 <?php
 	session_start();
 ?>
-<?php
-	$emailerror = $nameerror = "" ;
-	function check_account_exists($column, $name, $link) 
-    {
-        $sql="SELECT * FROM Account WHERE $column='$name'";
-        $result = $link -> query($sql);
-        $count = $result->num_rows;
-        return $count;
-    }
-    if ($_SERVER["REQUEST_METHOD"] == "POST")
-    {
-    	$host="localhost";              // Host name 
-        $username="root";               // Mysql username 
-        $password="";                   // Mysql password 
-        $db_name="cookbooknetwork";     // Database name 
-        $tbl_name="Account"; // Table name 
 
-        // Connect to server and select databse.
-        $link = new mysqli($host, $username, $password, $db_name);
-        if ($link -> connect_error)
-			die("Connection failed: ".$link -> connect_error);
-        // username and password sent from form
-        $username = $_POST['username'];
-        $password=$_POST['password']; 
-        $email=$_POST['email']; 
-
-        $usernametaken = check_account_exists("username", $username, $link); 
-        $emailtaken = check_account_exists("email", $email, $link); 
-
-                // result must be of one row
-                if($emailtaken ==1)
-                {
-                    $emailerror = "* An account exists with this email."; 
-                }
-                else if($usernametaken == 1)
-                {
-                	$nameerror = "* Username is taken. Choose another one.";
-                }
-                else
-                {
-       				//ADD ACCOUNT TO DATABASE
-                	$sql= "INSERT INTO $tbl_name (email, username, password, isAdmin)
-							VALUES ('$email', '$username', '$password', '0')";
-
-					if ($link->query($sql) !=true)
-					{
-    					$emailerror= "ERROR: Could not able to execute $sql. " . $link -> connect_error;
-					} 
-                    $_SESSION['loggedin'] = true ;
-                    $_SESSION['username'] = $username;
-                    $_SESSION['isAdmin'] = '0';
-                    header('Location: home-page-registered.php'); 
-                    exit();
-                }
-                mysqli_close($link);
-            }?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -69,6 +14,7 @@
 		<link href='http://fonts.googleapis.com/css?family=IM+Fell+Double+Pica' rel='stylesheet' type='text/css'>
 	</head>
 	<body>
+        <?php include 'sign-up-form.php' ?>
 		<div class="background-image"></div>
 		<div class="navigation-bar">
 			<table  class="navigation-bar-table">
@@ -89,7 +35,7 @@
 			<h1 class="center">Create your Cookbook Network Account!</h1>
 			<p class="center"><i>Share your recipes with others! It's fast and easy!</i></p>
 			<br/>
-			<form name="signup" method="post" onsubmit="return validateForm()" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+			<form name="signup" method="post" onsubmit="return validateForm()" action="sign-up-form.php">
 			<table class="tableform">
 				<tr>
 					<td><h3>Choose your username:</h3><br/></td>
