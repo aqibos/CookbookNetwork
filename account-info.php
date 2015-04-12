@@ -21,47 +21,7 @@
 		<div class="background-image"></div>
 		
 		<div class="navigation-bar">
-			<table  class="navigation-bar-table">
-				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
-					<td class="navigation-bar-table-right">
-						<ul class="upper-level-ul">
-							
-							<li>Search
-								<ul>
-									<li><a href="">Search Recipe</a></li>
-									<li><a href="">Search Cookbook</a></li>
-								</ul>
-							</li>
-							
-							<li>Recipe
-								<ul>
-									<li><a href="">Create Recipe</a></li>
-									<li><a href="">Edit Recipe</a></li>
-									<li><a href="">MyRecipes</a></li>
-								</ul>
-							</li>
-							
-							<li>Cookbook
-								<ul>
-									<li><a href="">Create Cookbook</a></li>
-									<li><a href="">Edit Cookbook</a></li>
-									<li><a href="">MyCookbooks</a></li>
-								</ul>
-							</li>
-							
-							<li>JohnDoe
-								<ul>
-									<li><a href="">Account Info</a></li>
-									<li><a href="">Log Out</a></li>
-								</ul>
-							</li>
-							
-						</ul>
-						
-					</td>
-				</tr>
-			</table>
+			<?php include 'check-menu.php'; ?>
 		</div>
 		
 		<div class="content">
@@ -85,7 +45,7 @@
 					<td class="content-table-right">03/30/2015</td>
 				</tr>
 				<tr style="text-align:right">
-					<td style="text-align:right"><a href=""><div class="button">Change password?</div></a></td>
+					<td style="text-align:right"><a href="change-pw.php"><div class="button">Change password?</div></a></td>
 					<td style="text-align:right"><a href=""><div class="button">Delete User</div></a></td>
 				</tr>
 			</table>
