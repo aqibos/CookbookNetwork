@@ -10,11 +10,20 @@ body {
   background-color: #990000;
   min-width: 960px;
 }
-/*
+
 a {
 	text-decoration: none;
 	color: white;
-}*/
+}
+
+.maroon {
+	color: #490000;
+}
+
+.maroon:hover {
+	color: #990000;
+}
+
 .background-image {
 	position: absolute;
 	top: 0px;
@@ -148,10 +157,10 @@ a {
     text-align: center;
 }
 
-#recipe {
+recipe {
     text-align:left;
 }
-.content h1, .content h2 {
+.content h1, .content h2, .content h3 {
 	color: #990000;
 }
 
@@ -170,6 +179,70 @@ a {
 	font-size: 150%;
 	background: #990000 ;
 	
+}
+
+.content-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.content-table-row {
+	border-bottom: dashed 1px;
+}
+
+.content-table-left {
+	text-align: left;
+	width: 30%;
+}
+
+.content-table-right {
+	text-align: right;
+	width: 70%;
+}
+
+.content-table-right a {
+	text-align: right;
+}
+
+.content-table-ingredients-table {
+	width: 100%;
+}
+
+.content-table-ingredients-table-left {
+	width: 20%;
+	text-align: left;
+}
+
+.content-table-ingredients-table-right {
+	width: 80%;
+}
+
+.content-table-tags-table {
+	width: 100%;
+	text-align: center;
+}
+
+.content-table-tags-table input{
+	/*padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;*/
+	display: inline-block;
+}
+
+.wrapper-button {
+	text-align: right;
+	padding-left: 75%;
+}
+
+.button {
+	 width: 200px;
+	height: 35px;
+	text-align: center;
+	padding-top: 15px;
+	font-size: 100%;
+	background-color: #990000;
+	text-decoration: none;
 }
 
 input[type=submit], button {
@@ -193,12 +266,54 @@ input[type=submit]:hover, .button:hover {
 	cursor: pointer;
 }
 
+.content-div-row1 {
+	display: inline-block;
+	width: 30%;
+	margin-right: 10px;
+	margin-left: 10px;
+	height: 110px;
+	font-size: 130%;
+	background-color: #990000;
+	color: white;
+	text-align: center;
+	padding-top: 90px;
+}
+
+.content-div-row1:hover {
+	background-color: #490000;
+}
+
+.recipe-preview-row {
+	width = 800px;
+	height: 150px;
+	padding: 10px 0px;
+	text-align: center;
+}
+
+.recipe-preview-row-icon {
+	width = 30%;
+	height: 150px;
+	display: inline-block;
+	margin: 0px 30px;
+	background-color: #990000;
+	border: 2px solid #490000;
+}
+
+.recipe-preview-row-icon:hover {
+	background-color: #490000;
+}
+
 .footer {
 	text-align: center;
 	height: 100px;
 	color: white;
 	padding-top: 45px;
 }
+
+.stepInput, .ingredientInput, .nameInput {
+    width: 100%;
+}
+
 <!------------------------ ANAIS CSS------------->
 .flagfont{
   font-family: 'Times', serif;
