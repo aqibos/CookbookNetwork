@@ -63,36 +63,50 @@
 				<script>
 				function validateForm() 
 				{
-    					var user = document.forms["signup"]["username"].value;
-    					var pass = document.forms["signup"]["password"].value;
-    					var pwc = document.forms["signup"]["pwconfirm"].value;
-    					var email = document.forms["signup"]["email"].value;				
-    					//Check for blank input
-    					if (user == null || user == "" ||pass == null || pass == ""||pwc == null || pwc == ""
-    							||email == null || email == "") 
-    					{
-        					alert("No inputs can be left blank.");
-        					return false;
-    					}
-    					//Check for mismatch password
-    					if (pass != pwc)
-    					{
-        					alert("Password does not match.");
-        					return false;
-    					}
-    					//Check for password to be > 6 chars
-    					if (pass.length < 6)
-    					{
-        					alert("Choose a different password. Password must be at least 6 characters long.");
-        					return false;
-    					}
-    					//Check for password to be > 6 chars
-    					if (user.length < 5)
-    					{
-        					alert("Choose a different username. Username must be at least 5 characters long.");
-        					return false;
-    					}
-    					//Check for correct email
+                    var user = document.forms["signup"]["username"].value;
+                    var pass = document.forms["signup"]["password"].value;
+                    var pwc = document.forms["signup"]["pwconfirm"].value;
+                    var email = document.forms["signup"]["email"].value;	
+
+                    var illegalPassChars = /[\W_]/;     //only letters and numbers
+                    var illegalUserChars = /^[0-9a-zA-Z_.-]+$/; //only letters, numbers, '_' , '-', '.'
+
+                    //Check each field for blank input
+                    if (isEmpty(user) || isEmpty(pass) || isEmpty(pwc) || isEmpty(email)) 
+                    {
+                        alert("No inputs can be left blank.");
+                        return false;
+                    }
+
+                    //Check for mismatch password
+                    if (pass != pwc)
+                    {
+                        alert("Password does not match.");
+                        return false;
+                    }
+
+                    //Check for password to be atleast 6 chars and has correct format
+                    if (pass.length < 6 || illegalPassChars.test(pass))
+                    {
+                        alert("Password must be at least 6 characters long and consist of letters and/or numbers.");
+                        return false;
+                    }
+
+                    //Username can't be same as password
+                    if (pass == user)
+                    {
+                        alert("Username and password must be different.");
+                        return false;
+                    }
+
+                    //Check for username to be >= 6 chars
+                    if (user.length < 6 || !illegalUserChars.test(user))
+                    {
+                        alert("Choose a different username. Username must be at least 6 characters long and consist of letters and numbers.");
+                        return false;
+                    }
+                    
+                    //Check for correct email
    					arrobaIndex = email.indexOf("@");
   					periodIndex = email.lastIndexOf(".");
   					//email can't have "@" be first char or "@." be consecutive chars
@@ -101,8 +115,16 @@
 						alert("Invalid email. Please enter a correct email.");
 					        return false;
 					}
-    					return true;	//pass all requirements, form has correct input
+    				
+                    return true;	//pass all requirements, form has correct input
 				}
+                   
+                //Check for blank input    
+                function isEmpty(input)
+                {
+    				return (input == null || input == "" );
+                }
+                    
 				</script>
 		</div>	
 		<div class="footer"><p>&#169; Cookbook Network, 2015. All Rights Reserved.</p></div>	
