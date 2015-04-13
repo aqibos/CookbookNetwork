@@ -1,5 +1,5 @@
 <?php
-session_start() ;
+    session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -9,7 +9,7 @@ session_start() ;
 		<meta name="description" content="A virtual cookbook that allows user's to view, create and share recipes.">
 		<meta name="keywords" content="recipe, cookbook, food, ingredients">
 		<meta name="author" content="Cookbook Network Inc.">
-		<link rel="stylesheet" type="text/css" href="index_style-1.css">
+        <link rel="stylesheet" type="text/css" href="index_style-1.css">
 		<link href='http://fonts.googleapis.com/css?family=Tangerine:700' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=IM+Fell+Double+Pica' rel='stylesheet' type='text/css'>
 		
@@ -29,84 +29,63 @@ session_start() ;
 		</script>
 		
 	</head>
-	
+	 
+    <?php
+        $emailERR = $passwordERR = "";
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $host="localhost";              // Host name 
+            $username="root";               // Mysql username 
+            $password="";                   // Mysql password 
+            $db_name="cookbooknetwork";     // Database name 
+            $tbl_name="Account"; // Table name 
+
+            // Connect to server and select databse.
+            $link = new mysqli($host, $username, $password, $db_name);
+            if ($link -> connect_error)
+                die("Connection failed: ".$link -> connect_error);
+
+            // username and password sent from form 
+            $email=$_POST['email']; 
+            $password=$_POST['password']; 
+
+
+            $sql="SELECT * FROM $tbl_name WHERE email='$email' and password='$password'";
+            $result = $link -> query($sql);
+            $count = $result->num_rows;
+
+            // result must be of one row, login successful
+            if($count == 1)
+            {
+                session_start();
+                $row = $result->fetch_assoc();
+                $_SESSION['username'] = $row['username'];   //set session variables
+                $_SESSION['isAdmin'] = $row['isAdmin']; 
+
+                redirect();         //go to logged in page
+
+            }
+            else if($count == 0)        //no username or password combo exists
+            {
+                $emailERR = "* Invalid email/password";
+            }
+
+            mysql_free_result($result);
+        }
+
+        function redirect()
+        {
+            header('Location: home-page-registered.php');
+        }
+    ?>
+    
 	<body>
-		<p><img src="images/Pizza-Food-Delicious-1440x2560.jpg" name="slide" class="slideshow"/></p>
+		
+		<p><img src="Pizza-Food-Delicious-1440x2560.jpg" name="slide" class="slideshow"/></p>
 		
 		<div class="full-body">
 			
-			<div class="content-transparent">
-            
-            <?php
-                // define variables and set to empty values
-                $emailERR = $passwordERR = "" ;
-                $email = $user_password = "";
-                
-                if ($_SERVER["REQUEST_METHOD"] == "POST"){
-                    if(empty($_POST["email"])){
-                        $emailERR = "Email is required" ;
-                    }
-                    else{    
-                        $user_email = test_input($_POST["email"]);
-                        if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-                          $emailErr = "Invalid email format"; 
-                        }
-                    }
-                    if(empty($_POST["password"])){
-                        $passwordERR = "Password is required" ; 
-                    }
-                    else{
-                        $user_password = test_input($_POST["password"]);
-                    }
-                    
-                    $valid = validate_user($user_email, $user_password) ;
-					
-                    if($valid == true) {
-                        header('Location: home-page-registered.php') ;
-                    } else {
-                        $emailERR = "Invalid email/password" ;
-                    }
-                }
-                
-                function test_input($data) 
-                {
-                    $data = trim($data);
-                    $data = stripslashes($data);
-                    $data = htmlspecialchars($data);
-                    return $data;
-                }
-                
-                function validate_user($email , $password)
-                {
-                    $servername="localhost" ;
-					$username = "root" ;
-					$pw = "" ;	
-					$dbname = "cookbooknetwork" ;
-
-					$conn = new mysqli($servername, $username, $pw, $dbname);
-
-					if ($conn -> connect_error)
-						die("Connection failed: ".$conn -> connect_error);
-                    $sql = "SELECT * FROM  Account WHERE email = '$email' AND password = '$password'" ;
-                    
-                    $result = $conn -> query($sql) ;
-                    
-                    if($result->num_rows > 0) {
-                        $row = $result -> fetch_assoc() ;
-                        $_SESSION["loggedin"] = true ;
-                        $_SESSION["username"] = $row["username"] ;
-                        $_SESSION["isAdmin"] = $row["isAdmin"] ;
-            
-                        $conn -> close() ;
-                        return true ;
-                    } else {
-                        $_SESSION["loggedin"] = false ;
-					
-                        $conn -> close() ;
-                        return false ;
-                    }    
-                }
-            ?>    
+			<div class="content-transparent">    
                 
 			<div class="content">
 				<table class="content-table">
@@ -115,7 +94,7 @@ session_start() ;
                         <td class="content-table-left"><h1 class="content-table-left-header"><a href="index.php">Cookbook Network</a></h1></td>
 						
                         <td class="login_form">
-                            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+                            <form name="login" method="post" onsubmit="return validateInput()" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                                 Email: <input type="text" name="email">
                                 <span class="error"><?php echo $emailERR ;?></span><br>
                                 Password: <input type="password" name="password">
@@ -136,6 +115,36 @@ session_start() ;
 			
 		</div>
 		
+        
+        
+        <script>
+            function validateInput() 
+            {
+                var email = document.forms["login"]["email"].value;
+                var pass = document.forms["login"]["password"].value;				
+                
+                //Check for blank input
+                if (email == null || email == "" || pass == null || pass == "")
+                {
+                    alert("A field was left blank. Please provide email and password.");
+                    return false;
+                }
+                //Check for correct email
+   	            arrobaIndex = email.indexOf("@");
+  		        periodIndex = email.lastIndexOf(".");
+                //email can't have "@" be first char or "@." be consecutive chars
+				if (arrobaIndex == 0 || (periodIndex - arrobaIndex <= 1 )|| periodIndex+1 == email.length) 
+				{
+					alert("Invalid email. Please enter a correct email.");
+                    return false;
+                }
+                return true;	//pass all requirements, form has correct input
+            }
+        </script>
+        
+        
+        
+
 		<!-- Slide Show -->
 		<script type="text/javascript">
 			var step=1;
