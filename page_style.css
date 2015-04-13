@@ -11,10 +11,10 @@ body {
   min-width: 960px;
 }
 
-a {
+/*a {
 	text-decoration: none;
 	color: white;
-}
+}*/
 
 .maroon {
 	color: #490000;
@@ -312,6 +312,11 @@ input[type=submit]:hover, .button:hover {
 
 .stepInput, .ingredientInput, .nameInput {
     width: 100%;
+}
+
+.addLink {
+    color: white;
+    text-decoration: none;
 }
 
 <!------------------------ ANAIS CSS------------->
