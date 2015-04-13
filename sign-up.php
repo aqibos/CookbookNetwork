@@ -56,13 +56,16 @@
 					<td class="errormsg"><?php echo $emailerror; ?><br/></td>
 				</tr>
 			</table>
-					<p class="center"><br/><br/> <input class="submitbutton" type="submit" value="Create My Account">&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="submit" value="Cancel"></p>
+					<p class="center"><br/><br/> 
+                        <input class="submitbutton" type="submit" value="Create My Account">&nbsp;&nbsp;&nbsp;&nbsp;
+				        <input type="submit" value="Cancel" onclick="window.history.back(); return false;">
+                    </p>
 				</form>
 
 				<script>
 				function validateForm() 
 				{
+                    if()
                     var user = document.forms["signup"]["username"].value;
                     var pass = document.forms["signup"]["password"].value;
                     var pwc = document.forms["signup"]["pwconfirm"].value;
