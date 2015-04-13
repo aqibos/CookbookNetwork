@@ -65,7 +65,6 @@
 				<script>
 				function validateForm() 
 				{
-                    if()
                     var user = document.forms["signup"]["username"].value;
                     var pass = document.forms["signup"]["password"].value;
                     var pwc = document.forms["signup"]["pwconfirm"].value;
