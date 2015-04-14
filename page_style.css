@@ -429,3 +429,7 @@ text-align: left;
 .content h1, .content h2, .content h3 {
   color: #990000;
 }
+
+.hidden {
+    display:none;
+}
