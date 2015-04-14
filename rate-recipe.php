@@ -1,3 +1,67 @@
+<?php
+    session_start();
+    $recipe_id = 1;
+    $pwerror="";
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST")
+    {
+        $host="localhost";              // Host name 
+        $username="root";               // Mysql username 
+        $password="";                   // Mysql password 
+        $db_name="cookbooknetwork";     // Database name 
+        $tbl_name="Recipe";             // Table name 
+
+        // Connect to server and select databse.
+        $link = new mysqli($host, $username, $password, $db_name);
+        if ($link -> connect_error)
+            die("Connection failed: ".$link -> connect_error);
+
+        // current and new password sent from form
+        $ratestar = $_POST['rating'];
+
+        $sql="SELECT * FROM $tbl_name WHERE recipe_id= '$recipe_id'";
+        $result = $link -> query($sql);
+        $count = $result->num_rows;
+
+        if($count == 1)     //input of current password is incorrect
+        {
+            $newrating; 
+            $row = $result->fetch_assoc();
+            $currentrating = $row['rating'];    //get current rating
+            $totalrate = $row['times_rated'];   //get total amount of rating
+            
+            if($ratestar == "star1")
+                $newrating = 1; 
+            else if($ratestar == "star2")
+                $newrating = 2; 
+            if($ratestar == "star3")
+                $newrating = 3; 
+            if($ratestar == "star4")
+                $newrating = 4; 
+            else    //star5
+                $newrating = 5; 
+            
+            $totalrate++;
+            $newrating = ($currentrating + $newrating) / $totalrate ;
+            
+            $sql = "UPDATE $tbl_name SET times_rated ='$totalrate', rating = '$newrating' WHERE `recipe_id`='$recipe_id'";
+            if ($link->query($sql) != true)     //unsuccessful query
+            {
+                $pwerror= "ERROR: Could not able to execute $sql. " . $link->connect_error;
+            } 
+            redirect();
+        }
+        else
+        {
+            
+        }
+    }
+
+    function redirect()
+    {
+        header('Location: recipe.php');
+    }
+?>
 <!DOCTYPE html>
 <html>
 
@@ -16,55 +80,19 @@
 		<div class="background-image"></div>
 
 		<div class="navigation-bar">
-			<table  class="navigation-bar-table">
-				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
-					<td class="navigation-bar-table-right">
-					<ul class="upper-level-ul">
-              			<li>Search
-                			<ul>
-                				<li><a href="">Search Recipe</a></li>
-                	  			<li><a href="">Search Cookbook</a></li>
-                			</ul>
-              			</li>
-              
-              			<li>Recipe
-                			<ul>
-                  				<li><a href="">Create Recipe</a></li>
-                  				<li><a href="">View myRecipes</a></li>
-                			</ul>
-              			</li>
-              
-              			<li>Cookbook
-                			<ul>
-                  				<li><a href="">Create Cookbook</a></li>
-                  				<li><a href="">View myCookbooks</a></li>
-                			</ul>
-              			</li>
-              
-              			<li>Account
-                			<ul>
-                  				<li><a href="">Account Info</a></li>
-                  				<li><a href="">Log Out</a></li>
-                			</ul>
-              			</li>
-           			 </ul>
-						
-					</td>
-				</tr>
-			</table>
+			<?php include 'check-menu.php'; ?>
 		</div>
 		
 		<div class="content">
 			<h1 class="center">Rate Recipe</h1>
 			<div class="center">
-				<p>We'd love to hear your feedback on "Yum, Yum Pizza"!</p>
-				<form>
-					<input type="radio" name="rating" value="star1">&nbsp;&nbsp;<img src="star1.png"><br/><br/>
-					<input type="radio" name="rating" value="star2">&nbsp;&nbsp;<img src="star2.png"><br/><br/>
-					<input type="radio" name="rating" value="star3">&nbsp;&nbsp;<img src="star3.png"><br/><br/>
-					<input type="radio" name="rating" value="star4">&nbsp;&nbsp;<img src="star4.png"><br/><br/>
-					<input type="radio" name="rating" value="star5">&nbsp;&nbsp;<img src="star5.png"><br/><br/>
+				<p>We would love to hear your feedback on "Yum, Yum Pizza"!</p>
+				<form name="rate" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+					<input type="radio" name="rating" value="star1">&nbsp;&nbsp;<img src="images/star1.png"><br/><br/>
+					<input type="radio" name="rating" value="star2">&nbsp;&nbsp;<img src="images/star2.png"><br/><br/>
+					<input type="radio" name="rating" value="star3">&nbsp;&nbsp;<img src="images/star3.png"><br/><br/>
+					<input type="radio" name="rating" value="star4">&nbsp;&nbsp;<img src="images/star4.png"><br/><br/>
+					<input type="radio" name="rating" value="star5">&nbsp;&nbsp;<img src="images/star5.png"><br/><br/>
 					<input type="submit" value="Rate!"> <input type="submit" value="Cancel">
 				</form>
 			</div>
