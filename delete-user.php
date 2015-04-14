@@ -16,30 +16,30 @@
         if ($link -> connect_error)
 			die("Connection failed: ".$link -> connect_error);
         
-        // username and password and email sent from form
+        // useremail to be deleted sent from form
         $useremail = $_POST['useremail'];
         
         $sql="SELECT * FROM Account WHERE email='$useremail'";
         $result = $link -> query($sql);
         $count = $result->num_rows;
         
-        // if a row was returned for same email, display error message
+        // if account is found
         if($count == 1)
         {
-            //ADD NEW ACCOUNT TO DATABASE
+            //DELETE ACCOUNT
             $sql= "DELETE FROM $tbl_name WHERE email = '$useremail'";
 
             if ($link->query($sql) != true)     //unsuccessful query
             {
                 $emailerror= "ERROR: Could not able to execute $sql. " . $link->connect_error;
             } 
-            else
+            else    //success message
             {
                 $success="User with email: ". $useremail . " has been deleted.";
             }
             
         }
-        else          //username, email not taken -  make new account
+        else          //no account found to delete, error message
         {
             $emailerror = "* No account exists with this email"; 
             
