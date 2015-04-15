@@ -223,7 +223,7 @@
 									<td><input type="checkbox" class="tag-value" name="greek" value="Greek">Greek<br /></td>
 									<td><input type="checkbox" class="tag-value" name="vegan" value="Vegan">Vegan<br /></td>
 									<td><input type="checkbox" class="tag-value" name="pork" value="Pork">Pork<br /></td>
-									<td><input type="checkbox" class="tag-value" name="breakfast & brunch" value="Breakfast & Brunch">Breakfast & Brunch<br /></td>
+									<td><input type="checkbox" class="tag-value" name="breakfast/brunch" value="Breakfast & Brunch">Breakfast & Brunch<br /></td>
 							</tr>
 							<tr>
 									<td><input type="checkbox" class="tag-value" name="italian" value="Italian">Italian<br /></td>

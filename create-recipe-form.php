@@ -139,7 +139,7 @@
 
                 if (!empty($_POST["step" . $x]))
                 {
-                    $allSteps = $allSteps . ($_POST["step" . $x]) . ", ";
+                    $allSteps = $allSteps . ($_POST["step" . $x]) . "@ ";
                 }
             }
 
@@ -258,11 +258,11 @@
             8 => "greek",
             9 => "vegan",
             10 => "pork",
-            11 => "breakfast & brunch",
+            11 => "breakfast/brunch",
             12 => "italian",
             13 => "vegetarian",
             14 => "poultry",
-            15 => "desserts",
+            15 => "dessert",
             16 => "jamaican",
             17 => "seafood",
             18 => "lunch",

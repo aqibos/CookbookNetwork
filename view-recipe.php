@@ -121,7 +121,7 @@
             <ul>
                 <?php
 
-                $ingredientArray = explode(',', $ingredientList);
+                $ingredientArray = explode('@', $ingredientList);
 
 
                 for ($x = 0; $x < count($ingredientArray); $x++)
@@ -137,7 +137,7 @@
                 
                 <?php
     
-                $stepArray = explode(',', $stepList);
+                $stepArray = explode('@', $stepList);
 
 
                 for ($x = 0; $x < count($stepArray); $x++)
@@ -170,9 +170,9 @@
 
 			<p class="center">
                 <a href="edit-recipe.php?recipe_id=<?php echo $recipeId; ?>">Edit Recipe</a>&nbsp;&nbsp;|
-                &nbsp;&nbsp;<a href="rate-recipe.php">Rate Recipe</a>&nbsp;&nbsp;|
-				&nbsp;&nbsp;<a href="recipe_to_cookbook.php">Add to Cookbook</a>&nbsp;&nbsp;|
-				&nbsp;&nbsp;<a href="flag.php">Flag Recipe</a>&nbsp;&nbsp;|
+                &nbsp;&nbsp;<a href="rate-recipe.php?recipe_id=<?php echo $recipeId; ?>">Rate Recipe</a>&nbsp;&nbsp;|
+				&nbsp;&nbsp;<a href="recipe_to_cookbook.php?recipe_id=<?php echo $recipeId; ?>">Add to Cookbook</a>&nbsp;&nbsp;|
+				&nbsp;&nbsp;<a href="flag.php?recipe_id=<?php echo $recipeId; ?>">Flag Recipe</a>&nbsp;&nbsp;|
                 
             </p>
 

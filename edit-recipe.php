@@ -107,11 +107,9 @@
             
             $photoPath = NULL;
             
-            echo "I MADE IT HERE2";
             //check if image uploaded
             if (checkImageUploaded())
             {
-                echo "I MADE IT HERE";
                 unlink($photoNamePrev);
                 $photo = getImageTmpName();
                 $photoPath = getImagePath($arecipeId);
@@ -126,7 +124,7 @@
                     exit('Could not create space on server for image.');
                 }
                 
-                if (!updateImagePathInDB($conn, "images/" . \
+                if (!updateImagePathInDB($conn, "images/" . 
                                          $photoPath, $arecipeId))
                 {
                     exit('Could not connect image to account.');
@@ -323,7 +321,7 @@
 									<td><input type="checkbox" class="tag-value" id="greek" name="greek" value="Greek">Greek<br /></td>
 									<td><input type="checkbox" class="tag-value" id="vegan" name="vegan" value="Vegan">Vegan<br /></td>
 									<td><input type="checkbox" class="tag-value" id="pork" name="pork" value="Pork">Pork<br /></td>
-									<td><input type="checkbox" class="tag-value" id="breakfast & brunch" name="breakfast & brunch" value="Breakfast & Brunch">Breakfast & Brunch<br /></td>
+									<td><input type="checkbox" class="tag-value" id="breakfast/brunch" name="breakfast/brunch" value="Breakfast & Brunch">Breakfast & Brunch<br /></td>
 							</tr>
 							<tr>
 									<td><input type="checkbox" class="tag-value" id="italian" name="italian" value="Italian">Italian<br /></td>
@@ -438,7 +436,7 @@
             
             function setupIngredientInputs(numIngredients, allIngredients)
             {
-                var ingredientArray = allIngredients.split(',');
+                var ingredientArray = allIngredients.split('@');
                 
                 var i;
                 for (i = 1; i <= ingredientArray.length; i++)
@@ -457,7 +455,7 @@
             
             function setupStepInputs(numSteps, allSteps)
             {
-                var stepArray = allSteps.split(',');
+                var stepArray = allSteps.split('@');
                 
                 var i;
                 for (i = 1; i <= stepArray.length; i++)

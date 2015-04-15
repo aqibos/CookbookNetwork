@@ -78,7 +78,7 @@
         while($row = mysqli_fetch_assoc($result)) 
         {
             $currIngredient = $row["name"];
-            $allIngredients .= $currIngredient . ", ";
+            $allIngredients .= $currIngredient . "@ ";
         }
         
         $allIngredients = substr($allIngredients, 0, strlen($allIngredients) - 2);
