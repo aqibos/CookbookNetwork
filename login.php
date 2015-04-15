@@ -59,9 +59,10 @@
             {
                 session_start();
                 $row = $result->fetch_assoc();
+                $_SESSION['loggedin'] = true;
                 $_SESSION['username'] = $row['username'];   //set session variables
                 $_SESSION['isAdmin'] = $row['isAdmin']; 
-                $_SESSION['loggedin'] = true; 
+                 
 
                 redirect();         //go to logged in page
 

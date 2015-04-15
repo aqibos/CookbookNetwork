@@ -40,10 +40,6 @@
 										<li><a href="view-accounts.php">View All Accounts</a></li>
 										<li><a href="delete-user.php">Delete User</a></li>
 										<li><a id="logout" href="index-1.html">Log Out</a></li>
-										<script>document.getElementById("logout").addEventListener("click",function(){
-                                        <?php session_unset(); session_destroy();?> 
-										}); 
-										</script>
 									</ul>
 								</li>
 							</ul>
@@ -83,9 +79,7 @@
 	              			<li>'. $_SESSION['username']. '
 	                			<ul>
 	                  				<li><a href="account-info.php">Account Info</a></li>
-	                  				<li><a id="logout" href="index-1.html">Log Out</a></li>
-										<script>document.getElementById("logout").addEventListener("click",function(){
-                                        <?php $_SESSION["loggedin"] = false; session_unset(); session_destroy();?> </script>
+	                  				<li><a id="logout" href="logout.php">Log Out</a></li>
 	                			</ul>
 	              			</li>
 	           			</ul>
@@ -101,10 +95,10 @@
 					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
 					<td class="navigation-bar-table-right">
 						<ul class="upper-level-ul">		
-							<li><a href="signup.php">Search Recipe</a></li>
-							<li><a href="signup.php">Search Cookbook</a></li>
-							<li><a href="signup.php">Log In</a></li>
-							<li><a href="signup.php">Sign Up</a></li>
+							<li><a href="search-recipe.php">Search Recipe</a></li>
+							<li><a href="search-cookbook.php">Search Cookbook</a></li>
+							<li><a href="login.php">Log In</a></li>
+							<li><a href="sign-up.php">Sign Up</a></li>
 								
 							
 						</ul>
@@ -114,3 +108,4 @@
 			</table>';
 	}
 ?>
+
