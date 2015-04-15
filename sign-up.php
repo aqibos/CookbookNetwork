@@ -112,7 +112,7 @@
    					arrobaIndex = email.indexOf("@");
   					periodIndex = email.lastIndexOf(".");
   					//email can't have "@" be first char or "@." be consecutive chars
-					if (arrobaIndex == 0 || (periodIndex - arrobaIndex <= 1 )) 
+					if (arrobaIndex == 0 || (periodIndex - arrobaIndex <= 1 )|| periodIndex+1 == email.length) 
 					{
 						alert("Invalid email. Please enter a correct email.");
 					        return false;

@@ -26,9 +26,9 @@ session_start();
 			<h1>Welcome, <?php echo $_SESSION["username"]; ?></h1>
 			
 			<div class="content-div">
-				<a href=""><div class="content-div-row1">Account Info</div></a>
+				<a href="account-info.php"><div class="content-div-row1">Account Info</div></a>
 				<a href=""><div class="content-div-row1">MyRecipes</div></a>
-				<a href=""><div class="content-div-row1">MyCookbooks</div></a>
+				<a href="view-cookbook.php"><div class="content-div-row1">MyCookbooks</div></a>
 			</div>
 
 		</div>

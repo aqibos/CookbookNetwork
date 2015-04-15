@@ -46,7 +46,7 @@
 				</tr>
 				<tr style="text-align:right">
 					<td style="text-align:right"><a href="change-pw.php"><div class="button">Change password?</div></a></td>
-					<td style="text-align:right"><a href=""><div class="button">Delete User</div></a></td>
+					<td style="text-align:right"><a href="delete-user.php"><div class="button">Delete User</div></a></td>
 				</tr>
 			</table>
 			
