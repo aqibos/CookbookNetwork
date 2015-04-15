@@ -85,7 +85,7 @@
     //check if file was uploaded
     function checkImageUploaded()
     {
-        if ($_FILES['photo']['size'] == 0) {
+        if ($_FILES['photo']['size'] == 0 && strlen($_FILES['photo']['name']) == 0) {
             return FALSE;
         }
         return TRUE;
@@ -159,11 +159,11 @@
     }
 
     //insert recipe into db
-    function insertRecipeIntoDB($recipeName, $allSteps, $privacy, $conn)
+    function insertRecipeIntoDB($recipeName, $authorName, $allSteps, $privacy, $conn)
     {
             //add recipe into db
-            $sql = "INSERT INTO Recipe (recipe_title, directions, rating, times_rated, visibility) 
-                VALUES ( '$recipeName', '$allSteps', 0.0, 0, '$privacy')";
+            $sql = "INSERT INTO Recipe (recipe_title, author, directions, rating, times_rated, visibility) 
+                VALUES ( '$recipeName', '$authorName','$allSteps', 0.0, 0, '$privacy')";
 
             if ($conn->query($sql) === TRUE)
             {
@@ -173,6 +173,7 @@
             else
             {
                 //return a value to acknowledge failure
+                echo "$conn->error";
                 return -1;
             }
     }
@@ -321,8 +322,21 @@
         if (!($conn->query($sql) === TRUE)) 
         {
             //keep trying until success
+            echo "Failed it: $sql<br>";
+            echo "$conn->error<br>";
             removeFromDb($tableName, $attributeName, $lastId, $conn);
         }
+    }
+
+    function getAuthorId($conn, $authorName)
+    {
+        $sql = "SELECT user_id
+                FROM Account
+                WHERE username = '$authorName'";
+        
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        return $row["user_id"];
     }
 
 ?>

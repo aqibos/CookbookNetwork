@@ -23,9 +23,9 @@
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($result);
         
-        $path = $row["img_path"];
-        $imgArray = explode('/', $path);
-        return $imgArray[count($imgArray) -1];
+        return $row["img_path"];
+        //$imgArray = explode('/', $path);
+        //return $imgArray[count($imgArray) -1];
     }
 
     //get number of ingredients on db
@@ -97,5 +97,100 @@
         $row = mysqli_fetch_assoc($result);
         return $row["directions"];
     }
+
+    function getAllTagsFromDB($conn, $recipeId)
+    {
+        $allTags = "";
+        $sql = "SELECT name
+                FROM Tag
+                WHERE type_id = '$recipeId'"; 
+        
+        $result = mysqli_query($conn, $sql);
+        while($row = mysqli_fetch_assoc($result)) 
+        {
+            $currTag = $row["name"];
+            $allTags .= $currTag . ", ";
+        }
+        
+        $allTags = substr($allTags, 0, strlen($allTags) - 2);
+        
+        return $allTags;
+    }
+
+    function getPriv($conn, $recipeId)
+    {
+        $sql = "SELECT visibility
+                FROM Recipe
+                WHERE recipe_id = '$recipeId'"; 
+        
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        return $row["visibility"];
+    }
+
+    function getAllFriends($conn, $recipeId)
+    {
+        $allFriends = "";
+        $sql = "SELECT email
+                FROM Friends
+                WHERE recipe_id = '$recipeId'";
+        
+        $result = mysqli_query($conn, $sql);
+        while($row = mysqli_fetch_assoc($result)) 
+        {
+            $currFriend = $row["email"];
+            $allFriends .= $currFriend . ", ";
+        }
+        
+        $allFriends = substr($allFriends, 0, strlen($allFriends) - 2);
+        
+        return $allFriends;
+    }
+
+    function getFlagCount($conn, $recipeId)
+    {
+        $sql = "SELECT flag_id
+                FROM Flag
+                WHERE recipe_id = '$recipeId'";
+        
+        $result = mysqli_query($conn, $sql);
+        
+        return mysqli_num_rows($result);
+    }
+
+    function getRecipeRating($conn, $recipeId)
+    {
+        $sql = "SELECT rating
+                FROM Recipe
+                WHERE recipe_id = '$recipeId'"; 
+        
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        return $row["rating"];
+    }
+
+    function getRecipeRatingCount($conn, $recipeId)
+    {
+        $sql = "SELECT times_rated
+                FROM Recipe
+                WHERE recipe_id = '$recipeId'"; 
+        
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        return $row["times_rated"];
+    }
+
+    function getAuthorName($conn, $recipeId)
+    {
+        $sql = "SELECT username
+                FROM Account, Recipe
+                WHERE recipe_id = '$recipeId'AND  user_id = author";
+        
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        return $row["username"];
+    }
+
+
 
 ?>

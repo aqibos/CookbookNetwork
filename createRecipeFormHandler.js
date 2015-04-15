@@ -13,12 +13,28 @@ function addIngredientField() {
     fixIngredientInputName();
 }
 
+//adds ingredient input to page with a value
+function addIngredientFieldWithValue(val)
+{
+    addIngredientField();
+    fixIngredientValue(val);
+}
+
+//fix ingredient input value to page
+function fixIngredientValue(val)
+{
+    var allIngredientInputs = document.getElementsByClassName("ingredientInput");
+    var lastIngredientInput = allIngredientInputs[allIngredientInputs.length - 1];
+    lastIngredientInput.value = val;
+}
+
 //fixes the last added ingredient's name
 function fixIngredientInputName()
 {
     var allIngredientInputs = document.getElementsByClassName("ingredientInput");
     var lastIngredientInput = allIngredientInputs[allIngredientInputs.length - 1];
     lastIngredientInput.name = "ingredient" + ingredientIdNum++;
+    lastIngredientInput.value = "";
 }
 
 //adds step input on page
@@ -31,12 +47,26 @@ function addStepField() {
     fixStepInputName();
 }
 
+function addStepFieldWithValue(val)
+{
+    addStepField();
+    fixStepValue(val);
+}
+
+function fixStepValue(val)
+{
+    var allStepInputs = document.getElementsByClassName("stepInput");
+    var lastStepInput = allStepInputs[allStepInputs.length - 1];
+    lastStepInput.value = val;
+}
+
 //fixes the last added step's name
 function fixStepInputName()
 {
     var allStepInputs = document.getElementsByClassName("stepInput");
     var lastStepInput = allStepInputs[allStepInputs.length - 1];
     lastStepInput.name = "step" + stepIdNum++;
+    lastStepInput.value = "";
 }
 
 //check if the privacy is set to friendly and add input fields
@@ -79,6 +109,24 @@ function addFriendInput()
     newTextBox.setAttribute("id", "friendName" + friends++);
     newTextBox.style.width = '100%';
     newTextBox.style.display = 'block';
+    var containerDiv = document.getElementById("privacy-input");
+    containerDiv.appendChild(newTextBox);
+}
+
+function addFriendInputWithVal(val)
+{
+    var newTextBox = document.createElement("input");
+    newTextBox.setAttribute("type", "text");
+    newTextBox.setAttribute("name", "friendName" + friends);
+    newTextBox.setAttribute("placeholder", "Enter Friend Email Here");
+    if (friends == 0)
+    {
+        newTextBox.required = "required";
+    }
+    newTextBox.setAttribute("id", "friendName" + friends++);
+    newTextBox.style.width = '100%';
+    newTextBox.style.display = 'block';
+    newTextBox.value = val;
     var containerDiv = document.getElementById("privacy-input");
     containerDiv.appendChild(newTextBox);
 }
@@ -141,7 +189,6 @@ function checkIngredientInputs()
 
     if (emptyIngredients)
     {
-        alert("Recipe must contain at least one ingredient.");
         return false;
     }
 
@@ -163,7 +210,6 @@ function checkStepInputs()
 
     if (emptySteps)
     {
-        alert("Recipe must contain at least one step.");
         return false;
     }
     return true;

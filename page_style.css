@@ -30,7 +30,7 @@ body {
 	bottom: 200px;
 	width: 100%;
 	min-width: 960px;
-	background-image: url("images/delicious-pizza-food-1440x900.jpg");
+	/*background-image: url("images/delicious-pizza-food-1440x900.jpg");*/
     background-repeat: no-repeat;
 	background-size: cover;
 	z-index: -1;

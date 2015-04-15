@@ -13,7 +13,7 @@ if ($conn -> connect_error)
 $sql = "CREATE TABLE Account (
 		user_id INT(6) UNSIGNED AUTO_INCREMENT,
 		email VARCHAR(50) NOT NULL UNIQUE,
-		username VARCHAR(30) NOT NULL,
+		username VARCHAR(30) NOT NULL UNIQUE,
 		password VARCHAR(30) NOT NULL,		
 		isAdmin BOOL NOT NULL,
 		PRIMARY KEY(user_id) 						
@@ -48,7 +48,8 @@ $sql = "CREATE TABLE Recipe (
 		visibility ENUM('PUBLIC', 'FRIENDLY', 'PRIVATE') NOT NULL,
 		PRIMARY KEY(recipe_id),
 		CONSTRAINT fk_AccReci FOREIGN KEY(author)
-		REFERENCES Account(user_id)	
+		REFERENCES Account(user_id)
+        ON DELETE CASCADE
 		)" ;
 if($conn -> query($sql) === TRUE)
 	echo "<br>Table RECIPE Created successfully" ;
@@ -92,7 +93,8 @@ $sql = "CREATE TABLE Friends(
 		recipe_id INT(7) UNSIGNED NOT NULL,
 		email VARCHAR(50) NOT NULL,
 		CONSTRAINT fk_AccFriends FOREIGN KEY (email)
-		REFERENCES Account(email)		
+		REFERENCES Account(email)
+        ON DELETE CASCADE
 		)" ;
 if($conn -> query($sql) === TRUE)
 	echo "<br>Table COOKBOOK_LIST Created successfully" ;
@@ -120,7 +122,8 @@ $sql = "CREATE TABLE Ingredient (
 		recipe_id INT(7) UNSIGNED NOT NULL,
 		PRIMARY KEY(ingredient_id),
 		CONSTRAINT fk_ReciIngr FOREIGN KEY (recipe_id)
-		REFERENCES Recipe(recipe_id) 
+		REFERENCES Recipe(recipe_id)
+        ON DELETE CASCADE
 		)" ;
 if($conn -> query($sql) === TRUE)
 	echo "<br>Table INGREDIENT Created successfully" ;

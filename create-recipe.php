@@ -2,13 +2,14 @@
 <html>
     
     <?php
+        session_start();
         
         include 'create-recipe-form.php';
 
         //credentials
         $servername = "localhost";
         $username = "root";
-        $password = "x";
+        $password = "";
         $dbname = "cookbooknetwork";
 
         //if form submitted
@@ -16,6 +17,8 @@
         {
             //connect to db
             $conn = connectToDb($servername, $username, $password, $dbname);
+            
+            $userId = getAuthorId($conn, $_SESSION["username"]);
             
             //if friend does not have account
             if (!checkPrivacy($conn))
@@ -26,7 +29,7 @@
             $recipeName = getRecipeName();
             $allSteps = getAllSteps();
             $privacy = getPrivacy();
-            $recipeId = insertRecipeIntoDB($recipeName, $allSteps, $privacy, $conn);
+            $recipeId = insertRecipeIntoDB($recipeName, $userId, $allSteps, $privacy, $conn);
             
             //if error in inserting recipe into db
             if ($recipeId < 0)
@@ -42,21 +45,22 @@
                 $photo = getImageTmpName();
                 $photoPath = getImagePath($recipeId);
 
-                if (!mkdir($recipeId, 0777, true)) 
+                if (!mkdir("images/" . $recipeId, 0777, true)) 
                 {
                     exit('Could not upload image to server.');
                 }
                 
-                if(!move_uploaded_file($photo, $photoPath))
+                if(!move_uploaded_file($photo, "images/" . $photoPath))
                 {
                     exit('Could not create space on server for image.');
                 }
                 
-                if (!updateImagePathInDB($conn, $photoPath, $recipeId))
+                if (!updateImagePathInDB($conn, "images/" . $photoPath, $recipeId))
                 {
                     exit('Could not connect image to account.');
                 }
             }
+           
             
             $numFriends = countFriends();
             $success = addFriendsToDB($conn, $numFriends, $recipeId);
@@ -108,49 +112,10 @@
 	
 	<body>
 		
-		<div class="background-image"></div>
+		<img class="background-image" src="images/delicious-pizza-food-1440x900.jpg" height="700"/>
 		
-		<div class="navigation-bar">
-			<table  class="navigation-bar-table">
-				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
-					<td class="navigation-bar-table-right">
-						<ul class="upper-level-ul">
-							<li>Account
-								<ul>
-									<li><a href="">Account Info</a></li>
-									<li><a href="">Log Out</a></li>
-								</ul>
-							</li>
-							
-							<li>Recipe
-								<ul>
-									<li><a href="">Create Recipe</a></li>
-									<li><a href="">Edit Recipe</a></li>
-									<li><a href="">MyRecipes</a></li>
-								</ul>
-							</li>
-							
-							<li>Cookbook
-								<ul>
-									<li><a href="">Create Cookbook</a></li>
-									<li><a href="">Edit Cookbook</a></li>
-									<li><a href="">MyCookbooks</a></li>
-								</ul>
-							</li>
-							
-							<li>Search
-								<ul>
-									<li><a href="">Search Recipe</a></li>
-									<li><a href="">Search Cookbook</a></li>
-								</ul>
-							</li>
-							
-						</ul>
-						
-					</td>
-				</tr>
-			</table>
+		<div class="navigation-bar">				
+			<?php include 'check-menu.php'; ?>
 		</div>
 		
 		<div class="content">
@@ -162,7 +127,7 @@
 				<!-- RECIPE NAME -->
 				<tr class="content-table-row">
 					<td class="content-table-left"><h3>Recipe Name:</h3></td>
-					<td class="content-table-right"><input type="text" class="textbox" name="recipe-name" id="recipe-name"  placeholder="Enter Recipe Name Here..."></td>
+					<td class="content-table-right"><input type="text" class="textbox nameInput" name="recipe-name" id="recipe-name"  placeholder="Enter Recipe Name Here..."></td>
 				</tr>
 				<!-- PHOTO -->
 				<tr class="content-table-row">
@@ -327,7 +292,7 @@
 			<br />
 			
 				<div class="submit-button"><input type="submit" value="Submit"></div>
-				<div class="submit-button wrapper-button"><a href=""><div class="button">Cancel</div></a></div>
+				<div class="submit-button wrapper-button"><a href="javascript:void(0);" onclick="window.history.back();" class="addLink"><div class="button">Cancel</div></a></div>
 			</form>
 			
 			<script type="text/javascript">
