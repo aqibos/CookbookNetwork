@@ -189,6 +189,7 @@ function checkIngredientInputs()
 
     if (emptyIngredients)
     {
+        alert("Recipe must contain at least one ingredient.");
         return false;
     }
 
@@ -210,6 +211,7 @@ function checkStepInputs()
 
     if (emptySteps)
     {
+        alert("Recipe must contain at least one step.");
         return false;
     }
     return true;
