@@ -79,7 +79,7 @@
 	              			<li>'. $_SESSION['username']. '
 	                			<ul>
 	                  				<li><a href="account-info.php">Account Info</a></li>
-	                  				<li><a id="logout" href="index-1.html">Log Out</a></li>
+	                  				<li><a id="logout" href="logout.php">Log Out</a></li>
 	                			</ul>
 	              			</li>
 	           			</ul>
@@ -109,9 +109,3 @@
 	}
 ?>
 
-
-<script>
-    document.getElementById("logout").addEventListener("click",function(){
-        <?php session_start(); session_destroy();?> 
-    }); 
-</script>

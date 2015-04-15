@@ -1,5 +1,5 @@
 <?php
-session_start();
+    session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,7 +23,7 @@ session_start();
 		</div>
 		
 		<div class="content">
-			<h1>Welcome, <?php echo $_SESSION["username"]; ?></h1>
+			<h1>Welcome, <?php echo $_SESSION['username']; ?></h1>
 			
 			<div class="content-div">
 				<a href="account-info.php"><div class="content-div-row1">Account Info</div></a>
