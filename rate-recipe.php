@@ -31,12 +31,13 @@
             $link = new mysqli($host, $username, $password, $db_name);
             if ($link -> connect_error)
                 die("Connection failed: " . $link -> connect_error);
-
+            include 'rate-recipe-form.php';
             $sql="SELECT recipe_title FROM $tbl_name WHERE recipe_id= '$recipeID'";
             $result = $link -> query($sql);
             $row = $result->fetch_assoc();
             $title = $row['recipe_title'];
-            mysqli_close($link);  
+            mysqli_close($link); 
+            
         ?>
 		<div class="background-image"></div>
 
@@ -49,7 +50,7 @@
 			<div class="center">
 				<p>We would love to hear your feedback on <?php echo $title; ?>!</p>
                 <p><?php echo $pwerror; ?></p>
-				<form name="rate" method="POST" onsubmit="return validate()" action="rate-recipe-form.php">
+				<form name="rate" method="POST" onsubmit="return validate()" >
 					<input type="radio" name="rating" value="star1">&nbsp;&nbsp;<img src="images/star1.png"><br/><br/>
 					<input type="radio" name="rating" value="star2">&nbsp;&nbsp;<img src="images/star2.png"><br/><br/>
 					<input type="radio" name="rating" value="star3">&nbsp;&nbsp;<img src="images/star3.png"><br/><br/>

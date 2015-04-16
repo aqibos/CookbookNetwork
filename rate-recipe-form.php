@@ -11,6 +11,8 @@
         // get star
         $ratestar = $_POST['rating'];
         
+        echo "RECIPE ID: $recipeID" ;
+        
         // Connect to server and select databse.
         $link = new mysqli($host, $username, $password, $db_name);
         if ($link -> connect_error)
@@ -43,7 +45,7 @@
             redirectToViewRecipe($recipeID);
         }
     }
-        mysqli_close($link);    
+        //mysqli_close($link);    
 
      //navigate to view recipe
     function redirectToViewRecipe($lastId)
