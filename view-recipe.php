@@ -20,10 +20,10 @@
     //get recipe name
     $recipeName = getRecipeNameFromDB($conn, $recipeId);
 
-    if ($recipeName == '')
-    {
-        header('Location: fail.php');
-    }
+    //if ($recipeName == '')
+    //{
+      //  header('Location: fail.php');
+    //}
 
     //get pic name
     $photoNamePrev = getImageNameFromDB($conn, $recipeId);
@@ -111,6 +111,7 @@
                     }
                     else
                     {   
+                        $rating = ceil($rating);
                         print "<img src='images/star$rating.png' width='10%' height='10%' title='rating'><br/>";
                     }
                 ?>
