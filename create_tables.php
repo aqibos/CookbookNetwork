@@ -28,7 +28,7 @@ else
 $sql = "CREATE TABLE Cookbook (
 		cookbook_id INT(7) UNSIGNED AUTO_INCREMENT,
 		cb_title VARCHAR(40) NOT NULL,
-		visibility ENUM('PUBLIC', 'FRIENDLY', 'PRIVATE') NOT NULL,
+		visibility ENUM('PUBLIC', 'REGISTERED', 'FRIENDLY', 'PRIVATE') NOT NULL,
 		PRIMARY KEY(cookbook_id)	
 		)" ;
 if($conn -> query($sql) === TRUE)
@@ -44,8 +44,8 @@ $sql = "CREATE TABLE Recipe (
 		directions TEXT, 
 		rating FLOAT ,
 		times_rated INT,
-		img_path VARCHAR(50),
-		visibility ENUM('PUBLIC', 'FRIENDLY', 'PRIVATE') NOT NULL,
+		img_path VARCHAR(100),
+		visibility ENUM('PUBLIC', 'REGISTERED', 'FRIENDLY', 'PRIVATE') NOT NULL,
 		PRIMARY KEY(recipe_id),
 		CONSTRAINT fk_AccReci FOREIGN KEY(author)
 		REFERENCES Account(user_id)
@@ -118,7 +118,7 @@ else
 //INGREDIENTS
 $sql = "CREATE TABLE Ingredient (
 		ingredient_id INT(7) UNSIGNED NOT NULL AUTO_INCREMENT,
-		name VARCHAR(20) NOT NULL,
+		name VARCHAR(50) NOT NULL,
 		recipe_id INT(7) UNSIGNED NOT NULL,
 		PRIMARY KEY(ingredient_id),
 		CONSTRAINT fk_ReciIngr FOREIGN KEY (recipe_id)
