@@ -16,16 +16,7 @@
 		<div class="background-image"></div>
 		
 		<div class="navigation-bar">
-			<table  class="navigation-bar-table">
-				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
-					<td class="navigation-bar-table-right">
-						<ul class="upper-level-ul">
-							<?php include 'guest_nav.php'?>
-						</ul>
-					</td>
-				</tr>
-			</table>
+			<?php include 'check-menu.php'?>
 		</div>
 		
 		<div class="content">
@@ -36,21 +27,21 @@
 			<div class="recipe-preview-row">
 				<a href="">
 				<div class="recipe-preview-row-icon">
-					<img class="thumbnal" src="thumbnail1.png">
+					<img class="thumbnail" src="images/thumbnail1.png">
 					<p>Yellow Rice and Green Peppers</p>
 				</div>
 				</a>
 				
 				<a href="">
 				<div class="recipe-preview-row-icon">
-					<img class="thumbnal" src="thumbnail2.png">
+					<img class="thumbnail" src="images/thumbnail2.png">
 					<p>Chunky Beef in Tomato Pasta</p>
 				</div>
 				</a>
 				
 				<a href="">
 				<div class="recipe-preview-row-icon">
-					<img class="thumbnal" src="thumbnail3.png">
+					<img class="thumbnail" src="images/thumbnail3.png">
 					<p>Heavy Chicken n' Tomato Soup</p>
 				</div>
 				</a>
@@ -59,14 +50,14 @@
 			<div class="recipe-preview-row">
 				<a href="">
 				<div class="recipe-preview-row-icon">
-					<img class="thumbnal" src="thumbnail4.png">
+					<img class="thumbnail" src="images/thumbnail4.png">
 					<p>Low-Sodium Penne with Ham</p>
 				</div>
 				</a>
 				
 				<a href="">
 				<div class="recipe-preview-row-icon">
-					<img class="thumbnal" src="thumbnail5.png">
+					<img class="thumbnail" src="images/thumbnail5.png">
 					<p>Sunday's Sloppy Joe Sandwich</p>
 				</div>
 				</a>
