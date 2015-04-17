@@ -1,10 +1,37 @@
 <?php
-session_start() ;
+    session_start();
+    $recipeID = $_GET['recipe_id'];
+    include 'recipe-to-cookbook-form.php';
+    
+    if(isset($_SESSION['userid']))      //get user's id
+        $userID = $_SESSION['userid'];
+    else                            
+        header('Location: fail.php');       //deny access to guest user to this page
+
+    $host="localhost";              // Host name 
+    $username="root";               // Mysql username 
+    $password="";                   // Mysql password 
+    $db_name="cookbooknetwork";     // Database name 
+    $tbl_name="Recipe";             // Table name 
+
+    // Connect to server and select databse.
+    $link = new mysqli($host, $username, $password, $db_name);
+    if ($link -> connect_error)
+        die("Connection failed: " . $link -> connect_error);
+
+    //Get Recipe title
+    $sql="SELECT recipe_title FROM $tbl_name WHERE recipe_id= '$recipeID'";
+    $result = $link -> query($sql);
+    $row = $result->fetch_assoc();
+    $title = $row['recipe_title'];
+$error="";
 ?>
+
 <!DOCTYPE html>
 <html>
 	
 	<head>
+        <title>Add Recipe to Cookbook</title>
 		 <meta charset="UTF-8">
 		<meta name="description" content="A virtual cookbook that allows user's to view, create and share recipes.">
 		<meta name="keywords" content="recipe, cookbook, food, ingredients">
@@ -16,37 +43,55 @@ session_start() ;
 	
 	<body>
 		
-		<div class="background-image"></div>
+		<img class="background-image" src="images/delicious-pizza-food-1440x900.jpg" height="700"/>
+
 		
 		<div class="navigation-bar">
-			<table  class="navigation-bar-table">
-				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
-					<td class="navigation-bar-table-right">
-						<ul class="upper-level-ul">
-							<?php include 'registered_nav.php'?>
-							
-						</ul>
-						
-					</td>
-				</tr>
-			</table>
+            <?php include 'check-menu.php'?>
 		</div>
 		
 		<div class="content">
-			<h1>Add 'Yum, Yum Pizza!' to:</h1>
+			<h1>Add "<?php echo $title; ?>" Recipe To:</h1>
 			<h3>Cookbook:</h3>
-			<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+            <p class="errormsg"><?php echo $error; ?></p>
+			<form method="POST"> 
 				<select name="cookbook">
-					<option value="cb1" selected>First Cookbook</option>
-			  		<option value="cb2">Second Cookbook</option>
-			  		<option value="cb3">Third Cookbook</option>
-			  		<option value="cb4">Fourth Cookbook</option>
-			  		<option value="cb5">Fifth Cookbook</option>
+                    <!--PRINT LIST OF COOKBOOKS OF USER -->
+                    <?php
+                        $count=1;
+                        $host="localhost";              // Host name 
+                        $username="root";               // Mysql username 
+                        $password="";                   // Mysql password 
+                        $db_name="cookbooknetwork";     // Database name 
+                        $tbl_name="Cookbook_list";             // Table name 
+
+                        // Connect to server and select databse.
+                        $link = new mysqli($host, $username, $password, $db_name);
+                        if ($link -> connect_error)
+                            die("Connection failed: " . $link -> connect_error);
+                        
+                        //get list of cookbook id's
+                        $sql="SELECT cookbook_id FROM $tbl_name WHERE user_id= '$userID'";
+                        $result = $link -> query($sql);
+
+                        //get cookbook title for each id returned
+                        while($row = $result->fetch_assoc())       
+                        {
+                            $cookbookID = $row['cookbook_id'];
+                            $error = $cookbookID;
+                            $sql="SELECT cb_title FROM Cookbook WHERE cookbook_id= '$cookbookID'";
+                            $result2 = $link -> query($sql);
+                            $row2 = $result2->fetch_assoc();
+                            $cbTitle = $row2['cb_title'];
+                            print '<option value="'. $cookbookID .'" selected>'. $cbTitle .'</option>';
+                        }
+                    
+                    ?>
+                    <option value="createnew">--Create New Cookbook--</option>
 				</select>
 				<br><br>
 				<input type="submit" name="submit" value="Submit"> 
-				<input type="submit" name="cancel" value="Cancel"> 
+				<input type="submit" name="cancel" value="Cancel" onclick="window.history.back(); return false;"> 
 			</form>
 		</div>
 		
