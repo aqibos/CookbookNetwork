@@ -9,6 +9,7 @@
 <html>
 
 	<head>
+        <title>Rate recipe</title>
 		<meta charset="UTF-8">
 		<meta name="description" content="A virtual cookbook that allows user's to view, create and share recipes.">
 		<meta name="keywords" content="recipe, cookbook, food, ingredients">
@@ -20,7 +21,7 @@
 	
 	<body>
 		<?php 
-            $pwerror="";
+            $error="";
             $host="localhost";              // Host name 
             $username="root";               // Mysql username 
             $password="";                   // Mysql password 
@@ -31,11 +32,58 @@
             $link = new mysqli($host, $username, $password, $db_name);
             if ($link -> connect_error)
                 die("Connection failed: " . $link -> connect_error);
-            include 'rate-recipe-form.php';
-            $sql="SELECT recipe_title FROM $tbl_name WHERE recipe_id= '$recipeID'";
+
+            $sql="SELECT * FROM $tbl_name WHERE recipe_id= '$recipeID'";
             $result = $link -> query($sql);
             $row = $result->fetch_assoc();
-            $title = $row['recipe_title'];
+
+            $title = $row['recipe_title'];      //get recipe name
+            $currentrating = $row['rating'];    //get current rating
+            $totalrate = $row['times_rated'];   //get total amount of rating
+            $userid = $row['author'];           //get creator
+                
+            //do not allow author to rate their own recipe
+            if($_SESSION['userid'] == $userid)
+                header('Location: fail.php');
+
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST")
+            {
+                $ratestar = $_POST['rating'];           //get rating submitted by user
+                $newrating = getValue($ratestar);       //convert to a number
+
+                $newrating = (($currentrating * $totalrate) + $newrating) / ($totalrate + 1);      //update new rating
+                $totalrate++;   //increment total
+                
+                //update db
+                $sql = "UPDATE $tbl_name SET times_rated ='$totalrate', rating = '$newrating' WHERE `recipe_id`='$recipeID'";
+
+                if ($link->query($sql) == false)     //unsuccessful query
+                {
+                    $error= "ERROR: Could not able to execute $sql. " . $link->connect_error;
+                } 
+                else
+                {
+                    //go back to recipe
+                    header('Location: view-recipe.php?recipe_id=' . $recipeID);
+                }
+            }
+
+            //Convert star value to number
+            function getValue($ratestar)
+            {
+                if($ratestar == "star1")
+                    $newrating = 1; 
+                else if($ratestar == "star2")
+                    $newrating = 2; 
+                else if($ratestar == "star3")
+                    $newrating = 3; 
+                else if($ratestar == "star4")
+                    $newrating = 4; 
+                else    //star5
+                    $newrating = 5; 
+                return $newrating;
+            }
             mysqli_close($link); 
             
         ?>
@@ -49,7 +97,7 @@
 			<h1 class="center">Rate Recipe</h1>
 			<div class="center">
 				<p>We would love to hear your feedback on <?php echo $title; ?>!</p>
-                <p><?php echo $pwerror; ?></p>
+                <p><?php echo $error; ?></p>
 				<form name="rate" method="POST" onsubmit="return validate()" >
 					<input type="radio" name="rating" value="star1">&nbsp;&nbsp;<img src="images/star1.png"><br/><br/>
 					<input type="radio" name="rating" value="star2">&nbsp;&nbsp;<img src="images/star2.png"><br/><br/>
