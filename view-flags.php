@@ -19,7 +19,7 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 	
 	<body>
 		
-		<div class="background-image"></div>
+		<img class="background-image" src="images/delicious-pizza-food-1440x900.jpg" height="700"/>
 		
 		<div class="navigation-bar">
 			<?php include 'check-menu.php'?>
@@ -27,6 +27,12 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 		
 		<div class="content">
 			<h1>Flagged Recipes</h1>
+			<table class="flag-table">
+				<tr>
+					<th>Recipe Title</th>
+					<th>Flags</th>
+					<th>Rating</th>
+				</tr>
 			<?php 
 				$server = "localhost";
 				$user = "root" ;
@@ -43,9 +49,16 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 	
 				if($result -> num_rows > 0)
 				{	
+					
 					while($row = $result -> fetch_assoc())
 					{
-						echo '<p><a href="#">'.$row["recipe_title"].'</a><br/><b>Flags</b>:'.getFlagCount($row["recipe_id"]).'<br/><b>Rating</b>:'.$row["rating"].'/5</p>';
+						$flagCount = getFlagCount($row["recipe_id"]) ;
+						$title = $row["recipe_title"] ;
+						echo '<tr>
+									<td><a href="flags_of_recipe.php?recipe_id='.$row["recipe_id"].'&flag_no='.$flagCount.'&title='.$title.'">'.$title.'</a></td>
+									<td>'.printFlags($flagCount).'</td>
+									<td><img src="images/star'.$row["rating"].'.png" /></td>
+								</tr>' ;
 					}
 				}
 				else
@@ -54,6 +67,7 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 				}
 				
 				$conn -> close() ;
+
 				
 				function getFlagCount($id)
 				{
@@ -81,7 +95,20 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 					}
 					$conn -> close();
 				}
+				
+				function printFlags($f)
+				{  	
+					$ret = "" ;
+					while($f > 0)
+					{
+						$ret .= "<img src=\"images/flag.png\"/>" ;
+						$f = $f - 1;
+					}
+					
+					return $ret ;
+				}
 			?>
+			</table>
 		</div>
 		
 		<div class="footer"><p>&#169; Cookbook Network, 2015. All Rights Reserved.</p></div>
