@@ -43,7 +43,7 @@
 			<div class="content-div">
 				<a href="account-info.php?user_id=<?php echo $userId; ?>"><div class="content-div-row1">Account Info</div></a>
 				<a href="my-recipes.php?user_id=<?php echo $userId; ?>"><div class="content-div-row1">MyRecipes</div></a>
-				<a href="my-cookbooks.php?<?php echo $userId; ?>"><div class="content-div-row1">MyCookbooks</div></a>
+				<a href="my-cookbooks.php?user_id=<?php echo $userId; ?>"><div class="content-div-row1">MyCookbooks</div></a>
 			</div>
 
 		</div>
