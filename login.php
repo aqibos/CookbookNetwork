@@ -61,6 +61,7 @@
                 $row = $result->fetch_assoc();
                 $_SESSION['loggedin'] = true;
                 $_SESSION['username'] = $row['username'];   //set session variables
+                $_SESSION['userid'] = $row['user_id']; 
                 $_SESSION['isAdmin'] = $row['isAdmin']; 
                  
 
