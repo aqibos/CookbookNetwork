@@ -433,3 +433,35 @@ text-align: left;
 .hidden {
     display:none;
 }
+
+.flag-table {
+	margin-left:auto ;
+	margin-right:auto ;
+	border: 2px solid ;
+}
+
+.flag-table tr > td:first-child{
+	width:400px ;
+}
+
+.flag-table td:nth-child(2) {
+	width:100px ;
+}
+
+.recipe-flags {
+	margin-left: auto ;
+	margin-right: auto ;
+	border: 2px solid ;
+}
+
+.recipe-flags tr th {
+	font-weight: bold ;
+}
+
+.recipe-flags td:nth-child(2) {
+	width: 150px ;
+}
+
+.recipe-flags td:nth-child(3) {
+	width: 50% ;
+}
