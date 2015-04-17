@@ -1,5 +1,20 @@
 <?php
     session_start();
+    $user = $_SESSION["username"];
+
+    include 'create-recipe-form.php';
+
+    //credentials
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "cookbooknetwork";
+
+    //connect to db
+    $conn = connectToDb($servername, $username, $password, $dbname);
+
+    //get user id
+    $userId = getAuthorId($conn, $user);
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,7 +31,7 @@
 	
 	<body>
 		
-		<div class="background-image"></div>
+		<img class="background-image" src="images/food_spaghetti_1920x1080_wallp_2560x1440_miscellaneoushi.com_.jpg" height="700"/>
 		
 		<div class="navigation-bar">
 			<?php include 'check-menu.php'; ?>
@@ -26,9 +41,9 @@
 			<h1>Welcome, <?php echo $_SESSION['username']; ?></h1>
 			
 			<div class="content-div">
-				<a href="account-info.php"><div class="content-div-row1">Account Info</div></a>
-				<a href=""><div class="content-div-row1">MyRecipes</div></a>
-				<a href="view-cookbook.php"><div class="content-div-row1">MyCookbooks</div></a>
+				<a href="account-info.php?user_id=<?php echo $userId; ?>"><div class="content-div-row1">Account Info</div></a>
+				<a href="my-recipes.php?user_id=<?php echo $userId; ?>"><div class="content-div-row1">MyRecipes</div></a>
+				<a href="my-cookbooks.php?<?php echo $userId; ?>"><div class="content-div-row1">MyCookbooks</div></a>
 			</div>
 
 		</div>
