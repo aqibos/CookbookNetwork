@@ -20,10 +20,10 @@
     //get recipe name
     $recipeName = getRecipeNameFromDB($conn, $recipeId);
 
-    //if ($recipeName == '')
-    //{
-      //  header('Location: fail.php');
-    //}
+    if ($recipeName == '')
+    {
+        header('Location: fail.php');
+    }
 
     //get pic name
     $photoNamePrev = getImageNameFromDB($conn, $recipeId);
