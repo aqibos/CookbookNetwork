@@ -2,23 +2,6 @@
 	session_start();
 	$user = $_SESSION["username"];
 
-    //get user id
-    $userId;
-
-    if (isset($_GET["user_id"]))
-    {
-        $userId = $_GET["user_id"];
-        if ($userId == '')
-        {
-            header('Location: fail.php');
-        }
-    }
-    else
-    {
-       header('Location: fail.php');
-    }
-    
-
     include 'create-recipe-form.php';
 
     //credentials
@@ -29,6 +12,42 @@
 
     //connect to db
     $conn = connectToDb($servername, $username, $password, $dbname);
+
+    //get user id
+    $userId;
+
+    if (isset($_GET["user_id"]))
+    {
+        $userId = $_GET["user_id"];
+        if ($userId == '')
+        {
+            header('Location: fail.php');
+        }
+        else
+        {
+            //check if admin
+            $loggedUser = getAuthorId($conn, $user);
+            
+            //check status
+            $sql = "SELECT isAdmin
+                        FROM Account
+                        WHERE user_id = '$loggedUser'";
+
+            $result = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_assoc($result);
+            $isAdmin = $row["isAdmin"];
+
+            if ($isAdmin == 0)
+            {
+                header('Location: fail.php');
+            }
+            
+        }
+    }
+    else
+    {
+       header('Location: fail.php');
+    }
     
     //get email
     $sql = "SELECT email
@@ -101,7 +120,7 @@
                     <td></td>
 					<td >
                         <div class="wrapper-button">
-                            <a href="delete-user.php"><div class="button">Delete User</div></a>
+                            <a href="delete-user.php?user_id=<?php echo $userId; ?>"><div class="button">Delete User</div></a>
                         </div>
                     </td>
 					<!--<td style="text-align:right"><a href="delete-user.php?user_id=<?php echo $userId; ?>"><div class="button">Delete User</div></a></td>-->
