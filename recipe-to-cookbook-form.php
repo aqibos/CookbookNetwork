@@ -45,7 +45,8 @@
             }
             else    //recipe exists already, do nothing to db and go back to recipe
             {
-                header('Location: view-recipe.php?recipe_id=' . $recipeID );
+                echo '<script type=text/javascript>alert("Recipe already stored in this cookbook.");
+                        window.location.replace("view-recipe.php?recipe_id=' . $recipeID . '");</script>';
             }
         }
         mysqli_close($link); 

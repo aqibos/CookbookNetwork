@@ -44,8 +44,11 @@
                 
             //do not allow author to rate their own recipe
             if($_SESSION['userid'] == $userid)
-                header('Location: fail.php');
-
+            {
+                echo '<script type=text/javascript>alert("Can not rate own recipe.");
+                        window.location.replace("fail.php");</script>';
+            }
+    
 
             if ($_SERVER["REQUEST_METHOD"] == "POST")
             {
