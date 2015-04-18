@@ -29,7 +29,7 @@
 			<h1 class="center">Change Password</h1>
 			<br/>
 			<table class="tableform">
-			<form name="changepw" method="post" onsubmit="return validateForm()" action="change-pw-form.php">
+			<form name="changepw" method="post" onsubmit="return validateForm()">
 				<tr>
   					<td> <h3>Enter current password:</h3> <br/><br/> </td>
   					<td> <input type="password" name="currentpw"><br/><br/></td>
