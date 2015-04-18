@@ -9,7 +9,7 @@
         //credentials
         $servername = "localhost";
         $username = "root";
-        $password = "";
+        $password = "plewo39ten";
         $dbname = "cookbooknetwork";
 
         //if form submitted
