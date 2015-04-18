@@ -25,7 +25,7 @@ session_start() ;
 			<h1>Oops! What you were trying to do didn't work.</h1>
             <h2>Go back and try again!</h2>
             <form>
-				<button onclick="goBack()">Go Back</button>
+				<input type="submit" value="Go Back" onclick="window.history.back(); return false;">
 			</form>
 		</div>
 		
