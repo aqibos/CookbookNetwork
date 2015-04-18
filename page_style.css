@@ -235,6 +235,12 @@ recipe {
 	padding-left: 75%;
 }
 
+.wrapper-button a 
+{
+    color: white;
+    text-decoration: none;
+}
+
 .button {
 	 width: 200px;
 	height: 35px;
