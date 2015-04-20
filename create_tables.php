@@ -94,8 +94,8 @@ $sql = "CREATE TABLE Friends(
         type enum('RECIPE', 'COOKBOOK') NOT NULL,
 		type_id INT(7) UNSIGNED NOT NULL,
         friend_id INT(7) UNSIGNED AUTO_INCREMENT,
+        PRIMARY KEY(friend_id),
 		CONSTRAINT fk_AccFriends FOREIGN KEY (email)
-        PRIMARY KEY(friend_id)
 		REFERENCES Account(email)
         ON DELETE CASCADE
 		)" ;
