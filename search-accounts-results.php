@@ -16,10 +16,11 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 		<link rel="stylesheet" type="text/css" href="page_style.css">
 		<link href='http://fonts.googleapis.com/css?family=Tangerine:700' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=IM+Fell+Double+Pica' rel='stylesheet' type='text/css'>
+		<title>Search Accounts</title>
 	</head>
 	
 	<body>
-		<div class="background-image"></div>
+		<img class="background-image" src="images/delicious-pizza-food-1440x900.jpg" height="700"/>
 		<div class="navigation-bar">
 			<?php include 'check-menu.php'?>
 		</div>
