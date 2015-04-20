@@ -368,7 +368,7 @@ img.setsize{
 
 .tableform td{
   border: 3px;
-text-align: left;
+  text-align: left;
 }
 
 .center{
@@ -385,6 +385,11 @@ text-align: left;
 	height: 150px;
 	padding: 10px 0px;
 	text-align: center;
+}
+
+.recipe-preview-row a{
+	text-decoration: none ;
+	color: white ;
 }
 
 .recipe-preview-row-icon {
