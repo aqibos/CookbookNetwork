@@ -1,3 +1,26 @@
+<?php
+session_start() ;
+include 'recipe-search-handler.php' ; 
+function printCookbook()
+{
+	$cookbook_id = $_GET["cookbook_id"] ;
+	$conn = getConn() ;
+	
+	$sql = " SELECT cb_title FROM cookbook
+				WHERE cookbook_id = '$cookbook_id'" ;
+	
+	$result = $conn -> query($sql) ;
+	$row = $result -> fetch_assoc() ;
+	echo '<h1>'.$row["cb_title"].'</h1>' ;	
+	
+	$sql = " SELECT  * FROM recipe
+				WHERE recipe_id in (
+					SELECT recipe_id FROM recipe_list
+					WHERE cookbook_id = '$cookbook_id')";
+	$result = $conn -> query($sql) ;
+	printResult($result) ;	
+}
+?>
 <!DOCTYPE html>
 <html>
 	
@@ -12,7 +35,7 @@
 	</head>
 	
 	<body>
-		
+		<img class="background-image" src="images/delicious-pizza-food-1440x900.jpg" height="700"/>
 		<div class="background-image"></div>
 		
 		<div class="navigation-bar">
@@ -20,48 +43,7 @@
 		</div>
 		
 		<div class="content">
-			
-			<h1>Go-To Quick Lunches</h1>
-			
-			<!-- ENTER CONTENT HERE" -->
-			<div class="recipe-preview-row">
-				<a href="">
-				<div class="recipe-preview-row-icon">
-					<img class="thumbnail" src="images/thumbnail1.png">
-					<p>Yellow Rice and Green Peppers</p>
-				</div>
-				</a>
-				
-				<a href="">
-				<div class="recipe-preview-row-icon">
-					<img class="thumbnail" src="images/thumbnail2.png">
-					<p>Chunky Beef in Tomato Pasta</p>
-				</div>
-				</a>
-				
-				<a href="">
-				<div class="recipe-preview-row-icon">
-					<img class="thumbnail" src="images/thumbnail3.png">
-					<p>Heavy Chicken n' Tomato Soup</p>
-				</div>
-				</a>
-			</div>
-			
-			<div class="recipe-preview-row">
-				<a href="">
-				<div class="recipe-preview-row-icon">
-					<img class="thumbnail" src="images/thumbnail4.png">
-					<p>Low-Sodium Penne with Ham</p>
-				</div>
-				</a>
-				
-				<a href="">
-				<div class="recipe-preview-row-icon">
-					<img class="thumbnail" src="images/thumbnail5.png">
-					<p>Sunday's Sloppy Joe Sandwich</p>
-				</div>
-				</a>
-			</div>
+			<?php printCookbook();?>
 		</div>
 		
 		<div class="footer"><p>&#169; Cookbook Network, 2015. All Rights Reserved.</p></div>
