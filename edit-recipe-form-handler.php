@@ -12,6 +12,18 @@
         
         return $row["recipe_title"];
     }
+
+    function getPrivacyFromDB($conn, $recipeId)
+    {
+        $sql = "SELECT visibility
+                FROM Recipe
+                WHERE recipe_id = '$recipeId'";
+        
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        
+        return $row["visibility"];
+    }
     
     //get name of image stored on db
     function getImageNameFromDB($conn, $recipeId)
@@ -189,6 +201,17 @@
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($result);
         return $row["username"];
+    }
+
+    function getEmailAddr($conn, $username)
+    {
+        $sql = "SELECT email
+                FROM Account
+                WHERE username = '$username' ";
+        
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        return $row["email"];
     }
 
     function fixFlag($conn, $oldRecipeId, $newRecipeId)
