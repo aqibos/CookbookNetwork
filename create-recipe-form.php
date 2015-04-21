@@ -343,7 +343,7 @@
     {
         $modStr = trim($str);
         $modStr = stripslashes($str);
-        $modStr = htmlspecialchars($str)
+        $modStr = htmlspecialchars($str);
         
         return $modStr;
     }

@@ -49,7 +49,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     $comment = $_POST['comment'];
 
     //fix comment special chars
-    $comment = clean($comment);
+    $comment = cleanInput($comment);
     
     //insert into db
     $sql = "INSERT INTO Flag (recipe_id, reason, comment, user_id) 
