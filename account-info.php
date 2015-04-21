@@ -18,10 +18,7 @@
     include 'create-recipe-form.php';
 
     //credentials
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "cookbooknetwork";
+    include 'db-credentials.php';
 
     //connect to db
     $conn = connectToDb($servername, $username, $password, $dbname);
