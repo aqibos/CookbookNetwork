@@ -28,10 +28,7 @@
             include 'create-recipe-form.php';
 
             //credentials
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "cookbooknetwork";
+            include 'db-credentials.php';
 
             //connect to db
             $conn = connectToDb($servername, $username, $password, $dbname);
@@ -42,7 +39,11 @@
 
             //get recipe name
             $recipeName = getRecipeNameFromDB($conn, $recipeId);
+            echo "RECIPE NAME: $recipeName<br>";
+            
             $author = getAuthorName($conn, $recipeId);
+            echo "AUTHOR NAME: $author<br>";
+
             if ($recipeName == '' || $author != $user)
             {
                 header('Location: fail.php');
@@ -50,25 +51,32 @@
 
             //get pic name
             $photoNamePrev = getImageNameFromDB($conn, $recipeId);
+            echo "PHOTO NAME: $photoNamePrev<br>";
 
             //get number of ingredients 
             $numberIngredients = getNumberOfIngredientsFromDB($conn, $recipeId);
 
             //get each ingredient - format: ingredient1, ingredient2, ingredient3...
             $ingredientList = getAllIngredientsFromDB($conn, $recipeId);
+            echo "INGREDIENT NAME: $ingredientList<br>";
 
             //get number of steps
             $numberSteps = getNumberOfStepsFromDB($conn, $recipeId);
 
             $stepList = getAllStepsFromDB($conn, $recipeId);
+            echo "STEP NAME: $stepList<br>";
+
             //get tags
             $numberTags = getNumberOfTagsFromDB($conn, $recipeId);
 
             $tagList = getAllTagsFromDB($conn, $recipeId);
+            echo "TAG NAME: $tagList<br>";
 
             $privacy = getPriv($conn, $recipeId);
+            echo "PRIVACY NAME: $privacy<br>";
 
             $friendList = getAllFriends($conn, $recipeId);
+            echo "FRIEND NAME: $friendList<br>";
 
             closeDBConnection($conn);
             
@@ -88,19 +96,21 @@
             //clean db of old recipe
             cleanDbTables($recipeId, $conn);
             
+            $userId = getAuthorId($conn, $_SESSION["username"]);
+            
             //if friend does not have account
             if (!checkPrivacy($conn))
             {
                 exit("Sorry, your friend(s) is not a registered user.");
             }
             
-            $recipeName = getRecipeName();
-            $allSteps = getAllSteps();
+            $recipeName = getRecipeName($conn);
+            $allSteps = getAllSteps($conn);
             $privacy = getPrivacy();
-            $arecipeId = insertRecipeIntoDB($recipeName, $userId, $allSteps, $privacy, $conn);
+            $recipeId = insertRecipeIntoDB($recipeName, $userId, $allSteps, $privacy, $conn);
             
             //if error in inserting recipe into db
-            if ($arecipeId < 0)
+            if ($recipeId < 0)
             {
                exit("Sorry, could not access database when adding recipe. Please try again.");
             }
@@ -110,11 +120,10 @@
             //check if image uploaded
             if (checkImageUploaded())
             {
-                unlink($photoNamePrev);
                 $photo = getImageTmpName();
-                $photoPath = getImagePath($arecipeId);
+                $photoPath = getImagePath($recipeId);
 
-                if (!mkdir("images/" . $arecipeId, 0777, true)) 
+                if (!mkdir("images/" . $recipeId, 0777, true)) 
                 {
                     exit('Could not upload image to server.');
                 }
@@ -124,22 +133,15 @@
                     exit('Could not create space on server for image.');
                 }
                 
-                if (!updateImagePathInDB($conn, "images/" . 
-                                         $photoPath, $arecipeId))
+                if (!updateImagePathInDB($conn, "images/" . $photoPath, $recipeId))
                 {
                     exit('Could not connect image to account.');
                 }
             }
-            else
-            {
-                if (!updateImagePathInDB($conn, $photoNamePrev, $arecipeId))
-                {
-                    exit('Could not connect image to account.');
-                }
-            }
+           
             
             $numFriends = countFriends();
-            $success = addFriendsToDB($conn, $numFriends, $arecipeId);
+            $success = addFriendsToDB($conn, $numFriends, $recipeId);
             
             //if error in inserting friends into db
             if (!$success)
@@ -147,7 +149,7 @@
                 exit("Sorry, could not access database when adding friends. Please try again.");
             }
             
-            $success = addIngredientsToDB($conn, $arecipeId);
+            $success = addIngredientsToDB($conn, $recipeId);
             
             //if error in inserting ingredients into db
             if (!$success)
@@ -155,7 +157,7 @@
                 exit("Sorry, could not access database when adding ingredients. Please try again.");
             }
             
-            $success = addTagsToDB($conn, $arecipeId);
+            $success = addTagsToDB($conn, $recipeId);
             
             //if error in inserting tags into db
             if (!$success)
@@ -164,7 +166,7 @@
             }
             
             closeDBConnection($conn);
-            redirectToViewRecipe($arecipeId);
+            redirectToViewRecipe($recipeId);
         }
 
 
@@ -174,17 +176,8 @@
         
         <title>Edit Recipe</title>
     </head>
-    <!--<body onload="setUpInputForm(<?php echo "$numberIngredients" ?>, <?php echo "$numberSteps" ?>, <?php echo "$ingredientList" ?>);"
-          >-->
-    <body onload="setUpInputForm('<?php echo $recipeName;?>',
-                                    '<?php echo $numberIngredients;?>', 
-                                    '<?php echo $numberSteps;?>', 
-                                    '<?php echo $ingredientList;?>', 
-                                    '<?php echo $stepList;?>', 
-                                    '<?php echo $tagList;?>', 
-                                    '<?php echo $privacy;?>', 
-                                    '<?php echo $friendList;?>'
-          );">
+
+        <body onload="setUpInputForm()">
         
         <img class="background-image" src="<?php 
                 if ($photoNamePrev == '' || $photoNamePrev == NULL)
@@ -402,12 +395,21 @@
             //set add friend button invisible
             document.getElementById("addFriend").style.visibility='hidden';
             
-            function setUpInputForm(recipeName, numIngredients, numSteps, allIngredients, allSteps, allTags, privacy, allFriends)
+            //function setUpInputForm(recipeName, allIngredients, allSteps, allTags, privacy, allFriends)
+            function setUpInputForm()
             {
+                var recipeName = <?php echo json_encode("$recipeName"); ?>;
+                var allIngredients = <?php echo json_encode("$ingredientList"); ?>;
+                var allSteps = <?php echo json_encode("$stepList"); ?>;
+                var allTags = <?php echo json_encode("$tagList"); ?>;
+                var privacy = <?php echo json_encode("$privacy"); ?>;
+                var allFriends = <?php echo json_encode("$friendList"); ?>;
+                
                 setupRecipeName(recipeName);
-                setupIngredientInputs(numIngredients, allIngredients);
-                setupStepInputs(numSteps, allSteps);
+                setupIngredientInputs(allIngredients);
+                setupStepInputs(allSteps);
                 setupTagInputs(allTags);
+                
                 var privacyDropdown = document.getElementById("privacy");
                 if (privacy.trim() == "PUBLIC")
                 {
@@ -434,7 +436,7 @@
                 document.getElementById("recipe-name").value = recipeName;
             }
             
-            function setupIngredientInputs(numIngredients, allIngredients)
+            function setupIngredientInputs(allIngredients)
             {
                 var ingredientArray = allIngredients.split('@');
                 
@@ -453,7 +455,7 @@
                 }
             }
             
-            function setupStepInputs(numSteps, allSteps)
+            function setupStepInputs(allSteps)
             {
                 var stepArray = allSteps.split('@');
                 

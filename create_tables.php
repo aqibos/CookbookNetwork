@@ -1,8 +1,5 @@
 <?php
-$servername="localhost" ;
-$username = "root" ;
-$password = "" ;	
-$dbname = "cookbooknetwork" ;
+include 'db-credentials.php';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

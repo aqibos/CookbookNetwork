@@ -6,11 +6,7 @@
         
         include 'create-recipe-form.php';
 
-        //credentials
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "cookbooknetwork";
+        include 'db-credentials.php';
 
         //if form submitted
         if($_SERVER['REQUEST_METHOD'] == "POST")
@@ -26,8 +22,8 @@
                 exit("Sorry, your friend(s) is not a registered user.");
             }
             
-            $recipeName = getRecipeName();
-            $allSteps = getAllSteps();
+            $recipeName = getRecipeName($conn);
+            $allSteps = getAllSteps($conn);
             $privacy = getPrivacy();
             $recipeId = insertRecipeIntoDB($recipeName, $userId, $allSteps, $privacy, $conn);
             

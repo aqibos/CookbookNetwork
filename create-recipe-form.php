@@ -115,19 +115,19 @@
     }
 
     //get recipe name
-    function getRecipeName()
+    function getRecipeName($conn)
     {
-        return ($_POST['recipe-name']);
+        return $conn->real_escape_string(($_POST['recipe-name']));
     }
 
     //get recipe photo
     function getPicture()
     {
-        $picture = ($_FILES['photo']['tmp_name']);
+        $picture = $conn->real_escape_string(($_FILES['photo']['tmp_name']));
     }
 
     //get all steps of recipe
-    function getAllSteps()
+    function getAllSteps($conn)
     {
         $allSteps = "";
             for ($x = 1; ;$x++)
@@ -139,7 +139,7 @@
 
                 if (!empty($_POST["step" . $x]))
                 {
-                    $allSteps = $allSteps . ($_POST["step" . $x]) . "@ ";
+                    $allSteps = $allSteps . $conn->real_escape_string(($_POST["step" . $x])) . "@ ";
                 }
             }
 
@@ -201,12 +201,30 @@
     //add friends to db
     function addFriendsToDB($conn, $numFriends, $lastId)
     {
+        /*
+        //FRIENDS
+        $sql = "CREATE TABLE Friends(
+            email VARCHAR(50) NOT NULL,
+            type enum('RECIPE', 'COOKBOOK') NOT NULL,
+            type_id INT(7) UNSIGNED NOT NULL,
+            friend_id INT(7) UNSIGNED AUTO_INCREMENT,
+            PRIMARY KEY(friend_id),
+            CONSTRAINT fk_AccFriends FOREIGN KEY (email)
+            REFERENCES Account(email)
+            ON DELETE CASCADE
+		)" ;
+        
+        */
+        
+        
         for ($x = 0; $x < $numFriends; $x++)
         {
-            $currFriend = $_POST["friendName" . $x];
+            $currFriend = $conn->real_escape_string($_POST["friendName" . $x]);
+            
+            $currFriendId = getAuthorIdFrmEmail($conn, $currFriend);
 
-            $sql = "INSERT INTO Friends (recipe_id, email) 
-                    VALUES ( '$lastId', '$currFriend')";
+            $sql = "INSERT INTO Friends (email, type, type_id, friend_id) 
+                    VALUES ('$currFriend', 'RECIPE','$lastId', '$currFriendId')";
 
                 if (!($conn->query($sql) === TRUE)) {
                     cleanDbTables($lastId, $conn);
@@ -229,7 +247,7 @@
 
             if (!empty($_POST["ingredient" . $x]))
             {
-                $currIngredient = $_POST["ingredient" . $x];
+                $currIngredient = $conn->real_escape_string($_POST["ingredient" . $x]);
                 $sql = "INSERT INTO Ingredient (name, recipe_id) 
                     VALUES ( '$currIngredient', '$lastId')";
 
@@ -338,5 +356,25 @@
         $row = mysqli_fetch_assoc($result);
         return $row["user_id"];
     }
+
+    function getAuthorIdFrmEmail($conn, $email)
+    {
+        $sql = "SELECT user_id
+                FROM Account
+                WHERE email = '$email'";
+        
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        return $row["user_id"];
+    }
+
+    /*function cleanInput($stra)
+    {
+        $modStr = trim($stra);
+        $modStr = stripslashes($stra);
+        $modStr = htmlspecialchars($stra);
+        
+        return $modStr;
+    }*/
 
 ?>
