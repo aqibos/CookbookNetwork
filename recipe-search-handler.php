@@ -88,11 +88,7 @@ function tagBrowse()
 }
 function getConn()
 {	
-	$servername = "localhost";
-	$username = "root" ;
-	$password = "";
-	$dbname = "cookbooknetwork";
-	
+	include 'db-credentials.php'; 
 	return new mysqli($servername, $username, $password, $dbname);
 }
 
@@ -117,6 +113,37 @@ function printResult($result)
 									<p>'.$row["recipe_title"].'</p>
 								</div>
 							</a>';
+				}
+			}
+			$rowNum = $rowNum - 1 ;	
+		}
+		echo'</div>';
+	}
+}
+
+function printResultWithX($result)
+{
+	$rowNum = $result -> num_rows ;
+	
+	echo '<h1>'.$rowNum.' recipes were found:</h1>' ;
+	
+	while($rowNum > 0)
+	{
+		echo'<div class="recipe-preview-row">';
+		for($i = 0 ; $i < 3 ; $i++ )
+		{
+			if($row = $result -> fetch_assoc() )
+			{
+			    if(isVisible($row["recipe_id"]))
+				{
+					echo '<a href="view-recipe.php?recipe_id='.$row["recipe_id"].'">
+								<div class="recipe-preview-row-icon">
+									<img class="thumbnail" src="'.$row["img_path"].'">
+									<p>'.$row["recipe_title"].'</p>
+								</div>
+							</a>
+							<a href="delete.php?recipe_id='.$row["recipe_id"].'" onclick="return confirm(\'Are you sure youu want to delete '.$row["recipe_title"].'\')">
+								<img class="x" src="images/x.png"></a>';
 				}
 			}
 			$rowNum = $rowNum - 1 ;	

@@ -10,7 +10,7 @@ function printMyRecipes()
 	$sql = " SELECT * FROM recipe
 				WHERE author = '$userid'" ;
 	$result = $conn -> query($sql) ;
-	printResult($result) ;
+	printResultWithX($result) ;
 }
 ?>
 <!DOCTYPE html>

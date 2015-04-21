@@ -476,3 +476,11 @@ img.setsize{
 .recipe-flags td:nth-child(3) {
 	width: 50% ;
 }
+
+.x {
+	height: 15px ;
+	width: 15px ;
+	position:relative ;
+	right: 25px ;
+	bottom: 120px ;
+}
