@@ -39,10 +39,10 @@
 
             //get recipe name
             $recipeName = getRecipeNameFromDB($conn, $recipeId);
-            echo "RECIPE NAME: $recipeName<br>";
+            //echo "RECIPE NAME: $recipeName<br>";
             
             $author = getAuthorName($conn, $recipeId);
-            echo "AUTHOR NAME: $author<br>";
+            //echo "AUTHOR NAME: $author<br>";
 
             if ($recipeName == '' || $author != $user)
             {
@@ -51,32 +51,32 @@
 
             //get pic name
             $photoNamePrev = getImageNameFromDB($conn, $recipeId);
-            echo "PHOTO NAME: $photoNamePrev<br>";
+            //echo "PHOTO NAME: $photoNamePrev<br>";
 
             //get number of ingredients 
             $numberIngredients = getNumberOfIngredientsFromDB($conn, $recipeId);
 
             //get each ingredient - format: ingredient1, ingredient2, ingredient3...
             $ingredientList = getAllIngredientsFromDB($conn, $recipeId);
-            echo "INGREDIENT NAME: $ingredientList<br>";
+            //echo "INGREDIENT NAME: $ingredientList<br>";
 
             //get number of steps
             $numberSteps = getNumberOfStepsFromDB($conn, $recipeId);
 
             $stepList = getAllStepsFromDB($conn, $recipeId);
-            echo "STEP NAME: $stepList<br>";
+            //echo "STEP NAME: $stepList<br>";
 
             //get tags
             $numberTags = getNumberOfTagsFromDB($conn, $recipeId);
 
             $tagList = getAllTagsFromDB($conn, $recipeId);
-            echo "TAG NAME: $tagList<br>";
+            //echo "TAG NAME: $tagList<br>";
 
             $privacy = getPriv($conn, $recipeId);
-            echo "PRIVACY NAME: $privacy<br>";
+            //echo "PRIVACY NAME: $privacy<br>";
 
             $friendList = getAllFriends($conn, $recipeId);
-            echo "FRIEND NAME: $friendList<br>";
+            //echo "FRIEND NAME: $friendList<br>";
 
             closeDBConnection($conn);
             

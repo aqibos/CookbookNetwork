@@ -324,9 +324,8 @@
     //in case of error, remove extranneous data from db
     function cleanDbTables($lastId, $conn)
     {
-        removeFromDb("Friends", "recipe_id", $lastId, $conn);
-        removeFromDb("Tag", "type_id", $lastId, $conn);
-        removeFromDb("Recipe", "recipe_id", $lastId, $conn);
+        removeFromDbType("Friends", "type_id", $lastId, $conn);
+        removeFromDbType("Tag", "type_id", $lastId, $conn);
         removeFromDb("Ingredient", "recipe_id", $lastId, $conn);
     }
 
@@ -336,6 +335,20 @@
 
         $sql = "DELETE FROM " . $tableName . 
                 " WHERE " . $attributeName . "=" . $lastId . ";";
+
+        if (!($conn->query($sql) === TRUE)) 
+        {
+            //keep trying until success
+            echo "Failed it: $sql<br>";
+            echo "$conn->error<br>";
+            removeFromDb($tableName, $attributeName, $lastId, $conn);
+        }
+    }
+
+    function removeFromDbType($tableName, $attributeName, $lastId, $conn)
+    {
+        $sql = "DELETE FROM " . $tableName . 
+                " WHERE " . $attributeName . "=" . $lastId . " AND type = 'RECIPE';";
 
         if (!($conn->query($sql) === TRUE)) 
         {
@@ -366,6 +379,16 @@
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_assoc($result);
         return $row["user_id"];
+    }
+
+    function updateRecipe($conn, $recipeName, $authorName, $allSteps, $privacy, $recipeId)
+    {
+        //add recipe into db
+            $sql = "UPDATE Recipe
+                    SET recipe_title = '$recipeName', author = '$authorName', directions = '$allSteps', visibility = '$privacy') 
+                    WHERE recipe_id = '$recipeId'";
+
+            $conn->query($sql);
     }
 
     /*function cleanInput($stra)
