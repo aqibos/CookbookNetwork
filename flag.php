@@ -12,7 +12,7 @@ user_id INT(6) UNSIGNED NOT NULL,
 include 'edit-recipe-form-handler.php';
 include 'create-recipe-form.php';
 
-//check if logged in 
+//check if logged in and valid url
 if (!isset($_GET["recipe_id"]) || !$_SESSION['loggedin'])
 {
     header('Location: fail.php');
@@ -48,6 +48,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     //get comments
     $comment = $_POST['comment'];
 
+    //fix comment special chars
+    $comment = clean($comment);
+    
     //insert into db
     $sql = "INSERT INTO Flag (recipe_id, reason, comment, user_id) 
             VALUES ( '$recipeId', '$reason', '$comment', '$userId')";

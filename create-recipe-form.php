@@ -339,4 +339,13 @@
         return $row["user_id"];
     }
 
+    function cleanInput($str)
+    {
+        $modStr = trim($str);
+        $modStr = stripslashes($str);
+        $modStr = htmlspecialchars($str)
+        
+        return $modStr;
+    }
+
 ?>
