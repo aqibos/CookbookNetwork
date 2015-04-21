@@ -1,15 +1,17 @@
 <?php
 	session_start();
-    $user = $_SESSION["username"];
 
     include 'edit-recipe-form-handler.php';
     include 'create-recipe-form.php';
 
-    //credentials
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "cookbooknetwork";
+    include 'db-credentials.php';
+
+$loggedName = "";
+
+if (isset($_SESSION['loggedin']))
+{
+    $loggedName = $_SESSION['username'];
+}
 
     //connect to db
     $conn = connectToDb($servername, $username, $password, $dbname);
@@ -52,6 +54,75 @@
 
     //get author
     $author = getAuthorName($conn, $recipeId);
+
+
+//get privacy
+$privacy = getPrivacyFromDB($conn, $recipeId);
+
+//if private
+if ($privacy == 'PRIVATE')
+{
+    //1 - check if logged in
+    if ($loggedName == '')
+    {
+        header('Location: fail.php');
+    }
+    
+    //2 - check if viewer is author
+    if (!($loggedName == $author ))
+    {
+        header('Location: fail.php');
+    }
+    //if not 1 or not 2, then redirect
+}
+
+//if friendly
+else if ($privacy == 'FRIENDLY')
+{
+    //1 - check if logged in
+    if ($loggedName == '')
+    {
+        header('Location: fail.php');
+    }
+    
+    //2 - check if viewer is friend
+    $friendList = getAllFriends($conn, $recipeId);
+    $friendArray = explode(',', $friendList);
+    $allowedToView = false;
+    
+    for ($x = 0;  $x < count($friendArray); $x++)
+    {
+        //get email of logged user
+        $loggedEmail = getEmailAddr($conn, $loggedName);
+        
+        //check if allowed
+        if ($loggedEmail == $friendArray[$x])
+        {
+            $allowedToView = TRUE;
+            break;
+        }
+    }
+    
+    //if not, then redirect
+    if (!$allowedToView)
+    {
+        header('Location: fail.php');
+    }
+}
+
+//if registered
+else if ($privacy == 'REGISTERED')
+{
+    //check if viewer is registered (logged in)
+    if ($loggedName == '')
+    {
+         //if not, then redirect
+        header('Location: fail.php');
+    }
+}
+
+//else must be public and it's ok to view
+
 
 ?>
 <!DOCTYPE html>
@@ -104,16 +175,9 @@
             </h1>
 			<p><i>Created by: <b><?php echo "$author" ?></b></i></p>
 			<p class="flagfont">
-                <?php 
-                    if ($rating == 0)
-                    {
-                        echo "<p>Not rated.</p>";
-                    }
-                    else
-                    {   
-                        $rating = ceil($rating);
-                        print "<img src='images/star$rating.png' width='10%' height='10%' title='rating'><br/>";
-                    }
+                <?php
+                    $rating = ceil($rating);
+                    print "<img src='images/star$rating.png' width='10%' height='10%' title='rating'><br/>";
                 ?>
 				<?php echo "$flagCount"; ?>&nbsp;
                 <img class="noflag" src="images/flag.png" width="12px" height="12px" title="flags">
@@ -152,12 +216,8 @@
 			<p>Tags: 
                 <?php
     
-                $tagArray = explode(',', $tagList);
-                if ($tagArray == '')
-                {
-                    //do nothing
-                }
-                else
+                $tagArray = (explode(',', $tagList));
+                if (!count($tagArray) == 0)
                 {
                     for ($x = 0; $x < count($tagArray); $x++)
                     {
