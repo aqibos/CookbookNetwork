@@ -240,7 +240,7 @@ else if ($privacy == 'REGISTERED')
                     if ($loggedName == $author )
                     {
                         echo "<a href='edit-recipe.php?recipe_id=$recipeId'>Edit Recipe</a>&nbsp;&nbsp;|&nbsp;&nbsp;";
-                        echo "<a href='delete-recipe.php?recipe_id=$recipeId'>Delete Recipe</a>&nbsp;&nbsp;|&nbsp;&nbsp;";
+                        /*echo "<a href='delete-recipe.php?recipe_id=$recipeId'>Delete Recipe</a>&nbsp;&nbsp;|&nbsp;&nbsp;";*/
                     }
                     else
                     {
