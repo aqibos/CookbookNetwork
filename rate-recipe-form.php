@@ -1,7 +1,7 @@
 <?php 
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $pwerror="";
+        $error="";
         include 'db-credentials.php';
         $tbl_name="Recipe";             // Table name 
 
@@ -33,8 +33,8 @@
         
         if ($link->query($sql) == false)     //unsuccessful query
         {
-            $pwerror= "ERROR: Could not able to execute $sql. " . $link->connect_error;
-            header('Location: sign-up.php');
+            $error= "ERROR: Could not able to execute $sql. " . $link->connect_error;
+            header('Location: fail.php');
         } 
         else
         {
