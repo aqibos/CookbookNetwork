@@ -7,7 +7,7 @@
         $tbl_name="Account"; // Table name 
 
         // Connect to server and select databse.
-        $link = new mysqli($host, $username, $password, $db_name);
+        $link = new mysqli($servername, $username, $password, $dbname);
         if ($link -> connect_error)
 			die("Connection failed: ".$link -> connect_error);
         
