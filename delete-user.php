@@ -2,17 +2,13 @@
 	session_start();
 
 	$emailerror = $success = "";
+    include 'db-credentials.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
-    	$host="localhost";              // Host name 
-        $username="root";               // Mysql username 
-        $password="";                   // Mysql password 
-        $db_name="cookbooknetwork";     // Database name 
-        $tbl_name="Account"; // Table name 
 
         // Connect to server and select databse.
-        $link = new mysqli($host, $username, $password, $db_name);
+        $link = new mysqli($servername, $username, $password, $dbname);
         if ($link -> connect_error)
 			die("Connection failed: ".$link -> connect_error);
         
@@ -26,13 +22,16 @@
         // if account is found
         if($count == 1)
         {
-            //DELETE ACCOUNT
-            $sql= "DELETE FROM $tbl_name WHERE email = '$useremail'";
+            $row = $result->fetch_assoc();
+            $user_id = $row['user_id'];
+            
+            deleteRecipes($user_id, $link);     //delete all recipe information
+                
+            deleteCookbooks($user_id, $link);   //delete all cookbook information
 
+            $sql = "DELETE FROM Account WHERE user_id = '$user_id'";
             if ($link->query($sql) != true)     //unsuccessful query
-            {
-                $emailerror= "ERROR: Could not able to execute $sql. " . $link->connect_error;
-            } 
+                    echo "ERROR: Could not able to execute $sql. " . $link->connect_error;
             else    //success message
             {
                 $success="User with email: ". $useremail . " has been deleted.";
@@ -47,7 +46,95 @@
         mysqli_close($link);            //close connection
     }
 
+    function deleteRecipes($user_id, $link)
+    {
+        //SELECT RECIPES BY USER
+        $sql= "SELECT recipe_id FROM Recipe WHERE author = '$user_id'";    
+        $result = $link -> query($sql);
+        $count = $result->num_rows;
+        if($count > 0)
+        {
+            while($row = $result->fetch_assoc())    //get each recipe of user
+            {
+                $recipe_id = $row['recipe_id'];
+                
+                deleteTags("RECIPE", $recipe_id, $link);    //delete tags of recipe
+            
+                deleteFriends("RECIPE", $recipe_id, $link);
+            
+                deleteFromCookbook($recipe_id, $link);      //delete from cookbook
 
+                deleteFlags($recipe_id, $link);             //delete flags if recipe is flagged
+
+                $sql2 = "DELETE FROM Recipe WHERE recipe_id = '$recipe_id'";    //finally, delete recipe
+                if ($link->query($sql2) != true)     //unsuccessful query
+                    echo "ERROR: Could not able to execute $sql. " . $link->connect_error;
+            }
+            
+        }
+    }
+
+    function deleteCookbooks($user_id, $link)
+    {
+        $sql = "SELECT cookbook_id FROM Cookbook_list WHERE user_id = '$user_id'";
+        $result = $link -> query($sql);
+        $count = $result->num_rows;
+        $i = 0;
+        if($count > 0)      //check if have cookbook
+        {
+            while($row = $result->fetch_assoc())
+            {
+                $cb_id[$i]= $row['cookbook_id'];     //store all cookbook ids to array
+                
+                deleteTags("COOKBOOK", $cb_id[$i], $link);      //delete cookbook tags
+            
+                
+                deleteFriends("COOKBOOK", $cb_id[$i], $link);   //check privacy to delete friends
+                
+                $i++;
+            }
+            
+            $sql3 = "DELETE FROM Cookbook_list WHERE user_id = '$user_id'";    //delete from cookbook_list
+                if ($link->query($sql3) != true)     //unsuccessful query
+                    echo "ERROR: Could not able to execute $sql3. " . $link->connect_error;
+            
+            for($j=0; $j < $i; $j++)
+            {
+                $current = $cb_id[$j];
+                $sql4 = "DELETE FROM Cookbook WHERE cookbook_id = '$current'";    //delete cookbook
+                if ($link->query($sql4) != true)     //unsuccessful query
+                    echo "ERROR: Could not able to execute $sql3. " . $link->connect_error;
+            }
+        }
+    }
+
+    function deleteTags($type, $type_id, $link)
+    {
+        $sql = "DELETE FROM Tag WHERE type='$type' AND type_id = '$type_id'";
+        if ($link->query($sql) != true)     //unsuccessful query
+            echo "ERROR: Could not able to execute $sql. " . $link->connect_error;
+    }
+
+    function deleteFriends($type, $type_id, $link)
+    {
+        $sql = "DELETE FROM Friends WHERE type='$type' AND type_id = '$type_id'";
+        if ($link->query($sql) != true)     //unsuccessful query
+            echo "ERROR: Could not able to execute $sql. " . $link->connect_error;
+    }
+
+    function deleteFromCookbook($recipe_id, $link)
+    {
+        $sql = "DELETE FROM Recipe_list WHERE recipe_id='$recipe_id'";
+        if ($link->query($sql) != true)     //unsuccessful query
+            echo "ERROR: Could not able to execute $sql. " . $link->connect_error;
+    }
+    
+    function deleteFlags($recipe_id, $link)
+    {
+        $sql = "DELETE FROM Flag WHERE recipe_id='$recipe_id'";
+        if ($link->query($sql) != true)     //unsuccessful query
+            echo "ERROR: Could not able to execute $sql. " . $link->connect_error;
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -82,7 +169,7 @@
 			</table>
 			<br/><br/>
 			<p class="center"><input class="submitbutton" type="submit" value="Cancel" onclick="window.location.replace('account-info.php'); return false;">&nbsp;&nbsp;&nbsp;&nbsp;
-					<input class="submitbutton" type="submit" value="Delete"></p>
+					<input class="submitbutton" type="submit" value="Delete" onclick='return confirm("Are you sure you want to delete?")'></p>
             </form>
 		</div>
 		
@@ -110,7 +197,6 @@
                 alert("Invalid email. Please enter a correct email.");
                 return false;
             }
-            return true;
         }
         
     </script>

@@ -1,11 +1,8 @@
 <?php
 include 'db-credentials.php';
-
 $conn = new mysqli($servername, $username, $password, $dbname);
-
 if ($conn -> connect_error)
 	die("Connection failed: ".$conn -> connect_error);
-
 //ACCOUNT
 $sql = "CREATE TABLE Account (
 		user_id INT(6) UNSIGNED AUTO_INCREMENT,
@@ -15,12 +12,10 @@ $sql = "CREATE TABLE Account (
 		isAdmin BOOL NOT NULL,
 		PRIMARY KEY(user_id) 						
 		)";
-
 if($conn -> query($sql) === TRUE)
 	echo "<br>Table ACCOUNT Created successfully" ;
 else
 	echo "<br>Error creating table: " . $conn->error ;
-
 //COOKBOOK
 $sql = "CREATE TABLE Cookbook (
 		cookbook_id INT(7) UNSIGNED AUTO_INCREMENT,
@@ -32,7 +27,6 @@ if($conn -> query($sql) === TRUE)
 	echo "<br>Table COOKBOOK Created successfully" ;
 else
 	echo "<br>Error creating table: " . $conn->error ;
-
 //RECIPE
 $sql = "CREATE TABLE Recipe (
 		recipe_id INT(7) UNSIGNED AUTO_INCREMENT,
@@ -52,7 +46,6 @@ if($conn -> query($sql) === TRUE)
 	echo "<br>Table RECIPE Created successfully" ;
 else
 	echo "<br>Error creating table: " . $conn->error ;
-
 //FLAG
 $sql = "CREATE TABLE Flag (
 		flag_id INT(7) UNSIGNED AUTO_INCREMENT,
@@ -70,7 +63,6 @@ if($conn -> query($sql) === TRUE)
 	echo "<br>Table FLAG Created successfully" ;
 else
 	echo "<br>Error creating table: " . $conn->error ;
-
 //COOKBOOK_LIST
 $sql = "CREATE TABLE Cookbook_list (
 		user_id INT(6) UNSIGNED NOT NULL, 
@@ -78,13 +70,13 @@ $sql = "CREATE TABLE Cookbook_list (
 		CONSTRAINT fk_AccCbList FOREIGN KEY(user_id)
 		REFERENCES Account(user_id),
 		CONSTRAINT fk_CbCbList FOREIGN KEY(cookbook_id)
-		REFERENCES Cookbook(cookbook_id)		
+		REFERENCES Cookbook(cookbook_id)	
+        ON DELETE CASCADE
 		)" ;
 if($conn -> query($sql) === TRUE)
 	echo "<br>Table COOKBOOK_LIST Created successfully" ;
 else
 	echo "<br>Error creating table: " . $conn->error ;
-
 //FRIENDS
 $sql = "CREATE TABLE Friends(
 		email VARCHAR(50) NOT NULL,
@@ -100,13 +92,12 @@ if($conn -> query($sql) === TRUE)
 	echo "<br>Table COOKBOOK_LIST Created successfully" ;
 else
 	echo "<br>Error creating table: " . $conn->error ;
-
 //RECIPE_LIST
 $sql = "CREATE TABLE Recipe_list (
 		cookbook_id INT(7) UNSIGNED NOT NULL,
 		recipe_id INT(7) UNSIGNED NOT NULL,
 		CONSTRAINT fk_CbReciList FOREIGN KEY (cookbook_id)
-		REFERENCES Cookbook(cookbook_id),		
+		REFERENCES Cookbook(cookbook_id),	
 		CONSTRAINT fk_ReciReciList FOREIGN KEY (recipe_id)
 		REFERENCES Recipe(recipe_id)
 		)" ;
@@ -114,7 +105,6 @@ if($conn -> query($sql) === TRUE)
 	echo "<br>Table RECIPE_LIST Created successfully" ;
 else
 	echo "<br>Error creating table: " . $conn->error ;
-
 //INGREDIENTS
 $sql = "CREATE TABLE Ingredient (
 		ingredient_id INT(7) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -129,7 +119,6 @@ if($conn -> query($sql) === TRUE)
 	echo "<br>Table INGREDIENT Created successfully" ;
 else
 	echo "<br>Error creating table: " . $conn->error ;
-
 //TAG
 $sql = "CREATE TABLE Tag (
 		tag_id INT(7) UNSIGNED AUTO_INCREMENT,
@@ -142,6 +131,5 @@ if($conn -> query($sql) === TRUE)
 	echo "<br>Table TAG Created successfully" ;
 else
 	echo "<br>Error creating table: " . $conn->error ;
-
 $conn -> close() ;
 ?>

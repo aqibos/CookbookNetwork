@@ -20,19 +20,7 @@
         <?php include 'sign-up-form.php' ?>
 		<div class="background-image"></div>
 		<div class="navigation-bar">
-			<table  class="navigation-bar-table">
-				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
-					<td class="navigation-bar-table-right">
-						<ul class="upper-level-ul">		
-							<li><a href="signup.php">Search Recipe</a></li>
-							<li><a href="signup.php">Search Cookbook</a></li>
-							<li><a href="signup.php">Log In</a></li>
-							<li><a href="signup.php">Sign Up</a></li>	
-						</ul>			
-					</td>
-				</tr>
-			</table>
+			<?php include 'check-menu.php'; ?>
 		</div>
 		<div class="content">
 			<h1 class="center">Create your Cookbook Network Account!</h1>

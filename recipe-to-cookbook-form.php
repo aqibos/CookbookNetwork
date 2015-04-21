@@ -1,14 +1,11 @@
 <?php 
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $host="localhost";              // Host name 
-        $username="root";               // Mysql username 
-        $password="";                   // Mysql password 
-        $db_name="cookbooknetwork";     // Database name 
+        include 'db-credentials.php'; 
         $tbl_name="Recipe_list"; // Table name 
 
         // Connect to server and select databse.
-        $link = new mysqli($host, $username, $password, $db_name);
+        $link = new mysqli($servername, $username, $password, $dbname);
         if ($link -> connect_error)
             die("Connection failed: ".$link -> connect_error);
 
@@ -16,7 +13,7 @@
         $cookbookID = $_POST['cookbook'];
 
         //user selected to create a new cookbook
-        if($cookbook == "createnew")
+        if($cookbookID == "createnew")
         {
             header('Location: create-cookbook.php');
         }
