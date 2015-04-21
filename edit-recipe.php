@@ -96,19 +96,21 @@
             //clean db of old recipe
             cleanDbTables($recipeId, $conn);
             
+            $userId = getAuthorId($conn, $_SESSION["username"]);
+            
             //if friend does not have account
             if (!checkPrivacy($conn))
             {
                 exit("Sorry, your friend(s) is not a registered user.");
             }
             
-            $recipeName = getRecipeName();
-            $allSteps = getAllSteps();
+            $recipeName = getRecipeName($conn);
+            $allSteps = getAllSteps($conn);
             $privacy = getPrivacy();
-            $arecipeId = insertRecipeIntoDB($recipeName, $userId, $allSteps, $privacy, $conn);
+            $recipeId = insertRecipeIntoDB($recipeName, $userId, $allSteps, $privacy, $conn);
             
             //if error in inserting recipe into db
-            if ($arecipeId < 0)
+            if ($recipeId < 0)
             {
                exit("Sorry, could not access database when adding recipe. Please try again.");
             }
@@ -118,11 +120,10 @@
             //check if image uploaded
             if (checkImageUploaded())
             {
-                unlink($photoNamePrev);
                 $photo = getImageTmpName();
-                $photoPath = getImagePath($arecipeId);
+                $photoPath = getImagePath($recipeId);
 
-                if (!mkdir("images/" . $arecipeId, 0777, true)) 
+                if (!mkdir("images/" . $recipeId, 0777, true)) 
                 {
                     exit('Could not upload image to server.');
                 }
@@ -132,22 +133,15 @@
                     exit('Could not create space on server for image.');
                 }
                 
-                if (!updateImagePathInDB($conn, "images/" . 
-                                         $photoPath, $arecipeId))
+                if (!updateImagePathInDB($conn, "images/" . $photoPath, $recipeId))
                 {
                     exit('Could not connect image to account.');
                 }
             }
-            else
-            {
-                if (!updateImagePathInDB($conn, $photoNamePrev, $arecipeId))
-                {
-                    exit('Could not connect image to account.');
-                }
-            }
+           
             
             $numFriends = countFriends();
-            $success = addFriendsToDB($conn, $numFriends, $arecipeId);
+            $success = addFriendsToDB($conn, $numFriends, $recipeId);
             
             //if error in inserting friends into db
             if (!$success)
@@ -155,7 +149,7 @@
                 exit("Sorry, could not access database when adding friends. Please try again.");
             }
             
-            $success = addIngredientsToDB($conn, $arecipeId);
+            $success = addIngredientsToDB($conn, $recipeId);
             
             //if error in inserting ingredients into db
             if (!$success)
@@ -163,7 +157,7 @@
                 exit("Sorry, could not access database when adding ingredients. Please try again.");
             }
             
-            $success = addTagsToDB($conn, $arecipeId);
+            $success = addTagsToDB($conn, $recipeId);
             
             //if error in inserting tags into db
             if (!$success)
@@ -172,7 +166,7 @@
             }
             
             closeDBConnection($conn);
-            redirectToViewRecipe($arecipeId);
+            redirectToViewRecipe($recipeId);
         }
 
 
@@ -182,25 +176,8 @@
         
         <title>Edit Recipe</title>
     </head>
-    <!--<body onload="setUpInputForm(<?php echo "$numberIngredients" ?>, <?php echo "$numberSteps" ?>, <?php echo "$ingredientList" ?>);"
-          >-->
-    <!--<body onload="setUpInputForm('<?php echo $recipeName;?>',
-                                    '<?php echo $ingredientList;?>', 
-                                    '<?php echo $stepList;?>', 
-                                    '<?php echo $tagList;?>', 
-                                    '<?php echo $privacy;?>', 
-                                    '<?php echo $friendList;?>'
-          );">-->
-    
+
         <body onload="setUpInputForm()">
-        
-        <!--<body onload="setUpInputForm('TITLE',
-                                    'INGRED1@INGRED2@INGRED3', 
-                                    'STEP1@STEP2@STEP3', 
-                                    'american', 
-                                    'FRIENDLY', 
-                                    'aqib@test.com, punk@ddd.com'
-          );">-->
         
         <img class="background-image" src="<?php 
                 if ($photoNamePrev == '' || $photoNamePrev == NULL)
