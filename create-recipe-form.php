@@ -321,6 +321,16 @@
         $conn->close();
     }
 
+    function removeRecipe($conn, $lastId)
+    {
+        removeFromDbType("Friends", "type_id", $lastId, $conn);
+        removeFromDbType("Tag", "type_id", $lastId, $conn);
+        removeFromDb("Ingredient", "recipe_id", $lastId, $conn);
+        removeFromDb("Flag", "recipe_id", $lastId, $conn);
+        removeFromDb("Recipe_list", "recipe_id", $lastId, $conn);
+        removeFromDb("Recipe", "recipe_id", $lastId, $conn);
+    }
+
     //in case of error, remove extranneous data from db
     function cleanDbTables($lastId, $conn)
     {
