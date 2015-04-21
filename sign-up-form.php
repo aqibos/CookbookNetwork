@@ -3,10 +3,7 @@
 
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
-    	$host="localhost";              // Host name 
-        $username="root";               // Mysql username 
-        $password="";                   // Mysql password 
-        $db_name="cookbooknetwork";     // Database name 
+    	include 'db-credentials.php';
         $tbl_name="Account"; // Table name 
 
         // Connect to server and select databse.
