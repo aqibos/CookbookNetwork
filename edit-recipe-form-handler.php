@@ -133,7 +133,7 @@
         $allFriends = "";
         $sql = "SELECT email
                 FROM Friends
-                WHERE recipe_id = '$recipeId'";
+                WHERE type_id = '$recipeId' AND type = 'RECIPE'";
         
         $result = mysqli_query($conn, $sql);
         while($row = mysqli_fetch_assoc($result)) 

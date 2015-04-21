@@ -28,10 +28,7 @@
             include 'create-recipe-form.php';
 
             //credentials
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "cookbooknetwork";
+            include 'db-credentials.php';
 
             //connect to db
             $conn = connectToDb($servername, $username, $password, $dbname);
@@ -42,7 +39,11 @@
 
             //get recipe name
             $recipeName = getRecipeNameFromDB($conn, $recipeId);
+            echo "RECIPE NAME: $recipeName<br>";
+            
             $author = getAuthorName($conn, $recipeId);
+            echo "AUTHOR NAME: $author<br>";
+
             if ($recipeName == '' || $author != $user)
             {
                 header('Location: fail.php');
@@ -50,25 +51,32 @@
 
             //get pic name
             $photoNamePrev = getImageNameFromDB($conn, $recipeId);
+            echo "PHOTO NAME: $photoNamePrev<br>";
 
             //get number of ingredients 
             $numberIngredients = getNumberOfIngredientsFromDB($conn, $recipeId);
 
             //get each ingredient - format: ingredient1, ingredient2, ingredient3...
             $ingredientList = getAllIngredientsFromDB($conn, $recipeId);
+            echo "INGREDIENT NAME: $ingredientList<br>";
 
             //get number of steps
             $numberSteps = getNumberOfStepsFromDB($conn, $recipeId);
 
             $stepList = getAllStepsFromDB($conn, $recipeId);
+            echo "STEP NAME: $stepList<br>";
+
             //get tags
             $numberTags = getNumberOfTagsFromDB($conn, $recipeId);
 
             $tagList = getAllTagsFromDB($conn, $recipeId);
+            echo "TAG NAME: $tagList<br>";
 
             $privacy = getPriv($conn, $recipeId);
+            echo "PRIVACY NAME: $privacy<br>";
 
             $friendList = getAllFriends($conn, $recipeId);
+            echo "FRIEND NAME: $friendList<br>";
 
             closeDBConnection($conn);
             
@@ -176,15 +184,23 @@
     </head>
     <!--<body onload="setUpInputForm(<?php echo "$numberIngredients" ?>, <?php echo "$numberSteps" ?>, <?php echo "$ingredientList" ?>);"
           >-->
-    <body onload="setUpInputForm('<?php echo $recipeName;?>',
-                                    '<?php echo $numberIngredients;?>', 
-                                    '<?php echo $numberSteps;?>', 
+    <!--<body onload="setUpInputForm('<?php echo $recipeName;?>',
                                     '<?php echo $ingredientList;?>', 
                                     '<?php echo $stepList;?>', 
                                     '<?php echo $tagList;?>', 
                                     '<?php echo $privacy;?>', 
                                     '<?php echo $friendList;?>'
-          );">
+          );">-->
+    
+        <body onload="setUpInputForm()">
+        
+        <!--<body onload="setUpInputForm('TITLE',
+                                    'INGRED1@INGRED2@INGRED3', 
+                                    'STEP1@STEP2@STEP3', 
+                                    'american', 
+                                    'FRIENDLY', 
+                                    'aqib@test.com, punk@ddd.com'
+          );">-->
         
         <img class="background-image" src="<?php 
                 if ($photoNamePrev == '' || $photoNamePrev == NULL)
@@ -402,12 +418,21 @@
             //set add friend button invisible
             document.getElementById("addFriend").style.visibility='hidden';
             
-            function setUpInputForm(recipeName, numIngredients, numSteps, allIngredients, allSteps, allTags, privacy, allFriends)
+            //function setUpInputForm(recipeName, allIngredients, allSteps, allTags, privacy, allFriends)
+            function setUpInputForm()
             {
+                var recipeName = <?php echo json_encode("$recipeName"); ?>;
+                var allIngredients = <?php echo json_encode("$ingredientList"); ?>;
+                var allSteps = <?php echo json_encode("$stepList"); ?>;
+                var allTags = <?php echo json_encode("$tagList"); ?>;
+                var privacy = <?php echo json_encode("$privacy"); ?>;
+                var allFriends = <?php echo json_encode("$friendList"); ?>;
+                
                 setupRecipeName(recipeName);
-                setupIngredientInputs(numIngredients, allIngredients);
-                setupStepInputs(numSteps, allSteps);
+                setupIngredientInputs(allIngredients);
+                setupStepInputs(allSteps);
                 setupTagInputs(allTags);
+                
                 var privacyDropdown = document.getElementById("privacy");
                 if (privacy.trim() == "PUBLIC")
                 {
@@ -434,7 +459,7 @@
                 document.getElementById("recipe-name").value = recipeName;
             }
             
-            function setupIngredientInputs(numIngredients, allIngredients)
+            function setupIngredientInputs(allIngredients)
             {
                 var ingredientArray = allIngredients.split('@');
                 
@@ -453,7 +478,7 @@
                 }
             }
             
-            function setupStepInputs(numSteps, allSteps)
+            function setupStepInputs(allSteps)
             {
                 var stepArray = allSteps.split('@');
                 
