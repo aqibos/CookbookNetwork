@@ -44,6 +44,7 @@
             session_start();
             $_SESSION['loggedin'] = true ;
             $_SESSION['username'] = $username;
+            $_SESSION['userid'] = mysqli_insert_id($link);
             $_SESSION['isAdmin'] = '0';
             redirect();     //done checking form, go to next page
         }
@@ -66,4 +67,4 @@
     }
 
         
-    ?>
+?>
