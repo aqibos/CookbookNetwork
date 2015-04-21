@@ -2,15 +2,11 @@
 	$error= "";
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     { 
-        //include 'db-credentials.php';
-        $host = "localhost";
-        $username = "root";
-        $password = "";
-        $db_name="cookbooknetwork";
+        include 'db-credentials.php';
         $tbl_name="Cookbook"; // Table name 
 
         // Connect to server and select databse.
-        $link = new mysqli($host, $username, $password, $db_name);
+        $link = new mysqli($servername, $username, $password, $dbname);
         if ($link -> connect_error)
 			die("Connection failed: ".$link -> connect_error);
         
