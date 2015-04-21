@@ -1,5 +1,8 @@
 <?php
 	session_start();
+
+    if(isset($_SESSION['userid']))      //deny access to registered users to sign up
+        header('Location: fail.php');
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +38,7 @@
 			<h1 class="center">Create your Cookbook Network Account!</h1>
 			<p class="center"><i>Share your recipes with others! It's fast and easy!</i></p>
 			<br/>
-			<form name="signup" method="post" onsubmit="return validateForm()" action="sign-up-form.php">
+			<form name="signup" method="post" onsubmit="return validateForm()">
 			<table class="tableform">
 				<tr>
 					<td><h3>Choose your username:</h3><br/></td>
