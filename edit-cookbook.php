@@ -30,6 +30,7 @@
         $i++;
     }
 
+    //all possible tags
     $alltags_array = array('1' => 'appetizer',
                             '2' => 'paleo',
                             '3' => 'american',
@@ -300,17 +301,6 @@
         
 
         <script type="text/javascript">
-            var emailIdNum = 1;
-            
-            function load()
-            {
-                var tags = <?php echo json_encode("$tags"); ?>;
-                var i;
-                for (i = 0; i < tagArray.length; i++)
-                {
-                    document.getElementById(tagArray[i].trim()).checked = "checked";
-                }
-            }
             
             function validate() 
             {
