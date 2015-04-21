@@ -22,14 +22,13 @@
 	<body>
 		<?php 
             $error="";
-            $host="localhost";              // Host name 
-            $username="root";               // Mysql username 
-            $password="";                   // Mysql password 
-            $db_name="cookbooknetwork";     // Database name 
+            
+            include 'db-credentials.php';
+    
             $tbl_name="Recipe";             // Table name 
 
             // Connect to server and select databse.
-            $link = new mysqli($host, $username, $password, $db_name);
+            $link = new mysqli($servername, $username, $password, $dbname);
             if ($link -> connect_error)
                 die("Connection failed: " . $link -> connect_error);
 
