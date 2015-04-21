@@ -47,9 +47,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     
     //get comments
     $comment = $_POST['comment'];
-
+    
     //fix comment special chars
-    $comment = cleanInput($comment);
+    $comment = $conn->real_escape_string($comment);
     
     //insert into db
     $sql = "INSERT INTO Flag (recipe_id, reason, comment, user_id) 
@@ -98,7 +98,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
 			  		<option value="directions">Incorrect Directions</option>
 				</select>
 				<br><br>
-				<h3>Comment: </h3><textarea name="comment" rows="5" cols="40"></textarea>
+				<h3>Comment: </h3><textarea name="comment" rows="5" cols="40" required></textarea>
 				<br><br>
 				<input type="submit" name="submit" value="Submit"> 
                 <input type="submit" name="cancel" value="Cancel"> 
