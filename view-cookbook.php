@@ -44,6 +44,10 @@ function printCookbook()
 		
 		<div class="content">
 			<?php printCookbook();?>
+			
+			<p class="center">
+                <a href="edit-cookbook.php?cookbook_id=<?php echo $cookbook_id; ?>">Edit Cookbook</a>
+            </p>
 		</div>
 		
 		<div class="footer"><p>&#169; Cookbook Network, 2015. All Rights Reserved.</p></div>

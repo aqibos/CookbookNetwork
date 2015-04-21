@@ -40,6 +40,7 @@ session_start() ;
 				<tr>
   					<td> <h3>Browse tags:</h3></td>
   				</tr>
+				<tr>
   					<td><br/></td>
   					<td><input type="checkbox" name="tags[]" value="Appetizer">Appetizer<br/></td>
   					<td><input type="checkbox" name="tags[]" value="Paleo">Paleo<br/></td>
@@ -80,7 +81,6 @@ session_start() ;
   					<td><input type="checkbox" name="tags[]" value="Gluten">Gluten-free<br/></td>
   					<td><input type="checkbox" name="tags[]" value="Vegan">Vegan<br/></td>
   					<td><input type="checkbox" name="tags[]" value="Latin">Latin<br/></td>
-
   				</tr>
   				<tr>
   					<td><br/></td>
@@ -91,12 +91,11 @@ session_start() ;
   				<tr>
   					<td><br/></td>
   					<td><br/><br/><input type="submit" name="submit" value="Browse"></td>
+				</tr>
 				</form>
 			</table>
 
 		</div>
-		
 		<div class="footer"><p>&#169; Cookbook Network, 2015. All Rights Reserved.</p></div>
-		
 	</body>
 </html>

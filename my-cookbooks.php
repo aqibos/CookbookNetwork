@@ -12,7 +12,7 @@ function printMyCookbooks()
 					WHERE user_id = '$userid')";
 	$result = $conn -> query($sql) ;
 	
-	printResult($result) ;	
+	printResultWithX($result) ;	
 }
 ?>
 <!DOCTYPE html>

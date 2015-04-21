@@ -10,6 +10,7 @@ function cbTitleSearch()
 	
 	$conn -> close() ;
 }
+
 function cbTagBrowse()
 {
 	$conn = getConn() ;
@@ -49,12 +50,10 @@ function cbTagBrowse()
 	
 	$conn -> close() ;
 }
+
 function getConn()
 {	
-	$servername = "localhost";
-	$username = "root" ;
-	$password = "";
-	$dbname = "cookbooknetwork";
+	include 'db-credentials.php' ;
 	
 	return new mysqli($servername, $username, $password, $dbname);
 }
@@ -88,6 +87,38 @@ function printResult($result)
 		echo'</div>';
 	}
 }
+function printResultWithX($result)
+{
+	$rowNum = $result -> num_rows ;
+	
+	echo '<h1>'.$rowNum.' cookbooks were found:</h1>' ;
+	
+	while($rowNum > 0)
+	{
+		echo'<div class="recipe-preview-row">';
+		for($i = 0 ; $i < 3 ; $i++ )
+		{
+			if($row = $result -> fetch_assoc() )
+			{
+			    if(isVisible($row["cookbook_id"]))
+				{
+					$path = getImage($row["cookbook_id"]) ;
+					echo '<a href="view-cookbook.php?cookbook_id='.$row["cookbook_id"].'">
+								<div class="recipe-preview-row-icon">
+									<img class="thumbnail" src="'.$path.'">
+									<p>'.$row["cb_title"].'</p>
+								</div>
+							</a>
+							<a href="delete.php?cookbook_id='.$row["cookbook_id"].'" onclick="return confirm(\'Are you sure you want to delete '.$row["cb_title"].'\');">
+								<img class="x" src="images/x.png"></a>';
+				}
+			}	
+			$rowNum = $rowNum - 1 ;	
+		}
+		echo'</div>';
+	}
+}
+
 
 function getImage($cookbook_id)
 {
@@ -107,7 +138,7 @@ function isVisible($cookbook_id)
 	$visibility = getVisibility($cookbook_id) ;
 	
 	if($visibility == 'PRIVATE' ) 
-		return false ;
+		return isOwner($cookbook_id) ;
 	else if($visibility == 'PUBLIC')
 		return true ;
 	else if($visibility == 'REGISTERED')
@@ -125,15 +156,15 @@ function getVisibility($cookbook_id)
 	return $row["visibility"];
 }
 
-function isAuthor($recipe_id)
+function isOwner($cookbook_id)
 {	
 	$conn = getConn() ;
-	$sql = " SELECT author FROM recipe
-				WHERE recipe_id = '$recipe_id'" ;
+	$sql = " SELECT user_id FROM cookbook_list
+				WHERE cookbook_id = '$cookbook_id'" ;
 	$result = $conn -> query($sql) ;
 	$row = $result -> fetch_assoc() ;
 	
-	return $_SESSION["userid"] == $row["author"] ; 	
+	return $_SESSION["userid"] == $row["user_id"] ; 	
 }
 
 function isFriend($cookbook_id)
