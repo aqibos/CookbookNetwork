@@ -103,6 +103,12 @@ else if ($privacy == 'FRIENDLY')
         }
     }
     
+    //2 - check if viewer is author
+    if (($loggedName == $author ))
+    {
+        $allowedToView = TRUE;
+    }
+    
     //if not, then redirect
     if (!$allowedToView)
     {
@@ -121,7 +127,7 @@ else if ($privacy == 'REGISTERED')
     }
 }
 
-//else must be public and it's ok to view
+//else must be public and it's ok for anyone to view
 
 
 ?>
@@ -160,17 +166,17 @@ else if ($privacy == 'REGISTERED')
 		
 		<div class="content" style="text-align:left">
 			<h1><?php echo "$recipeName"; ?> 
-                <img <?php 
+                <?php
                     if ($photoNamePrev == '' || $photoNamePrev == NULL)
                     {
 
                     }
                     else
                     {
-                        echo "class='border' src=$photoNamePrev ";                
+                        echo "<img  class='border' src='$photoNamePrev'  align='right' height='400' width='400' />";                
                     }
                  ?>
-                 align="right" height="400" width="400" />
+                 
                                                            
             </h1>
 			<p><i>Created by: <b><?php echo "$author" ?></b></i></p>
