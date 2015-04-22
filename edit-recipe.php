@@ -126,6 +126,13 @@
                 $photo = getImageTmpName();
                 $photoPath = getImagePath($recipeId);
 
+                if (is_dir("images/" . $recipeId)) 
+                {
+                    $imagePth = getImageNameFromDB($conn, $recipeId);
+                    unlink($imagePth);
+                    rmdir("images/" . $recipeId);
+                }
+                
                 if (!mkdir("images/" . $recipeId, 0777, true)) 
                 {
                     exit('Could not upload image to server.');
