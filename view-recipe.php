@@ -245,10 +245,10 @@ else if ($privacy == 'REGISTERED')
                     else
                     {
                         echo "<a href='rate-recipe.php?recipe_id=$recipeId'>Rate Recipe</a>&nbsp;&nbsp;|&nbsp;&nbsp;";
+                        echo "<a href='flag.php?recipe_id=$recipeId'>Flag Recipe</a>&nbsp;&nbsp;|&nbsp;&nbsp;";
                     }
                     if (!$loggedName == '')
                     {
-                        echo "<a href='flag.php?recipe_id=$recipeId'>Flag Recipe</a>&nbsp;&nbsp;|&nbsp;&nbsp;";
                         echo "<a href='recipe_to_cookbook.php?recipe_id=$recipeId'>Add to Cookbook</a>&nbsp;&nbsp;&nbsp;&nbsp;";
                     }
                 
