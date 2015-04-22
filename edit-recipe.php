@@ -46,7 +46,7 @@
 
             if ($recipeName == '' || $author != $user)
             {
-                //header('Location: fail.php');
+                header('Location: fail.php');
             }
 
             //get pic name
