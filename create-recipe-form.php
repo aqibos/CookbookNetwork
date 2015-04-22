@@ -377,12 +377,19 @@
 
     function updateRecipe($conn, $recipeName, $authorName, $allSteps, $privacy, $recipeId)
     {
+        //echo "recipename: $recipeName<br>";
+        //echo "steps: $allSteps<br>";
         //add recipe into db
-            $sql = "UPDATE Recipe
-                    SET recipe_title = '$recipeName', author = '$authorName', directions = '$allSteps', visibility = '$privacy') 
-                    WHERE recipe_id = '$recipeId'";
+            $sql = "UPDATE Recipe " . 
+                    "SET recipe_title = '$recipeName', directions = '$allSteps', visibility = '$privacy' " .
+                    "WHERE recipe_id = '$recipeId' ";
 
-            $conn->query($sql);
+            if (!($conn->query($sql) === TRUE)) 
+            {
+                //keep trying until success
+                echo "Failed it: $sql<br>";
+                echo "$conn->error<br>";
+            }
     }
 
     /*function cleanInput($stra)
