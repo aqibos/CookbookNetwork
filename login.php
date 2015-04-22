@@ -99,7 +99,7 @@
                                 <span class="error"><?php echo $emailERR ;?></span><br>
                                 Password: <input type="password" name="password">
                                 <span class="error"><?php echo $passwordERR ;?></span><br>
-                                <a class="forgot" href="forgot_password.php">forgot password?</a>
+                                <a class="forgot" href="forgot-password.php">forgot password?</a>
                                 <input type="submit" class="submit_button">
                                 <!-- <div class="button"><input type="submit" value="Submit"></div>-->
                             </form>
