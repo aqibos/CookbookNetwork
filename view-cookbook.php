@@ -1,9 +1,11 @@
 <?php
 session_start() ;
 include 'recipe-search-handler.php' ; 
-function printCookbook()
+
+$cookbook_id = $_GET["cookbook_id"] ;
+
+function printCookbook($cookbook_id)
 {
-	$cookbook_id = $_GET["cookbook_id"] ;
 	$conn = getConn() ;
 	
 	$sql = " SELECT cb_title FROM cookbook
@@ -43,7 +45,7 @@ function printCookbook()
 		</div>
 		
 		<div class="content">
-			<?php printCookbook();?>
+			<?php printCookbook( $cookbook_id);?>
 			
 			<p class="center">
                 <a href="edit-cookbook.php?cookbook_id=<?php echo $cookbook_id; ?>">Edit Cookbook</a>

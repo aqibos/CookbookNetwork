@@ -34,7 +34,6 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 				<input type="text" name="email" required>
 				<br><br>
 				<input type="submit" name="submit" value="Submit"> 
-				<button class="button" onclick="goBack()">Cancel</button>
 				</form>
 		</div>
 		

@@ -21,8 +21,8 @@
 		$id = $_GET["cookbook_id"] ;
 		removeFromDbType("Friends", "type_id", $id, $conn);
 		removeFromDbType("Tag", "type_id", $id, $conn);
+		removeFromDb("Recipe_list", "cookbook_id", $id, $conn);
 		removeFromDb("cookbook_list", "cookbook_id", $id, $conn);
-		removeFromDb("Recipe_list", "recipe_id", $id, $conn);
 		removeFromDb("cookbook", "cookbook_id", $id, $conn);
 		header('Location: my-cookbooks.php');
 	}
