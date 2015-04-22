@@ -46,7 +46,7 @@
 
             if ($recipeName == '' || $author != $user)
             {
-                header('Location: fail.php');
+                //header('Location: fail.php');
             }
 
             //get pic name
@@ -72,8 +72,7 @@
             $tagList = getAllTagsFromDB($conn, $recipeId);
             //echo "TAG NAME: $tagList<br>";
 
-            $privacy = getPriv($conn, $recipeId);
-            //echo "PRIVACY NAME: $privacy<br>";
+            $privacyx = getPriv($conn, $recipeId);
 
             $friendList = getAllFriends($conn, $recipeId);
             //echo "FRIEND NAME: $friendList<br>";
@@ -151,6 +150,23 @@
             if (!$success)
             {
                 exit("Sorry, could not access database when adding friends. Please try again.");
+            }
+            
+            if ($privacy == 'friendly')
+            {
+                
+                $sql = "SELECT email
+                FROM Account
+                WHERE user_id = '$userId' ";
+        
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_assoc($result);
+                $emailAddr = $row["email"];
+                
+                $sql = "INSERT INTO Friends (email, type, type_id) 
+                    VALUES ('$emailAddr', 'RECIPE','$recipeId');";
+
+                $conn->query($sql);
             }
             
             $success = addIngredientsToDB($conn, $recipeId);
@@ -406,13 +422,15 @@
                 var allIngredients = <?php echo json_encode("$ingredientList"); ?>;
                 var allSteps = <?php echo json_encode("$stepList"); ?>;
                 var allTags = <?php echo json_encode("$tagList"); ?>;
-                var privacy = <?php echo json_encode("$privacy"); ?>;
+                var privacy = <?php echo json_encode("$privacyx"); ?>;
                 var allFriends = <?php echo json_encode("$friendList"); ?>;
                 
                 setupRecipeName(recipeName);
                 setupIngredientInputs(allIngredients);
                 setupStepInputs(allSteps);
                 setupTagInputs(allTags);
+                
+                
                 
                 var privacyDropdown = document.getElementById("privacy");
                 if (privacy.trim() == "PUBLIC")
@@ -485,7 +503,10 @@
                 var i;
                 for (i = 0; i < tagArray.length; i++)
                 {
-                    document.getElementById(tagArray[i].trim()).checked = "checked";
+                    if (tagArray[i] != '')
+                    {
+                        document.getElementById(tagArray[i].trim()).checked = "checked";
+                    }
                 }
             }
             

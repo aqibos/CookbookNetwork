@@ -142,6 +142,16 @@
 
     function getAllFriends($conn, $recipeId)
     {
+        $userId = $_SESSION['userid'];
+        
+        $sql = "SELECT email
+                FROM Account
+                WHERE user_id = '$userId' ";
+        
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $emailAddr = $row["email"];
+        
         $allFriends = "";
         $sql = "SELECT email
                 FROM Friends
@@ -151,7 +161,11 @@
         while($row = mysqli_fetch_assoc($result)) 
         {
             $currFriend = $row["email"];
-            $allFriends .= $currFriend . ", ";
+            
+            if ($currFriend != $emailAddr)
+            {
+                $allFriends .= $currFriend . ", ";
+            }
         }
         
         $allFriends = substr($allFriends, 0, strlen($allFriends) - 2);
