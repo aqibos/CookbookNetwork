@@ -27,7 +27,7 @@
 		
 		<div class="content">
 			<h1 class="center">Create Cookbook</h1>
-            <p><?php print_r($error); echo $privacy; echo $count; ?></p>
+            <p><?php print_r($error); ?></p>
 			<table class="tableform">
             <form name="createcbk" method="post" onsubmit="return validate()">
 				<tr>
