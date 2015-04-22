@@ -120,7 +120,7 @@
             
             $photoPath = NULL;
             
-            //check if image uploaded
+            //check if image uploaded here
             if (checkImageUploaded())
             {
                 $photo = getImageTmpName();
