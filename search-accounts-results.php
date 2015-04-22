@@ -49,7 +49,7 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 					
 					while($row = $result -> fetch_assoc())
 					{
-						echo '<br><h3><a href="account-info.php?user_id='.$row["user_id"].'">email: '.$row["email"].'<br> username: '.$row["username"].'</a></h3> ';
+						echo '<br><h3><a href="view-account-info.php?user_id='.$row["user_id"].'">email: '.$row["email"].'<br> username: '.$row["username"].'</a></h3> ';
 					}
 				}	
 				else
