@@ -59,11 +59,9 @@
                 $_SESSION['loggedin'] = true;
                 $_SESSION['username'] = $row['username'];   //set session variables
                 $_SESSION['userid'] = $row['user_id']; 
-                $_SESSION['isAdmin'] = $row['isAdmin']; 
-                 
+                $_SESSION['isAdmin'] = $row['isAdmin'];                  
 
                 redirect();         //go to logged in page
-
             }
             else if($count == 0)        //no username or password combo exists
             {
@@ -91,7 +89,7 @@
 				<table class="content-table">
 					<tr>
 						<a href="index.php">
-                        <td class="content-table-left"><h1 class="content-table-left-header"><a href="index.php">Cookbook Network</a></h1></td>
+                        <td class="content-table-left"><h1 class="content-table-left-header"><a href="index-1.html">Cookbook Network</a></h1></td>
 						
                         <td class="login_form">
                             <form name="login" method="post" onsubmit="return validateInput()" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
