@@ -228,14 +228,14 @@
         return $row["email"];
     }
 
-    function fixFlag($conn, $oldRecipeId, $newRecipeId)
+    /*function fixFlag($conn, $oldRecipeId, $newRecipeId)
     {
         $sql = "UPDATE Flag
                 SET recipe_id = '$newRecipeId'
                 WHERE recipe_id = '$oldRecipeId'";
                 
         $result = mysqli_query($conn, $sql);
-    }
+    }*/
 
 
 

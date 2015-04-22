@@ -108,9 +108,9 @@
             $recipeName = getRecipeName($conn);
             $allSteps = getAllSteps($conn);
             $privacy = getPrivacy();
-            updateRecipe($conn, $recipeName, $authorName, $allSteps, $privacy, $recipeId);
+            updateRecipe($conn, $recipeName, $author, $allSteps, $privacy, $recipeId);
             
-            fixFlag($conn, $oldRecipeId);
+            //fixFlag($conn, $oldRecipeId);
             
             //if error in inserting recipe into db
             if ($recipeId < 0)
