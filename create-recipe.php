@@ -67,6 +67,23 @@
                 exit("Sorry, could not access database when adding friends. Please try again.");
             }
             
+            if ($privacy == 'friendly')
+            {
+                
+                $sql = "SELECT email
+                FROM Account
+                WHERE user_id = '$userId' ";
+        
+                $result = mysqli_query($conn, $sql);
+                $row = mysqli_fetch_assoc($result);
+                $emailAddr = $row["email"];
+                
+                $sql = "INSERT INTO Friends (email, type, type_id) 
+                    VALUES ('$emailAddr', 'RECIPE','$recipeId');";
+
+                $conn->query($sql);
+            }
+            
             $success = addIngredientsToDB($conn, $recipeId);
             
             //if error in inserting ingredients into db

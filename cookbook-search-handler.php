@@ -4,7 +4,7 @@ function cbTitleSearch()
 	$conn = getConn() ;
 	
 	$title = clean($_POST["title"]);
-	$sql = "SELECT * FROM cookbook WHERE cb_title ='$title'";
+	$sql = "SELECT * FROM cookbook WHERE cb_title ='$title' ";
 	
 	printResult($conn -> query($sql)) ;
 	
@@ -31,7 +31,7 @@ function cbTagBrowse()
 	{
 		$first = $tags[0] ; 
 		$sql = " SELECT type_id FROM tag
-					WHERE name = '$first AND type = 'COOKBOOK'";
+					WHERE name = '$first' AND type = 'COOKBOOK' ";
 
 		for($i = 1 ; $i < $len ; $i++)
 		{

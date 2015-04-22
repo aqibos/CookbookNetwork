@@ -201,36 +201,18 @@
     //add friends to db
     function addFriendsToDB($conn, $numFriends, $lastId)
     {
-        /*
-        //FRIENDS
-        $sql = "CREATE TABLE Friends(
-            email VARCHAR(50) NOT NULL,
-            type enum('RECIPE', 'COOKBOOK') NOT NULL,
-            type_id INT(7) UNSIGNED NOT NULL,
-            friend_id INT(7) UNSIGNED AUTO_INCREMENT,
-            PRIMARY KEY(friend_id),
-            CONSTRAINT fk_AccFriends FOREIGN KEY (email)
-            REFERENCES Account(email)
-            ON DELETE CASCADE
-		)" ;
-        
-        */
-        
-        
         for ($x = 0; $x < $numFriends; $x++)
         {
             $currFriend = $conn->real_escape_string($_POST["friendName" . $x]);
             
             $currFriendId = getAuthorIdFrmEmail($conn, $currFriend);
+            $sql = "INSERT INTO Friends (email, type, type_id) 
+                    VALUES ('$currFriend', 'RECIPE','$lastId');";
 
-            $sql = "INSERT INTO Friends (email, type, type_id, friend_id) 
-                    VALUES ('$currFriend', 'RECIPE','$lastId', '$currFriendId')";
-
-                if (!($conn->query($sql) === TRUE)) {
-                    cleanDbTables($lastId, $conn);
-                    
-                    return false;
-                }
+            if (!($conn->query($sql) === TRUE)) {
+                //removeRecipe($lastId, $conn);
+                return false;
+            }
         }
         return true;
     }
@@ -379,6 +361,8 @@
         $row = mysqli_fetch_assoc($result);
         return $row["user_id"];
     }
+
+    
 
     function getAuthorIdFrmEmail($conn, $email)
     {
