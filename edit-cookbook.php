@@ -79,7 +79,7 @@
         if ($link -> connect_error)
 			die("Connection failed: ".$link -> connect_error);
         
-        // username and password and email sent from form
+        // get cbkn name, privacy, tags, friends from form
         $cookbookname = $_POST['cookbookname'];
         $privacy = $_POST['privacy']; 
         if($privacy == "friendly") {$email = $_POST['email'];}
@@ -94,7 +94,7 @@
             header('Location: fail.php');
         }
         
-        //DELETE friends of cookboko
+        //DELETE friends of cookbook
         $sql ="DELETE FROM Friends WHERE type='COOKBOOK' AND type_id ='$cookbook_id'";
         if ($link->query($sql) != true)     //unsuccessful query
         {
@@ -362,7 +362,6 @@
                 input.type = "text";
                 input.name = "email[]";
                 input.size = "35";
-                input.id = "email";
                 
                 var container = document.getElementById("1");
                 container.appendChild(input);

@@ -12,7 +12,10 @@
         // cookbook name, privacy, tags, friends from form
         $cookbookname = $_POST['cookbookname'];
         $privacy = $_POST['privacy']; 
-        if($privacy == "friendly") {$email = $_POST['email'];}
+        if($privacy == "friendly") 
+        {
+            $allemails = $_POST['email'];
+        }
         if(isset($_POST['tags']))
             $tags = $_POST['tags'];
         
@@ -32,8 +35,8 @@
         //If its friendly, add emails
         if($privacy=="friendly")
         {    
-            storeFriends($email, $cb_id, $link);
-            //$error = $count;
+            storeFriends($_POST['email'], $cb_id, $link);
+            $error = $allemails;
         }
         
 

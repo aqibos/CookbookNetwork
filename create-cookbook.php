@@ -27,7 +27,7 @@
 		
 		<div class="content">
 			<h1 class="center">Create Cookbook</h1>
-            <p><?php print_r($error); ?></p>
+            <p><?php print_r($_POST['email']); ?></p>
 			<table class="tableform">
             <form name="createcbk" method="post" onsubmit="return validate()">
 				<tr>
@@ -46,8 +46,8 @@
                     <td colspan="2" width="60%"><div class="hidden" id="ifFriendly"><h3>Enter email of users to share: </h3></div></td>
                     <td colspan="2" width="30%">
                         <div class="hidden" id="ifFriendly2">
-                            <div class="email" id="1">
-                                <input type="text" size="35" name="email[]" id="email" />
+                            <div id="emailfield">
+                                <input type="text" size="35" name="email[]"  />
                             </div>
                         </div>
                     </td>
@@ -128,7 +128,6 @@
         
 
         <script type="text/javascript">
-            var emailIdNum = 1;
             
             function validate() 
             {
@@ -184,35 +183,33 @@
                 }
             }
             
-            /*function addEmailField()
+            function addEmailField()
             {
                 var input = document.createElement('input'); 
                 input.type = "text";
                 input.name = "email[]";
                 input.size = "35";
-                input.id = "email";
                 
-                var container = document.getElementById("1");
+                var container = document.getElementById("emailfield");
                 container.appendChild(input);
-            }*/
+            }
             
-            function addEmailField() 
+           /* function addEmailField() 
             {
                 var allEmails = document.getElementsByClassName("email");
                 var lastEmail = allEmails[allEmails.length - 1];
                 var clone = lastEmail.cloneNode(true);
-                //clone.id= "ingredient" + ingredientIdNum;
                 lastEmail.parentNode.appendChild(clone);
                 fixEmailInputName();
             }
 
-            //fixes the last added ingredient's name
+            //fixes the last added email's name
             function fixEmailInputName()
             {
-                var allEmailInputs = document.getElementsByClassName("emailInput");
+                var allEmailInputs = document.getElementsByClassName("email");
                 var lastEmailInput = allEmailInputs[allEmailInputs.length - 1];
                 lastEmailInput.value = "";
-            }
+            }*/
         </script>
             
 		
