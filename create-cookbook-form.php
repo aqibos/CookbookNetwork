@@ -34,7 +34,7 @@
         
         
         //If its friendly, add emails
-        if(isset($allemails))
+        if($privacy == 'friendly')
         {    
             storeFriends($allemails, $cb_id, $link);
         }
