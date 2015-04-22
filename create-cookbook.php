@@ -27,9 +27,8 @@
 		
 		<div class="content">
 			<h1 class="center">Create Cookbook</h1>
-            <p><?php print_r($_POST['email']); ?></p>
-			<table class="tableform">
-            <form name="createcbk" method="post" onsubmit="return validate()">
+			 <form name="createcbk" method="post" onsubmit="return validate();">
+            <table class="tableform">
 				<tr>
   					<td colspan="2" width="60%"> <h3>Name of Cookbook: </h3><br/></td>
   					<td colspan="2" width="30%"><input size="35" type="text" name="cookbookname"><br/><br/></td>
@@ -47,7 +46,7 @@
                     <td colspan="2" width="30%">
                         <div class="hidden" id="ifFriendly2">
                             <div id="emailfield">
-                                <input type="text" size="35" name="email[]"  />
+                                <input type="text" size="35" name="email[]">
                             </div>
                         </div>
                     </td>
@@ -121,9 +120,8 @@
             <td colspan="2"><br/><br/><br/><div class="submitbutton"><input type="submit" value="Cancel" onclick="window.history.back(); return false;"></div></td>
 
   				</tr>
-                </form>
 			</table>
-
+            </form>
 		</div>
         
 
@@ -135,8 +133,8 @@
                 var checkboxes = document.getElementsByName('privacy');
                 
                 //Check for blank cookbook name
-                if(cookbookname == null || cookbookname =='')
-                {
+                if(isBlank(cookbookname))
+                { 
                     alert("Fill in cookbook name.");
                     return false;
                 }
@@ -144,8 +142,8 @@
                 //check for at least one email is friendly checked
                 if(document.getElementById('friendlycheck').checked)
                 {
-                    var email = document.forms["createcbk"]["email"].value;
-                    if(email == null || email == '')
+                    var emails = document.forms["createcbk"]["email[]"];
+                    if(emails[0] == null || emails[0] == '')
                     {   
                         alert("Fill in at least one email.");
                         return false;
@@ -194,22 +192,11 @@
                 container.appendChild(input);
             }
             
-           /* function addEmailField() 
+            function isBlank($field)
             {
-                var allEmails = document.getElementsByClassName("email");
-                var lastEmail = allEmails[allEmails.length - 1];
-                var clone = lastEmail.cloneNode(true);
-                lastEmail.parentNode.appendChild(clone);
-                fixEmailInputName();
-            }
+                return ($field == null || $field == '');
 
-            //fixes the last added email's name
-            function fixEmailInputName()
-            {
-                var allEmailInputs = document.getElementsByClassName("email");
-                var lastEmailInput = allEmailInputs[allEmailInputs.length - 1];
-                lastEmailInput.value = "";
-            }*/
+            }
         </script>
             
 		

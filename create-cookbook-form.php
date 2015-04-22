@@ -12,7 +12,7 @@
         // cookbook name, privacy, tags, friends from form
         $cookbookname = $_POST['cookbookname'];
         $privacy = $_POST['privacy']; 
-        if($privacy == "friendly") 
+        if(isset($_POST['email'])) 
         {
             $allemails = $_POST['email'];
         }
@@ -28,15 +28,15 @@
         {
             $error= "ERROR: Could not able to execute $sql. " . $link->connect_error;
         }
+        
         //get new cookbook id
         $cb_id = mysqli_insert_id($link);
         
         
         //If its friendly, add emails
-        if($privacy=="friendly")
+        if(isset($allemails))
         {    
-            storeFriends($_POST['email'], $cb_id, $link);
-            $error = $allemails;
+            storeFriends($allemails, $cb_id, $link);
         }
         
 
@@ -51,9 +51,8 @@
             //store array of tags in database
         if(isset($tags)) {storeTags($tags, $cb_id, $link);}
         
+        redirect($cb_id);    
         
-
-            
         mysqli_close($link);            //close connection
     }
 
@@ -80,7 +79,12 @@
         for($i=0; $i < $size; $i++)
         {
             $current = $email[$i];
-            if(checkValidFriend($current, $link))
+            if(($current == null || $current == '') && $i <= $size-2)   //if empty field and there is more, skip
+            {
+                $i++;
+                $current = $email[$i];
+            }
+            if(checkValidFriend($current, $link))       //if account exists, add as friend
             {
                 $sql= "INSERT INTO  Friends (email, type, type_id)
                     VALUES ('$current', 'COOKBOOK', '$cookbook_id')";
@@ -89,14 +93,16 @@
             }
             else
             {
-                //invalid friend, delete cookbook
-                $sql = "DELETE FROM Cookbook WHERE cookbook_id = '$cookbook_id'";
-                if ($link->query($sql) != true)     //unsuccessful query
-                    header('Location: fail.php');
                 //delete any previously added friends from cookbook
                 $sql2 = "DELETE FROM Friends WHERE type = 'COOKBOOK' AND type_id = '$cookbook_id'";
                 if ($link->query($sql2) != true)     //unsuccessful query
                     header('Location: fail.php');
+                
+                //invalid friend, delete cookbook
+                $sql = "DELETE FROM Cookbook WHERE cookbook_id = '$cookbook_id'";
+                if ($link->query($sql) != true)     //unsuccessful query
+                    header('Location: fail.php');
+                
                  exit('Sorry, you have inserted invalid friend(s).');
             }
         }
@@ -116,9 +122,9 @@
     }
         
     //Change location to home-page-registered.php
-    function redirect()
+    function redirect($cookbook_id)
     {
-    	header('Location: view-cookbook.php');
+    	header('Location: view-cookbook.php?cookbook_id=' . $cookbook_id);
     }
 
     ?>
