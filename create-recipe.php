@@ -146,7 +146,7 @@
 				<tr class="content-table-row">
 					<td class="content-table-left"><h3>Picture:</h3></td>
 					<td class="content-table-right">
-                        <p>Please select a picutre (only PNG and JPEG files is accepted):</p>
+                        <p>Please select a picture (only PNG and JPEG files are accepted):</p>
                         <input type="file" name="photo" size="400" accept="image/png, image/jpeg" /> </td>
 				</tr>
 				<!-- INGREDIENTS -->
