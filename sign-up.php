@@ -48,7 +48,7 @@
 				</tr>
 			</table>
 					<p class="center"><br/><br/> 
-                        <input type="submit" value="Cancel" onclick="window.history.back(); return false;">
+                        <input type="submit" value="Cancel" onclick="window.location.replace('index-1.php'); return false;">
                         <input class="submitbutton" type="submit" value="Create My Account">&nbsp;&nbsp;&nbsp;&nbsp;
                     </p>
 				</form>
