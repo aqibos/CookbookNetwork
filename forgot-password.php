@@ -46,8 +46,8 @@ session_start() ;
 								<form method="post" action="forgot-password-result.php">
 									Enter your email: <input type="text" name="email" required><br>
 									<input type="submit" class="submit_button" value="Submit">
-									<a href="index-1.html"><button>Cancel</button></a>
-								</form>
+									
+								</form><a href="index-1.html"><button>Cancel</button></a>
 							</td>
 						</tr>
 						<tr>

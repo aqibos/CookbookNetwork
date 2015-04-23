@@ -1,6 +1,81 @@
 <?php
 session_start() ;
-?>
+// define variables and set to empty values
+$user_email = "";
+$output ="" ;
+if ($_SERVER["REQUEST_METHOD"] == "POST")
+{
+	$user_email = test_input($_POST["email"]);
+	if (!filter_var($user_email, FILTER_VALIDATE_EMAIL))
+	{
+		$output = "Invalid email format";
+	}
+	else 
+	{   
+		$sent = send_to($user_email) ;
+	
+		if($sent)
+			$output = "A password was sent to ".$user_email;
+		else
+			$output = $user_email." was not found in our system";
+	}
+}
+
+function test_input($data) 
+{
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	return $data;
+}
+
+function send_to($email)
+{
+	include 'db-credentials.php' ;
+	$conn = new mysqli($servername, $username, $password, $dbname) or die("Unable to connect");
+	
+	$sql = "SELECT * FROM  Account WHERE email = '$email'" ;
+	
+	$result = $conn -> query($sql) ;
+	
+	if($result -> num_rows > 0) 
+	{
+		$new_pw = generate_pw() ;
+		$sql = "UPDATE Account SET password='$new_pw' WHERE email='$email'" ;
+		if ($conn->query($sql) === TRUE) 
+		{
+			$msg = "This is your new password. \n\nPassword:".$new_pw."\n\nPlease change your password through the 'Account Info' link as soon as possible!" ;
+			$msg = wordwrap($msg,70) ;
+			$worked = mail($email,"Cookbook Network: Reset Password",$msg,"From: localhost:81/127.0.0.1");
+			
+			echo $worked ;
+		} 
+		else 
+			echo "Try again: Error updating record: " . $conn->error;
+								
+		$conn -> close() ;
+		return  true;
+	} 
+	else 
+	{ 
+		$conn -> close() ;
+		return  false;
+	}    
+}
+
+function generate_pw()
+{
+	$valid_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" ;
+	$pdubs = '' ;
+	for( $i = 0 ; $i < 20 ; $i++)
+	{
+		$pick = mt_rand( 0 , 61 ) ;
+		$pdubs .= $valid_chars[$pick] ;
+	}
+	
+	return $pdubs ;
+}
+?>  
 <!DOCTYPE html>
 <html>
 	
@@ -35,90 +110,7 @@ session_start() ;
 		
 		<div class="full-body">
 			
-			<div class="content-transparent">
-            <?php 
-                // define variables and set to empty values
-                $user_email = "";
-                $output ="" ;
-                if ($_SERVER["REQUEST_METHOD"] == "POST")
-                {
-                    $user_email = test_input($_POST["email"]);
-                    if (!filter_var($user_email, FILTER_VALIDATE_EMAIL))
-                    {
-						$output = "Invalid email format";
-					}
-                    else 
-                    {   
-						$sent = send_to($user_email) ;
-                    
-						if($sent)
-							$output = "A password was sent to ".$user_email;
-						else
-							$output = $user_email." was not found in our system";
-					}
-                }
-                
-                function test_input($data) 
-                {
-                    $data = trim($data);
-                    $data = stripslashes($data);
-                    $data = htmlspecialchars($data);
-                    return $data;
-                }
-                
-                function send_to($email)
-                {
-                    
-                    $servername = 'localhost' ;
-                    $username = 'root';
-                    $pw = '';
-                    $dbname = 'cookbooknetwork' ;
-
-                    $conn = new mysqli($servername, $username, $pw, $dbname) or die("Unable to connect");
-                    
-                    $sql = "SELECT * FROM  Account WHERE email = '$email'" ;
-                    
-                    $result = $conn -> query($sql) ;
-                    
-                    if($result -> num_rows > 0) 
-                    {
-                        $new_pw = generate_pw() ;
-                        $sql = "UPDATE Account SET password='$new_pw' WHERE email='$email'" ;
-                        if ($conn->query($sql) === TRUE) 
-                        {
-                            $msg = "This is your new password. \n\nPassword:".$new_pw."\n\nPlease change your password through the 'Account Info' link as soon as possible!" ;
-                            $msg = wordwrap($msg,70) ;
-                            mail($email,"Cookbook Network: Reset Password",$msg,"From: password@cookbooknetwork.com");
-                            
-                            $emailERR = "none" ;
-                        } 
-                        else 
-                            echo "Try again: Error updating record: " . $conn->error;
-                                                
-                        $conn -> close() ;
-                        return  true;
-                    } 
-                    else 
-                    { 
-                        $conn -> close() ;
-                        return  false;
-                    }    
-                }
-                
-                function generate_pw()
-                {
-                    $valid_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" ;
-                    $pdubs = '' ;
-                    for( $i = 0 ; $i < 20 ; $i++)
-                    {
-                        $pick = mt_rand( 0 , 61 ) ;
-                        $pdubs .= $valid_chars[$pick] ;
-                    }
-                    
-                    return $pdubs ;
-                }
-            ?>    
-                
+			<div class="content-transparent">         
 			<div class="content">
 				<table class="content-table">
 					<tr>

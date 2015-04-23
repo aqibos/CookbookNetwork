@@ -94,31 +94,34 @@ function getConn()
 
 function printResult($result)
 {
-	$rowNum = $result -> num_rows ;
-	
-	echo '<h1>'.$rowNum.' recipes were found:</h1>' ;
+	$visibleRecipes = $rowNum = $result -> num_rows ;
+	$html = "" ;
 	
 	while($rowNum > 0)
 	{
-		echo'<div class="recipe-preview-row">';
+		$html .= "<div class=\"recipe-preview-row\">";
 		for($i = 0 ; $i < 3 ; $i++ )
 		{
 			if($row = $result -> fetch_assoc() )
 			{
 			    if(isVisible($row["recipe_id"]))
-				{
-					echo '<a href="view-recipe.php?recipe_id='.$row["recipe_id"].'">
-								<div class="recipe-preview-row-icon">
-									<img class="thumbnail" src="'.$row["img_path"].'">
-									<p>'.$row["recipe_title"].'</p>
+					$html .= "<a href=\"view-recipe.php?recipe_id=".$row["recipe_id"]."\">
+								<div class=\"recipe-preview-row-icon\">
+									<img class=\"thumbnail\" src=\"".$row["img_path"]."\">
+									<p>".$row["recipe_title"]."</p>
 								</div>
-							</a>';
-				}
+							</a>";
+				
+				else
+					$visibleRecipes-- ;
 			}
 			$rowNum = $rowNum - 1 ;	
 		}
-		echo'</div>';
+		$html .= "</div>";
 	}
+	
+	echo '<h1>'.$visibleRecipes.' recipes were found:</h1>' ;
+	echo $html ;
 }
 
 function printResultWithX($result)
@@ -157,13 +160,13 @@ function isVisible($recipe_id)
 	$visibility = getVisibility($recipe_id) ;
 	
 	if($visibility == 'PRIVATE' ) 
-		return isAuthor($recipe_id) ;
+		return isset($_SESSION["loggedin"]) and isAuthor($recipe_id) ;
 	else if($visibility == 'PUBLIC')
 		return true ;
 	else if($visibility == 'REGISTERED')
 		return isset($_SESSION["loggedin"]) and $_SESSION["loggedin"] ;
 	else if($visibility == 'FRIENDLY')
-		return isFriend($recipe_id) ;
+		return isset($_SESSION["loggedin"]) and isAuthor($recipe_id) or isFriend($recipe_id) ;
 }
 
 function getVisibility($recipe_id)

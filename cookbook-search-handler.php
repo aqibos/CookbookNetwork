@@ -61,12 +61,12 @@ function getConn()
 function printResult($result)
 {
 	$rowNum = $result -> num_rows ;
-	
-	echo '<h1>'.$rowNum.' cookbooks were found:</h1>' ;
+	$visibleCookbooks = $rowNum ;
+	$html = "" ;
 	
 	while($rowNum > 0)
 	{
-		echo'<div class="recipe-preview-row">';
+		$html .= '<div class="recipe-preview-row">';
 		for($i = 0 ; $i < 3 ; $i++ )
 		{
 			if($row = $result -> fetch_assoc() )
@@ -74,18 +74,22 @@ function printResult($result)
 			    if(isVisible($row["cookbook_id"]))
 				{
 					$path = getImage($row["cookbook_id"]) ;
-					echo '<a href="view-cookbook.php?cookbook_id='.$row["cookbook_id"].'">
+					$html .=  '<a href="view-cookbook.php?cookbook_id='.$row["cookbook_id"].'">
 								<div class="recipe-preview-row-icon">
 									<img class="thumbnail" src="'.$path.'">
 									<p>'.$row["cb_title"].'</p>
 								</div>
 							</a>';
 				}
+				else
+					$visibleCookbooks-- ;
 			}	
 			$rowNum = $rowNum - 1 ;	
 		}
-		echo'</div>';
+		$html .= '</div>';
 	}
+	echo '<h1>'.$visibleCookbooks.' cookbooks were found:</h1>' ;
+	echo $html ;
 }
 function printResultWithX($result)
 {
@@ -138,13 +142,13 @@ function isVisible($cookbook_id)
 	$visibility = getVisibility($cookbook_id) ;
 	
 	if($visibility == 'PRIVATE' ) 
-		return isOwner($cookbook_id) ;
+		return isset($_SESSION["loggedin"]) and isOwner($cookbook_id) ;
 	else if($visibility == 'PUBLIC')
 		return true ;
 	else if($visibility == 'REGISTERED')
 		return isset($_SESSION["loggedin"]) and $_SESSION["loggedin"] ;
 	else if($visibility == 'FRIENDLY')
-		return isFriend($cookbook_id) ;
+		return isset($_SESSION["loggedin"]) and isOwner($cookbook_id) or isFriend($cookbook_id) ;
 }
 
 function getVisibility($cookbook_id)
