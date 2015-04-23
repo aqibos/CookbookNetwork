@@ -79,7 +79,7 @@
   				<tr>
   					<td><br/></td>
   					<td><br/></td>
-  					<td><input type="checkbox" name="tags[]" value="breakfast">Breakfast<br/></td>
+  					<td><input type="checkbox" name="tags[]" value="breakfast/brunch">Breakfast<br/></td>
   					<td><input type="checkbox" name="tags[]" value="salad">Salad<br/></td>
   					<td><input type="checkbox" name="tags[]" value="greek">Greek<br/></td>
   				</tr>

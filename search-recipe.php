@@ -88,7 +88,7 @@ session_start() ;
 					</tr>
 					<tr>
 						<td><br/></td>
-						<td><input type="checkbox" name="tags[]" value="Breakfast">Breakfast<br/></td>
+						<td><input type="checkbox" name="tags[]" value="Breakfast/brunch">Breakfast<br/></td>
 						<td><input type="checkbox" name="tags[]" value="Salad">Salad<br/></td>
 						<td><input type="checkbox" name="tags[]" value="Greek">Greek<br/></td>
 					</tr>
@@ -106,7 +106,7 @@ session_start() ;
 					</tr>
 					<tr>
 						<td><br/></td>
-						<td><input type="checkbox" name="tags[]" value="Gluten">Gluten-free<br/></td>
+						<td><input type="checkbox" name="tags[]" value="Gluten-free">Gluten-free<br/></td>
 						<td><input type="checkbox" name="tags[]" value="Vegan">Vegan<br/></td>
 						<td><input type="checkbox" name="tags[]" value="Latin">Latin<br/></td>
 
