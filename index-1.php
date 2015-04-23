@@ -53,7 +53,7 @@
                         <?php
                             if (!$loggedIn)
                             {
-                                print('<a href="login.php" class="content-table-right-link"><div>Log In</div></a>');
+                                print('<a href="login.php" class="content-table-right-link"><div>Log In</div></a>&nbsp;');
                                 print('<a href="sign-up.php"  class="content-table-right-link"><div>Register</div></a>');
                             }
                         ?>
