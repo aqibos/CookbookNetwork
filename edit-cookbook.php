@@ -2,8 +2,11 @@
     session_start();
 
     $allemails = [];
+
     if(isset($_SESSION['userid']))          //get user id
+    {
         $user_id = $_SESSION['userid'];
+    }
 
     //get cookbook id that is being edited
     $cookbook_id = $_GET["cookbook_id"] ;
@@ -13,7 +16,9 @@
 
     $link = new mysqli($servername, $username, $password, $dbname);
     if ($link -> connect_error)
+    {
         die("Connection failed: ".$link -> connect_error);
+    }
 
 
     //Do not have access to edit, if not owner of cookbook
@@ -22,8 +27,6 @@
     {
         header('Location: fail.php');
     }
-
-
 
     $title = getCookbookTitle($cookbook_id, $link);     //get title of cookbook
     $privacy = getPrivacy($cookbook_id, $link);     //get privacy of cookbook
@@ -88,22 +91,27 @@
     //SUBMITTED FORM
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     { 
+        var_dump($allemails);
         $tbl_name="Cookbook"; // Table name 
 
         // Connect to server and select databse.
         $link = new mysqli($servername, $username, $password, $dbname);
         if ($link -> connect_error)
+        {
 			die("Connection failed: ".$link -> connect_error);
+        }
         
         // get cbkn name, privacy, tags, friends from form
         $cookbookname = $_POST['cookbookname'];
         $privacy = $_POST['privacy']; 
+        $allemails = $_POST['desiredfriends'];
         
-        if($privacy == "friendly") 
+        //check if privacy is friendly, and get list of friends submitted
+        /*if(strcmp($privacy, "friendly") == 0) 
         {  
-            $allemails = $_POST['friends'];
+            $allemails = $_POST['desiredfriends'];
             $isFriendly = true;
-        }
+        }*/
         
         if(isset($_POST['tags']))
         {   
@@ -127,7 +135,7 @@
         
 
         //If its friendly, add emails
-        if(isset($isFriendly))
+        if($privacy == "friendly")
         {    
             storeFriends($allemails, $cookbook_id, $link);
             //$check = $allemails;
@@ -142,15 +150,19 @@
         }
             
         //store array of tags in database
-        if(isset($tags)) {storeTags($tags, $cookbook_id, $link);}
+        if(isset($tags)) 
+        {
+            storeTags($tags, $cookbook_id, $link);
+        }
             
-        redirect($cookbook_id);
+        redirect($cookbook_id);     //redirect back to view cookbook
 
             
         mysqli_close($link);            //close connection
     }
 
-
+    
+    //get title of cookbook
     function getCookbookTitle($cookbook_id, $link)
     {
         $sql = "SELECT cb_title FROM Cookbook WHERE cookbook_id = '$cookbook_id'";
@@ -160,6 +172,7 @@
         
     }
 
+    //get privacy setting
     function getPrivacy($cookbook_id, $link)
     {
         $sql = "SELECT visibility FROM Cookbook WHERE cookbook_id = '$cookbook_id'";
@@ -169,33 +182,40 @@
         
     }
 
+    //get list of friends 
     function getFriends($cookbook_id, $link)
     {
+        $emails=[];
         $sql = "SELECT email FROM Friends WHERE type='COOKBOOK' AND type_id = '$cookbook_id'";
         $result = $link -> query($sql);
 
         $i=0;
         while($row = $result->fetch_assoc())        //get emails and store in array
         {
-            $allemails[$i] = $row['email']; 
+            $emails[$i] = $row['email']; 
             $i++;
         }
-        return $allemails;
+        return $emails;
     }
 
+    //get tags of cookbook
     function getTags($tagsfromdb, $alltags_array)
     {
         foreach ( $alltags_array as $k => $v ) 
         {
             if (in_array($v, $tagsfromdb)) 
+            {
                 $c[$k] = "checked='checked'";
+            }
             else 
+            {
                 $c[$k] = "";
+            }
         }
         return $c;
     }
 
-        //Store tags in database
+    //Store tags in database
     function storeTags($tag, $cookbook_id, $link)
     {
         $size = count($tag);
@@ -228,14 +248,18 @@
                 $sql= "INSERT INTO  Friends (email, type, type_id)
                     VALUES ('$current', 'COOKBOOK', '$cookbook_id')";
                 if ($link->query($sql) != true)     //unsuccessful query
+                {
                     header('Location: fail.php');
+                }
             }
             else
             {
                 //delete any previously added friends from cookbook
                 $sql2 = "DELETE FROM Friends WHERE type = 'COOKBOOK' AND type_id = '$cookbook_id'";
                 if ($link->query($sql2) != true)     //unsuccessful query
+                {
                     header('Location: fail.php');
+                }
                 
                  exit('Sorry, you have inserted invalid friend(s).');
             }
@@ -257,7 +281,7 @@
         
     }
         
-    //Change location to home-page-registered.php
+    //Change location to view cookbook
     function redirect($cookbook_id)
     {
     	header('Location: view-cookbook.php?cookbook_id='. $cookbook_id );
@@ -274,9 +298,13 @@
         $row = $result->fetch_assoc();
         
         if(count($row) == 1) 
+        {
             return true;
+        }
         else 
+        {
             return false;
+        }
     }
     
 ?>
@@ -307,9 +335,8 @@
 			
             <h1 class="center">Edit Cookbook</h1>
             
+            <form name="createcbk" method="post" onsubmit="return validate()">
             <table class="tableform">
-                
-                <form name="createcbk" method="post" onsubmit="return validate()">
                     
                     <tr>
   					<td colspan="2" width="60%"> <h3>Name of Cookbook: </h3><br/></td>
@@ -329,7 +356,7 @@
                     <td colspan="2" width="30%">
                         <div id="ifFriendly2" class="hidden">
                             <div id="emailfield">
-                                <input type="text" size="35" name="friends[]" id="first">
+                                <input type="text" size="35" name="desiredfriends[]" id="first">
                             </div>
                         </div>
                     </td>
@@ -403,17 +430,10 @@
             <td colspan="2"><br/><br/><br/><div class="submitbutton"><input type="submit" value="Cancel" onclick="window.history.back(); return false;"></div></td>
 
   				</tr>
-                    
-                </form>
-                
                 
             </table>
             
-            
-            
-            
-            
-            
+            </form>
 
 		</div>
         
@@ -457,18 +477,6 @@
                     alert("Fill in cookbook name.");
                     return false;
                 }
-                
-                //check for at least one email is friendly checked
-                if(document.getElementById('friendlycheck').checked)
-                {
-                    var emails = document.forms["createcbk"]["email[]"];
-                    if(emails[0] == null || emails[0] == '')
-                    {   
-                        alert("Fill in at least one email.");
-                        return false;
-                    }
-                }
-                
                 //check privacy is chosen
                 var i = checkboxes.length - 1;
 
@@ -503,7 +511,7 @@
             {
                 var input = document.createElement('input'); 
                 input.type = "text";
-                input.name = "friends[]";
+                input.name = "desiredfriends[]";
                 input.size = "35";
                 
                 var container = document.getElementById("emailfield");
@@ -514,7 +522,7 @@
             {
                 var input = document.createElement('input'); 
                 input.type = "text";
-                input.name = "friends[]";
+                input.name = "desiredfriends[]";
                 input.size = "35";
                 input.value = friendEmail;
                 
