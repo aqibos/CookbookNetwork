@@ -261,7 +261,7 @@
                     header('Location: fail.php');
                 }
                 
-                 exit('Sorry, you have inserted invalid friend(s).');
+                 exit('<br/>Sorry, you have inserted invalid friend(s).');
             }
         }
     }
