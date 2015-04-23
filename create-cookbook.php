@@ -142,7 +142,7 @@
                 //check for at least one email is friendly checked
                 if(document.getElementById('friendlycheck').checked)
                 {
-                    var emails = document.forms["createcbk"]["email[]"];
+                    var emails = document.forms["createcbk"]["email"];
                     if(emails[0] == null || emails[0] == '')
                     {   
                         alert("Fill in at least one email.");

@@ -94,10 +94,6 @@
                 $i++;
             }
             
-            $sql3 = "DELETE FROM Cookbook_list WHERE user_id = '$user_id'";    //delete from cookbook_list
-                if ($link->query($sql3) != true)     //unsuccessful query
-                    echo "ERROR: Could not able to execute $sql3. " . $link->connect_error;
-            
             for($j=0; $j < $i; $j++)
             {
                 $current = $cb_id[$j];
