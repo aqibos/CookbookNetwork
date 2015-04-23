@@ -7,12 +7,23 @@
     //get cookbook id that is being edited
     $cookbook_id = $_GET["cookbook_id"] ;
 
+
     include 'db-credentials.php';
 
     $link = new mysqli($servername, $username, $password, $dbname);
     if ($link -> connect_error)
         die("Connection failed: ".$link -> connect_error);
 
+
+    //Do not have access to edit, if not owner of cookbook
+    $isOwner = isOwner($user_id, $cookbook_id, $link);
+    if($isOwner == false)
+    {
+        header('Location: fail.php');
+    }
+
+
+    //select cookbook
     $sql = "SELECT * FROM Cookbook WHERE cookbook_id = '$cookbook_id'";
     $result = $link -> query($sql);
     $row = $result->fetch_assoc();
@@ -27,7 +38,7 @@
         $result = $link -> query($sql);
 
         $i=0;
-        while($row = $result->fetch_assoc())        //get tags and store in array
+        while($row = $result->fetch_assoc())        //get emails and store in array
         {
             $allemails[$i] = $row['email']; 
             $i++;
@@ -87,7 +98,7 @@
     //SUBMITTED FORM
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     { 
-        
+        unset($allemails);
         $tbl_name="Cookbook"; // Table name 
 
         // Connect to server and select databse.
@@ -99,11 +110,16 @@
         $cookbookname = $_POST['cookbookname'];
         $privacy = $_POST['privacy']; 
         
-        if(isset($_POST['email'])) 
-            $email = $_POST['email'];
+        if(strcasecmp($privacy, "friendly")==0) 
+        {  
+            $allemails = $_POST['friends'];
+            $isFriendly = true;
+        }
         
         if(isset($_POST['tags']))
+        {   
             $tags = $_POST['tags'];
+        }
         
 
         //DELETE TAGS from Cookbook
@@ -122,9 +138,10 @@
         
 
         //If its friendly, add emails
-        if(isset($_POST['email']))
+        if(isset($isFriendly))
         {    
-            storeFriends($email, $cookbook_id, $link);
+            storeFriends($allemails, $cookbook_id, $link);
+            //$check = $allemails;
         }
         
         //Update cookbook name and privacy
@@ -207,13 +224,15 @@
     //Check friend is a valid account
     function checkValidFriend($email, $link)
     {
-        $sql= "SELECT email from Account WHERE email = '$email'";
+        $sql= "SELECT email FROM Account WHERE email = '$email'";
         if ($link->query($sql) != true)     //unsuccessful query
             header('Location: fail.php');
         $result = $link -> query($sql);
         $row = $result->fetch_assoc();
-        if(count($row) == 1) return true;       //found friends account in database
-        else return false;
+        if(count($row) == 1) 
+            return true;       //found friends account in database
+        else 
+            return false;
         
     }
         
@@ -222,8 +241,25 @@
     {
     	header('Location: view-cookbook.php?cookbook_id='. $cookbook_id );
     }
+
+    //Check user is owner of cookbook and can edit
+    function isOwner($user_id, $cookbook_id, $link)
+    {
+        $sql= "SELECT user_id FROM Cookbook_list WHERE user_id = '$user_id' AND cookbook_id ='$cookbook_id'";
+        if ($link->query($sql) != true)     //unsuccessful query
+            header('Location: fail.php');
+        
+        $result = $link -> query($sql);
+        $row = $result->fetch_assoc();
+        
+        if(count($row) == 1) 
+            return true;
+        else 
+            return false;
+    }
     
 ?>
+
 <!DOCTYPE html>
 <html>
 	
@@ -238,9 +274,9 @@
 		<link href='http://fonts.googleapis.com/css?family=IM+Fell+Double+Pica' rel='stylesheet' type='text/css'>
 	</head>
 	
-	<body>
+	<body onload="loadFriends()">
 		
-		<div class="background-image"></div>
+		<img class="background-image" src="images/loaf-delicious-cake-with-strawberries-wallpapers-1440x900.jpg" height="700"/>
 		
 		<div class="navigation-bar">
 			<?php include 'check-menu.php'; ?>
@@ -248,19 +284,18 @@
 		
 		<div class="content">
 			<h1 class="center">Edit Cookbook</h1>
-            <!--<p><?php print_r($error); echo $privacy; echo $count; ?></p>-->
 			<table class="tableform">
             <form name="createcbk" method="post" onsubmit="return validate()">
 				<tr>
   					<td colspan="2" width="60%"> <h3>Name of Cookbook: </h3><br/></td>
-  					<td colspan="2" width="30%"><input size="35" type="text" name="cookbookname" value="<?php echo $title ?>"><br/><br/></td>
+  					<td colspan="2" width="30%"><input size="35" type="text" name="cookbookname" value="<?php echo $title; ?>"><br/><br/></td>
   				</tr>
   				<tr>
   					<td colspan="2" width="20%"> <h3>Privacy: </h3><br/></td>
-  					<td width="15%"><input type="radio" name="privacy" value="private" <?php if ($privacy === 'PRIVATE') echo 'checked="checked"'; ?> id="priv" onclick="javascript:isChecked();"/>Private<br/><br/></td>
-  					<td width="15%"><input type="radio" name="privacy" value="registered" <?php if ($privacy === 'REGISTERED') echo 'checked="checked"'; ?> id="reg" onclick="javascript:isChecked();"/>Registered<br/><br/></td>
-  					<td width="15%"><input type="radio" name="privacy" value="friendly" <?php if ($privacy === 'FRIENDLY') echo 'checked="checked"'; ?> id="friendlycheck" onclick="javascript:isChecked();"/>Friendly<br/><br/></td>
-  					<td width="15%"><input type="radio" name="privacy" value="public" <?php if ($privacy === 'PUBLIC') echo 'checked="checked"'; ?> id="pub" onclick="javascript:isChecked();"/>Public<br/><br/></td>
+  					<td width="15%"><input type="radio" name="privacy" value="private" id="priv" onclick="javascript:isChecked();" <?php if ($privacy === 'PRIVATE') echo 'checked="checked"'; ?> />Private<br/><br/></td>
+  					<td width="15%"><input type="radio" name="privacy" value="registered" id="reg" onclick="javascript:isChecked();" <?php if ($privacy === 'REGISTERED') echo 'checked="checked"'; ?>/>Registered<br/><br/></td>
+  					<td width="15%"><input type="radio" name="privacy" value="friendly" id="friendlycheck" onclick="javascript:isChecked();" <?php if ($privacy === 'FRIENDLY') echo 'checked="checked"'; ?> />Friendly<br/><br/></td>
+  					<td width="15%"><input type="radio" name="privacy" value="public" id="pub" onclick="javascript:isChecked();" <?php if ($privacy === 'PUBLIC') echo 'checked="checked"'; ?> />Public<br/><br/></td>
   				</tr>
                 
   				<tr>
@@ -268,7 +303,7 @@
                     <td colspan="2" width="30%">
                         <div class="hidden" id="ifFriendly2">
                             <div id="emailfield">
-                                <!--TEXT BOX GOES HERE FOR FRIEND EMAILS -->
+                                <?php if(count($allemails) > 0) print '<input type="text" size="35" name="friends[]" value="'. $allemails[0] . '">'; ?>
                             </div>
                         </div>
                     </td>
@@ -350,18 +385,22 @@
 
         <script type="text/javascript">
             
-            var privacy = "<?php echo $privacy; ?>";
-            
-            if  (privacy == "FRIENDLY")
+            function loadFriends()
             {
-                var friends = <?php echo '["' . implode('", "', $allemails) . '"]' ?>;
-                document.getElementById('ifFriendly').style.display = 'block';
-                document.getElementById('ifFriendly2').style.display = 'block';
-                document.getElementById('ifFriendly3').style.display = 'block';
-                
-                for (i = 0; i < friends.length; i++)
+                var visibility = "<?php echo $privacy; ?>";
+
+                if  (visibility == "FRIENDLY")
                 {
-                    displayFriendEmail(friends[i]);
+                    var friends = <?php echo '["' . implode('", "', $allemails) . '"]' ?>;
+                    document.getElementById('ifFriendly').style.display = 'block';
+                    document.getElementById('ifFriendly2').style.display = 'block';
+                    document.getElementById('ifFriendly3').style.display = 'block';
+
+                    var i;
+                    for (i = 1; i < friends.length; i++)
+                    {
+                        displayFriendEmail(friends[i]);
+                    }
                 }
             }
             
@@ -422,7 +461,7 @@
             {
                 var input = document.createElement('input'); 
                 input.type = "text";
-                input.name = "email[]";
+                input.name = "friends[]";
                 input.size = "35";
                 
                 var container = document.getElementById("emailfield");
@@ -433,7 +472,7 @@
             {
                 var input = document.createElement('input'); 
                 input.type = "text";
-                input.name = "email[]";
+                input.name = "friends[]";
                 input.size = "35";
                 input.value = friendEmail;
                 
@@ -441,23 +480,6 @@
                 container.appendChild(input);
             }
             
-            /*function addEmailField() 
-            {
-                var allEmails = document.getElementsByClassName("email");
-                var lastEmail = allEmails[allEmails.length - 1];
-                var clone = lastEmail.cloneNode(true);
-                clone.class = "email";
-                lastEmail.parentNode.appendChild(clone);
-                fixEmailInputName();
-            }
-            
-            //fixes the last added step's name
-            function fixEmailInputName()
-            {
-                var allInputs = document.getElementsByClassName("email");
-                var lastStepInput = allStepInputs[allStepInputs.length - 1];
-                lastStepInput.name = "email[]";
-            }*/
         </script>
             
 		

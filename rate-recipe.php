@@ -42,11 +42,14 @@
             $userid = $row['author'];           //get creator
                 
             //do not allow author to rate their own recipe
-            if($_SESSION['userid'] == $userid)
-            {
-                echo '<script type=text/javascript>alert("Can not rate own recipe.");
+           if(isset($_SESSION['userid']))
+           {
+                if($_SESSION['userid'] == $userid)
+                {
+                    echo '<script type=text/javascript>alert("Can not rate own recipe.");
                         window.location.replace("fail.php");</script>';
-            }
+                }
+           }
     
 
             if ($_SERVER["REQUEST_METHOD"] == "POST")
@@ -89,7 +92,7 @@
             mysqli_close($link); 
             
         ?>
-		<div class="background-image"></div>
+		<img class="background-image" src="images/Hot-and-Delicious-Food-Photos.jpg" height="700"/>
 
 		<div class="navigation-bar">
 			<?php include 'check-menu.php'; ?>

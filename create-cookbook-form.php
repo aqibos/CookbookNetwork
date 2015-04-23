@@ -10,7 +10,7 @@
 			die("Connection failed: ".$link -> connect_error);
         
         // cookbook name, privacy, tags, friends from form
-        $cookbookname = $_POST['cookbookname'];
+        $cookbookname = $link->real_escape_string($_POST['cookbookname']);
         $privacy = $_POST['privacy']; 
         if(isset($_POST['email'])) 
         {

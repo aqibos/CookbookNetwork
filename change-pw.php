@@ -19,7 +19,7 @@
     
 	<body>
 		
-		<div class="background-image"></div>
+		<img class="background-image" src="images/Hot-and-Delicious-Food-Photos.jpg" height="700"/>
 		
 		<div class="navigation-bar">
 			<?php include 'check-menu.php'; ?>
@@ -44,7 +44,7 @@
   					<td> <input type="password" name="newpwconfirm"><br/><br/></td>
   				</tr>
   				<tr>
-  					<td><br/><br/><input type="submit" value="Cancel" onclick="window.history.back(); return false;"></td>
+  					<td><br/><br/><input type="submit" value="Cancel" onclick="window.location.replace('account-info.php'); return false;"></td>
   					<td><br/><br/><input type="submit" value="Save Changes"></td>
   				</tr>
 			</form>

@@ -1,6 +1,7 @@
     <?php
         $pwerror = "" ;
 
+
         if ($_SERVER["REQUEST_METHOD"] == "POST")
         {
             include 'db-credentials.php'; 

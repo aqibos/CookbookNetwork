@@ -18,7 +18,7 @@
 	</head>
 	<body>
         <?php include 'sign-up-form.php' ?>
-		<div class="background-image"></div>
+		<img class="background-image" src="images/loaf-delicious-cake-with-strawberries-wallpapers-1440x900.jpg" height="700"/>
 		<div class="navigation-bar">
 			<?php include 'check-menu.php'; ?>
 		</div>
@@ -48,8 +48,8 @@
 				</tr>
 			</table>
 					<p class="center"><br/><br/> 
+                        <input type="submit" value="Cancel" onclick="window.history.back(); return false;">
                         <input class="submitbutton" type="submit" value="Create My Account">&nbsp;&nbsp;&nbsp;&nbsp;
-				        <input type="submit" value="Cancel" onclick="window.history.back(); return false;">
                     </p>
 				</form>
 
