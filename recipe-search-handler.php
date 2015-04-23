@@ -4,6 +4,7 @@ function titleSearch()
 	$conn = getConn() ;
 	
 	$title = clean($_POST["title"]);
+	$title = $conn -> real_escape_string($title) ;
 	$sql = "SELECT * FROM recipe WHERE recipe_title ='$title'";
 	
 	printResult($conn -> query($sql)) ;
@@ -19,6 +20,7 @@ function ingredientSearch()
 	if($len <= 1)
 	{
 		$ing = clean($ingredients[0]);
+		$ing = $conn -> real_escape_string($ing) ;
 		$sql = " SELECT * FROM recipe 
 					WHERE recipe_id in (
 						SELECT recipe_id FROM ingredient 
@@ -27,12 +29,14 @@ function ingredientSearch()
 	else
 	{
 		$first = clean($ingredients[0]) ; 
+		$first= $conn -> real_escape_string($first) ;
 		$sql = " SELECT recipe_id FROM ingredient
 					WHERE name='$first'";
 		
 		for($i = 1 ; $i < $len ; $i++ )
 		{
 			$current = clean($ingredients[$i]) ;
+			$current = $conn -> real_escape_string($current) ;
 			$sql = " SELECT recipe_id FROM ingredient
 						WHERE name = '$current' 
 							AND recipe_id in (".$sql.")";

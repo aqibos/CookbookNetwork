@@ -20,7 +20,7 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 	
 	<body>
 		
-		<div class="background-image"></div>
+		<img class="background-image" src="images/delicious-pizza-food-1440x900.jpg" height="700"/>
 		
 		<div class="navigation-bar">
 			<?php include 'check-menu.php'?>
@@ -29,10 +29,8 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 		<div class="content">
 			<h1>View Accounts</h1>
 			<?php 
-				$servername = "localhost";
-				$username = "root";
-				$password = "" ;
-				$dbname = "cookbooknetwork" ;
+			
+				include 'db-credentials.php' ;
 				
 				$conn = new mysqli($servername, $username, $password, $dbname); 
 				if($conn -> connect_error)
@@ -47,7 +45,7 @@ if((! isset( $_SESSION['loggedin'])) or $_SESSION['isAdmin'] == 0)
 					
 					while($row = $result -> fetch_assoc())
 					{
-						echo '<li class="user-item"><a href="account-info.php?user_id='.$row["user_id"].'">email: '.$row["email"].'<br> username: '.$row["username"].'</a></li> ';
+						echo '<li class="user-item"><a href="view-account-info.php?user_id='.$row["user_id"].'">email: '.$row["email"].'<br> username: '.$row["username"].'</a></li> ';
 					}	
 					echo '</ul>' ;
 				}

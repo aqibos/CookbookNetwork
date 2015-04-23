@@ -4,6 +4,7 @@ function cbTitleSearch()
 	$conn = getConn() ;
 	
 	$title = clean($_POST["title"]);
+	$title = $conn -> real_escape_string($title) ;
 	$sql = "SELECT * FROM cookbook WHERE cb_title ='$title' ";
 	
 	printResult($conn -> query($sql)) ;
@@ -148,7 +149,7 @@ function isVisible($cookbook_id)
 	else if($visibility == 'REGISTERED')
 		return isset($_SESSION["loggedin"]) and $_SESSION["loggedin"] ;
 	else if($visibility == 'FRIENDLY')
-		return isset($_SESSION["loggedin"]) and isOwner($cookbook_id) or isFriend($cookbook_id) ;
+		return isset($_SESSION["loggedin"]) and (isOwner($cookbook_id) or isFriend($cookbook_id)) ;
 }
 
 function getVisibility($cookbook_id)
