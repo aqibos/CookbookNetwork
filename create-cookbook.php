@@ -192,9 +192,9 @@
                 container.appendChild(input);
             }
             
-            function isBlank($field)
+            function isBlank(field)
             {
-                return ($field == null || $field == '');
+                return (field == null || field == '');
 
             }
         </script>

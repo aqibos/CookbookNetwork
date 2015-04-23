@@ -22,6 +22,26 @@ function printCookbook($cookbook_id)
 	$result = $conn -> query($sql) ;
 	printResult($result) ;	
 }
+
+function isOwner($cookbook_id)
+{
+    $conn = getConn() ;
+    
+    $user_id = $_SESSION['userid'];
+    
+    $sql= "SELECT user_id FROM Cookbook_list WHERE user_id = '$user_id' AND cookbook_id ='$cookbook_id'";
+    if ($conn->query($sql) != true)     //unsuccessful query
+        header('Location: fail.php');
+
+    $result = $conn -> query($sql);
+    $row = $result->fetch_assoc();
+
+    if(count($row) == 1) 
+        return true;
+    else 
+        return false;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,7 +68,12 @@ function printCookbook($cookbook_id)
 			<?php printCookbook( $cookbook_id);?>
 			
 			<p class="center">
-                <a href="edit-cookbook.php?cookbook_id=<?php echo $cookbook_id; ?>">Edit Cookbook</a>
+                <?php 
+                    if (isset($_SESSION['loggedin']) && isOwner($cookbook_id) )
+                    {
+                        echo "<a href='edit-cookbook.php?cookbook_id=$cookbook_id';>Edit Cookbook</a>";
+                    }
+                ?>
             </p>
 		</div>
 		
