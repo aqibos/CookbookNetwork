@@ -382,7 +382,7 @@ img.setsize{
 
 .recipe-preview-row {
     width:100%;
-	height: 150px;
+	height: 200px;
 	padding: 10px 0px;
 	text-align: center;
 }
@@ -393,8 +393,10 @@ img.setsize{
 }
 
 .recipe-preview-row-icon {
-    width:126px;
-	height: 160px;
+    /* width:126px;
+	height: 160px; */
+	width: 189px ;
+	height:190px;
 	display: inline-block;
 	margin: 0px 30px;
 	background-color: #990000;
@@ -403,12 +405,14 @@ img.setsize{
 
 .recipe-preview-row p{
     word-wrap:break-word;
-    width: 126px;
+    width: 189px;
 }
 
 .thumbnail {
-    height: 95px ;
-    width: 125px ;
+    /* height: 95px ;
+    width: 125px ; */
+	height: 142px ;
+	width: 187px; 
 }
 .recipe-preview-row-icon:hover {
 	background-color: #490000;
