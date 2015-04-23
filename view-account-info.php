@@ -5,10 +5,7 @@
     include 'create-recipe-form.php';
 
     //credentials
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "cookbooknetwork";
+    include 'db-credentials.php';
 
     //connect to db
     $conn = connectToDb($servername, $username, $password, $dbname);
@@ -48,6 +45,15 @@
     {
        header('Location: fail.php');
     }
+
+    //get username
+    $sql = "SELECT username
+                FROM Account
+                WHERE user_id = '$userId'";
+        
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $usname = $row["username"];
     
     //get email
     $sql = "SELECT email
@@ -106,7 +112,7 @@
 			<table class="content-table">
 				<tr class="content-table-row">
 					<td class="content-table-left"><h3>User Name:</h3></td>
-					<td class="content-table-right"><?php echo $user; ?></td>
+					<td class="content-table-right"><?php echo $usname; ?></td>
 				</tr>
 				<tr class="content-table-row">
 					<td class="content-table-left"><h3>E-mail:</h3></td>
