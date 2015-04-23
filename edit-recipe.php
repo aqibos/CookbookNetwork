@@ -409,8 +409,8 @@
 			
 			<br />
 			
-				<div class="submit-button"><input type="submit" value="Submit"></div>
-				<div class="submit-button wrapper-button"><a href="javascript:void(0);" onclick="window.history.back();" class="addLink"><div class="button">Cancel</div></a></div>
+				<input type="submit" value="Cancel" onclick="window.history.back(); return false;">
+				<input type="submit" value="Submit" onclick="return true;">
 			</form>
 			
 		</div>

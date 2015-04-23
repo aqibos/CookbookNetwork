@@ -86,17 +86,17 @@ else if ($privacy == 'FRIENDLY')
     }
     
     //2 - check if viewer is friend
-    $friendList = getAllFriends($conn, $recipeId);
+    $friendList = getAllFriendsM($conn, $recipeId);
     $friendArray = explode(',', $friendList);
     $allowedToView = false;
     
+    //get email of logged user
+    $loggedEmail = getEmailAddr($conn, $loggedName);
+    
     for ($x = 0;  $x < count($friendArray); $x++)
     {
-        //get email of logged user
-        $loggedEmail = getEmailAddr($conn, $loggedName);
-        
         //check if allowed
-        if ($loggedEmail == $friendArray[$x])
+        if ($loggedEmail == trim($friendArray[$x]))
         {
             $allowedToView = TRUE;
             break;
