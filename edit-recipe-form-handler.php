@@ -173,6 +173,37 @@
         return $allFriends;
     }
 
+
+    function getAllFriendsM($conn, $recipeId)
+    {
+        $userId = $_SESSION['userid'];
+        
+        $sql = "SELECT email
+                FROM Account
+                WHERE user_id = '$userId' ";
+        
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $emailAddr = $row["email"];
+        
+        $allFriends = "";
+        $sql = "SELECT email
+                FROM Friends
+                WHERE type_id = '$recipeId' AND type = 'RECIPE'";
+        
+        $result = mysqli_query($conn, $sql);
+        while($row = mysqli_fetch_assoc($result)) 
+        {
+            $currFriend = $row["email"];
+            $allFriends .= $currFriend . ", ";
+        }
+        
+        $allFriends = substr($allFriends, 0, strlen($allFriends) - 2);
+        
+        return $allFriends;
+    }
+    
+
     function getFlagCount($conn, $recipeId)
     {
         $sql = "SELECT flag_id
