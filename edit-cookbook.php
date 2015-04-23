@@ -24,25 +24,15 @@
     }
 
 
-    //select cookbook
-    $sql = "SELECT * FROM Cookbook WHERE cookbook_id = '$cookbook_id'";
-    $result = $link -> query($sql);
-    $row = $result->fetch_assoc();
+
+    $title = getCookbookTitle($cookbook_id, $link);     //get title of cookbook
+    $privacy = getPrivacy($cookbook_id, $link);     //get privacy of cookbook
     
-    $title = $row['cb_title'];     //get title of cookbook
-    $privacy = $row['visibility'];      //get privacy of cookbook
-    
+
+    //Check if privacy is friendly
     if($privacy == "FRIENDLY")
     {
-        $sql = "SELECT email FROM Friends WHERE type='COOKBOOK' AND type_id = '$cookbook_id'";
-        $result = $link -> query($sql);
-
-        $i=0; 
-        while($row = $result->fetch_assoc())        //get emails and store in array
-        {
-            $allemails[$i] = $row['email']; 
-            $i++;
-        }
+        $allemails = getFriends($cookbook_id, $link);
     }
 
 
@@ -98,7 +88,6 @@
     //SUBMITTED FORM
     if ($_SERVER["REQUEST_METHOD"] == "POST")
     { 
-        unset($allemails);
         $tbl_name="Cookbook"; // Table name 
 
         // Connect to server and select databse.
@@ -110,7 +99,7 @@
         $cookbookname = $_POST['cookbookname'];
         $privacy = $_POST['privacy']; 
         
-        if(strcasecmp($privacy, "friendly")==0) 
+        if($privacy == "friendly") 
         {  
             $allemails = $_POST['friends'];
             $isFriendly = true;
@@ -155,12 +144,44 @@
         //store array of tags in database
         if(isset($tags)) {storeTags($tags, $cookbook_id, $link);}
             
-        redirect($cookbook_id);
+        //redirect($cookbook_id);
 
             
         mysqli_close($link);            //close connection
     }
 
+
+    function getCookbookTitle($cookbook_id, $link)
+    {
+        $sql = "SELECT cb_title FROM Cookbook WHERE cookbook_id = '$cookbook_id'";
+        $result = $link -> query($sql);
+        $row = $result->fetch_assoc();
+        return $row['cb_title'];
+        
+    }
+
+    function getPrivacy($cookbook_id, $link)
+    {
+        $sql = "SELECT visibility FROM Cookbook WHERE cookbook_id = '$cookbook_id'";
+        $result = $link -> query($sql);
+        $row = $result->fetch_assoc();
+        return $row['visibility'];
+        
+    }
+
+    function getFriends($cookbook_id, $link)
+    {
+        $sql = "SELECT email FROM Friends WHERE type='COOKBOOK' AND type_id = '$cookbook_id'";
+        $result = $link -> query($sql);
+
+        $i=0;
+        while($row = $result->fetch_assoc())        //get emails and store in array
+        {
+            $allemails[$i] = $row['email']; 
+            $i++;
+        }
+        return $allemails;
+    }
 
     function getTags($tagsfromdb, $alltags_array)
     {
@@ -285,6 +306,7 @@
 		<div class="content">
 			
             <h1 class="center">Edit Cookbook</h1>
+            <p><?php echo print_r($allemails); ?></p>
             
             <table class="tableform">
                 
@@ -308,8 +330,7 @@
                     <td colspan="2" width="30%">
                         <div id="ifFriendly2" class="hidden">
                             <div id="emailfield">
-                                <?php if(count($allemails) > 0) print '<input type="text" size="35" name="friends[]" value="'. $allemails[0] . '">'; ?>
-                                <input type="text" size="35" name="friends[]">
+                                <input type="text" size="35" name="friends[]" id="first">
                             </div>
                         </div>
                     </td>
@@ -407,16 +428,23 @@
                 if  (visibility == "FRIENDLY")
                 {
                     var friends = <?php echo '["' . implode('", "', $allemails) . '"]' ?>;
-                    document.getElementById('ifFriendly').style.display = 'visible';
-                    document.getElementById('ifFriendly2').style.display = 'visible';
-                    document.getElementById('ifFriendly3').style.display = 'visible';
-
+                    document.getElementById('ifFriendly').style.display = 'block';
+                    document.getElementById('ifFriendly2').style.display = 'block';
+                    document.getElementById('ifFriendly3').style.display = 'block';
+                    
+                    getFirstEmail(friends[0]);
                     var i;
                     for (i = 1; i < friends.length; i++)
                     {
                         displayFriendEmail(friends[i]);
                     }
                 }
+            }
+            
+            function getFirstEmail(firstemail)
+            {
+                var input = document.getElementById('first');
+                input.value = firstemail;
             }
             
             function validate() 
@@ -463,7 +491,6 @@
                     document.getElementById('ifFriendly').style.display = 'block';
                     document.getElementById('ifFriendly2').style.display = 'block';
                     document.getElementById('ifFriendly3').style.display = 'block';
-                    //addEmailField();
                 }
                 else
                 {
