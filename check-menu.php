@@ -8,7 +8,7 @@
 			print 
 				'<table  class="navigation-bar-table">
 					<tr>
-						<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
+						<td class="navigation-bar-table-left"><a href="index-1.php" style="text-decoration: none"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></a></td>
 						<td class="navigation-bar-table-right">
 							<ul class="upper-level-ul">
 								<li>Search
@@ -52,7 +52,7 @@
 			print 
 				'<table  class="navigation-bar-table">
 					<tr>
-						<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
+						<td class="navigation-bar-table-left"><a href="index-1.php" style="text-decoration: none"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></a></td>
 						<td class="navigation-bar-table-right">
 						<ul class="upper-level-ul">
 	              			<li>Search
@@ -92,7 +92,8 @@
 	{	
 		print '<table  class="navigation-bar-table">
 				<tr>
-					<td class="navigation-bar-table-left"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></td>
+					<td class="navigation-bar-table-left"><a href="index-1.php" style="text-decoration: none"><h1 class="navigation-bar-table-left-header">Cookbook Network</h1></a></td>
+                        
 					<td class="navigation-bar-table-right">
 						<ul class="upper-level-ul">		
 							<li><a href="search-recipe.php">Search Recipe</a></li>
