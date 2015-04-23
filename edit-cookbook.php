@@ -144,7 +144,7 @@
         //store array of tags in database
         if(isset($tags)) {storeTags($tags, $cookbook_id, $link);}
             
-        //redirect($cookbook_id);
+        redirect($cookbook_id);
 
             
         mysqli_close($link);            //close connection
@@ -306,7 +306,6 @@
 		<div class="content">
 			
             <h1 class="center">Edit Cookbook</h1>
-            <p><?php echo print_r($allemails); ?></p>
             
             <table class="tableform">
                 
