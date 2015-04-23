@@ -4,6 +4,7 @@ function cbTitleSearch()
 	$conn = getConn() ;
 	
 	$title = clean($_POST["title"]);
+	$title = $conn -> real_escape_string($title) ;
 	$sql = "SELECT * FROM cookbook WHERE cb_title ='$title' ";
 	
 	printResult($conn -> query($sql)) ;
