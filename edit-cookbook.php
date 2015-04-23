@@ -1,6 +1,7 @@
 <?php 
     session_start();
 
+    $allemails = [];
     if(isset($_SESSION['userid']))          //get user id
         $user_id = $_SESSION['userid'];
 
@@ -31,13 +32,12 @@
     $title = $row['cb_title'];     //get title of cookbook
     $privacy = $row['visibility'];      //get privacy of cookbook
     
-
     if($privacy == "FRIENDLY")
     {
         $sql = "SELECT email FROM Friends WHERE type='COOKBOOK' AND type_id = '$cookbook_id'";
         $result = $link -> query($sql);
 
-        $i=0;
+        $i=0; 
         while($row = $result->fetch_assoc())        //get emails and store in array
         {
             $allemails[$i] = $row['email']; 
@@ -274,7 +274,7 @@
 		<link href='http://fonts.googleapis.com/css?family=IM+Fell+Double+Pica' rel='stylesheet' type='text/css'>
 	</head>
 	
-	<body onload="loadFriends()">
+	<body onload="loadFriends();">
 		
 		<img class="background-image" src="images/loaf-delicious-cake-with-strawberries-wallpapers-1440x900.jpg" height="700"/>
 		
@@ -283,43 +283,49 @@
 		</div>
 		
 		<div class="content">
-			<h1 class="center">Edit Cookbook</h1>
-			<table class="tableform">
-            <form name="createcbk" method="post" onsubmit="return validate()">
-				<tr>
+			
+            <h1 class="center">Edit Cookbook</h1>
+            
+            <table class="tableform">
+                
+                <form name="createcbk" method="post" onsubmit="return validate()">
+                    
+                    <tr>
   					<td colspan="2" width="60%"> <h3>Name of Cookbook: </h3><br/></td>
   					<td colspan="2" width="30%"><input size="35" type="text" name="cookbookname" value="<?php echo $title; ?>"><br/><br/></td>
   				</tr>
-  				<tr>
+                    
+                    <tr>
   					<td colspan="2" width="20%"> <h3>Privacy: </h3><br/></td>
   					<td width="15%"><input type="radio" name="privacy" value="private" id="priv" onclick="javascript:isChecked();" <?php if ($privacy === 'PRIVATE') echo 'checked="checked"'; ?> />Private<br/><br/></td>
   					<td width="15%"><input type="radio" name="privacy" value="registered" id="reg" onclick="javascript:isChecked();" <?php if ($privacy === 'REGISTERED') echo 'checked="checked"'; ?>/>Registered<br/><br/></td>
   					<td width="15%"><input type="radio" name="privacy" value="friendly" id="friendlycheck" onclick="javascript:isChecked();" <?php if ($privacy === 'FRIENDLY') echo 'checked="checked"'; ?> />Friendly<br/><br/></td>
   					<td width="15%"><input type="radio" name="privacy" value="public" id="pub" onclick="javascript:isChecked();" <?php if ($privacy === 'PUBLIC') echo 'checked="checked"'; ?> />Public<br/><br/></td>
   				</tr>
-                
-  				<tr>
-                    <td colspan="2" width="60%"><div class="hidden" id="ifFriendly"><h3>Enter email of users to share: </h3></div></td>
+                    
+                    <tr>
+                    <td colspan="2" width="60%"><div id="ifFriendly" class="hidden"><h3>Enter email of users to share: </h3></div></td>
                     <td colspan="2" width="30%">
-                        <div class="hidden" id="ifFriendly2">
+                        <div id="ifFriendly2" class="hidden">
                             <div id="emailfield">
                                 <?php if(count($allemails) > 0) print '<input type="text" size="35" name="friends[]" value="'. $allemails[0] . '">'; ?>
+                                <input type="text" size="35" name="friends[]">
                             </div>
                         </div>
                     </td>
                     <td colspan="2"><a id="ifFriendly3" href="javascript:void(0);" class="addLink hidden" onclick="addEmailField();"><div class="button">+ Add More</div></a></td>
   				</tr>
   				<tr>
-  					<td width="45%"> <h3>Tags for Cookbook:</h3></td>
+                    <td width="45%"> <h3>Tags for Cookbook:</h3></td>
   				</tr>
-  				<tr>
+                    <tr>
   					<td><br/></td>
   					<td><br/></td>
   					<td><input type="checkbox" name="tags[]" value="appetizer" <?php echo $c[1]; ?>>Appetizer<br/></td>
   					<td><input type="checkbox" name="tags[]" value="paleo" <?php echo $c[2]; ?>>Paleo<br/></td>
   					<td><input type="checkbox" name="tags[]" value="american" <?php echo $c[3]; ?>>American<br/></td>
   				</tr>
-  				<tr>
+                    <tr>
   					<td><br/></td>
   					<td><br/></td>
   					<td><input type="checkbox" name="tags[]" value="beef" <?php echo $c[4]; ?>>Beef<br/></td>
@@ -333,7 +339,7 @@
   					<td><input type="checkbox" name="tags[]" value="poultry" <?php echo $c[8]; ?>>Poultry<br/></td>
   					<td><input type="checkbox" name="tags[]" value="desi" <?php echo $c[9]; ?>>Desi<br/></td>
   				</tr>
-  				<tr>
+                    <tr>
   					<td><br/></td>
   					<td><br/></td>
   					<td><input type="checkbox" name="tags[]" value="breakfast/brunch" <?php echo $c[10]; ?>>Breakfast<br/></td>
@@ -347,7 +353,7 @@
   					<td><input type="checkbox" name="tags[]" value="seafood" <?php echo $c[14]; ?>>Seafood<br/></td>
   					<td><input type="checkbox" name="tags[]" value="italian" <?php echo $c[15]; ?>>Italian<br/></td>
   				</tr>
-  				<tr>
+                    <tr>
   					<td><br/></td>
   					<td><br/></td>
   					<td><input type="checkbox" name="tags[]" value="desserts" <?php echo $c[16]; ?>>Desserts<br/></td>
@@ -369,7 +375,7 @@
   					<td><input type="checkbox" name="tags[]" value="vegetarian" <?php echo $c[23]; ?>>Vegetarian<br/></td>
 
   				</tr>
-  				<br/>
+                    <br/>
   				<tr>
   					<td><br/><br/></td>
   					<td><br/><br/></td>
@@ -377,8 +383,17 @@
             <td colspan="2"><br/><br/><br/><div class="submitbutton"><input type="submit" value="Cancel" onclick="window.history.back(); return false;"></div></td>
 
   				</tr>
+                    
                 </form>
-			</table>
+                
+                
+            </table>
+            
+            
+            
+            
+            
+            
 
 		</div>
         
@@ -392,9 +407,9 @@
                 if  (visibility == "FRIENDLY")
                 {
                     var friends = <?php echo '["' . implode('", "', $allemails) . '"]' ?>;
-                    document.getElementById('ifFriendly').style.display = 'block';
-                    document.getElementById('ifFriendly2').style.display = 'block';
-                    document.getElementById('ifFriendly3').style.display = 'block';
+                    document.getElementById('ifFriendly').style.display = 'visible';
+                    document.getElementById('ifFriendly2').style.display = 'visible';
+                    document.getElementById('ifFriendly3').style.display = 'visible';
 
                     var i;
                     for (i = 1; i < friends.length; i++)
@@ -448,6 +463,7 @@
                     document.getElementById('ifFriendly').style.display = 'block';
                     document.getElementById('ifFriendly2').style.display = 'block';
                     document.getElementById('ifFriendly3').style.display = 'block';
+                    //addEmailField();
                 }
                 else
                 {
